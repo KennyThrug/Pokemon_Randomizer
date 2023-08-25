@@ -1,0 +1,15 @@
+{
+  "name": "launcher",
+  "version": "1.0.0",
+  "description": "Launcher for the Pokemon Randomizer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kenny Epstein",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^26.1.0"
+  }
+}
