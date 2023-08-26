@@ -1,30 +1,36 @@
+use rand::{Rng, rngs::StdRng, SeedableRng};
+
 //Contains the settings for all the games, big ass struct probably
 //Not all settings are implemented, see README for more information
 pub struct Settings{
+    //Seed
+    pub seed: String,
+    pub seed_val: StdRng,
     //Wild Pokemon Randomization
-    allow_pokemon_past_generation: bool,
-    randomize_wild_pokemon: bool,
-    allow_legends_in_wild_pool: bool,
+    pub allow_pokemon_past_generation: bool,
+    pub randomize_wild_pokemon: bool,
+    pub allow_legends_in_wild_pool: bool,
+    pub allow_megas_in_wild_pool: bool,
     //Trainer Randomization
-    randomize_trainer_pokemon: bool,
-    allow_trainer_legendaries: AllowLegendaries,
+    pub randomize_trainer_pokemon: bool,
+    pub allow_trainer_legendaries: AllowLegendaries,
     //Gym Leader Randomization
-    allow_leader_legendaries: AllowLegendaries,
-    gym_type: GymType,
-    recieve_pokemon_reward_gym: bool,
-    randomize_gym_locations: GymLocationRandomization,
+    pub allow_leader_legendaries: AllowLegendaries,
+    pub gym_type: GymType,
+    pub recieve_pokemon_reward_gym: bool,
+    pub randomize_gym_locations: GymLocationRandomization,
     //Item Randomization
-    add_rare_candy: i32, //Number of Rare candies to be added (have default)
-    add_held_items_later_gens: bool,
-    items_from_trainers: bool,
-    important_items_only_from_trainers: bool,
-    add_master_balls: i32,
-    allow_pokeballs: bool,
-    allow_healing_items: bool,
-    randomize_hidden_items: bool,
-    gym_leader_keys: bool,
+    pub add_rare_candy: i32, //Number of Rare candies to be added (have default)
+    pub add_held_items_later_gens: bool,
+    pub items_from_trainers: bool,
+    pub important_items_only_from_trainers: bool,
+    pub add_master_balls: i32,
+    pub allow_pokeballs: bool,
+    pub allow_healing_items: bool,
+    pub randomize_hidden_items: bool,
+    pub gym_leader_keys: bool,
     //Other Settings
-    allow_hm_use: bool,
+    pub allow_hm_use: bool,
 }
 
 pub enum AllowLegendaries{
@@ -46,4 +52,21 @@ pub enum GymLocationRandomization{
 
 pub fn read_json_for_settings(){
 
+}
+
+pub fn get_next_seed(lower_bounds: i32, upper_bounds: i32, settings: &mut Settings) -> i32{
+    settings.seed_val.gen_range(lower_bounds..upper_bounds)
+}
+pub fn convert_string_to_seed(string_seed: String) -> [u8;32]{
+    let bytes =  string_seed.as_bytes();
+    let mut result: [u8;32] = [0;32];
+    let mut j : usize = 0; //Index of bytes
+    for i in 0..32{
+        if bytes.len() == j{
+            j = 0;
+        }
+        result[i] = bytes[j];
+        j += 1;
+    }
+    return result;
 }
