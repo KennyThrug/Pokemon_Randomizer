@@ -5,13 +5,15 @@ Launcher (and possibly runner) for a randomizer pokemon
 
 - [ ] Launcher to set settings
 - [ ] Automatic Compilation of Roms
+- [ ] Up to Generation 8 pokemon
+- [ ] Physical Special Split Implemented
 
 ## Settings:
 ### Pokemon Randomization
-- [ ] Contains Full Pokemon Roster (i.e. Gen 4 and beyond pokemon)
+- [ ] Randomize Wild Pokemon
 - [ ] Allow Legendaries to be Randomized
 ### Trainer Randomization
-- [ ] Randomize Trainer Pokemon
+- [x] Randomize Trainer Pokemon
 - [ ] Allow Legendaries on Regular Trainers
 - [ ] Allow Only 1 Legendary per Team
 ### Gym Randomization
@@ -34,4 +36,5 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Gym Leader Keys
 ### Other Settings
 - [ ] Allow HM's to be used without pokemon
-- [ ] 
+- [ ] Change [Evolution](evolution.md) Requirements for weird pokemon
+- [ ] Allow [Forms](forms.md) to appear for many pokemon
