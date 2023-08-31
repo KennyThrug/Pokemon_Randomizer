@@ -29,6 +29,8 @@ pub struct Settings{
     pub allow_healing_items: bool,
     pub randomize_hidden_items: bool,
     pub gym_leader_keys: bool,
+    //Evolution Settings
+    
     //Other Settings
     pub allow_hm_use: bool,
 }

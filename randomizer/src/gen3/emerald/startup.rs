@@ -1,3 +1,4 @@
+use crate::gen3::evolution_changes::setup_evolution_fixes;
 use crate::pokemon::read_all_pokemon;
 use crate::settings;
 use crate::gen3::wild_pokemon;
@@ -10,6 +11,7 @@ pub fn randomize_pokemon(settings: &mut settings::Settings){
     let pkmn_data = read_all_pokemon();
     wild_pokemon::randomize_wild_pokemon(settings,&pkmn_data);
     trainers::shuffle_trainers(settings,&pkmn_data);
+    setup_evolution_fixes(settings)
 }
 
 pub fn build_rom(){
