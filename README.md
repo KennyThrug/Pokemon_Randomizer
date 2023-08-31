@@ -11,9 +11,12 @@ Launcher (and possibly runner) for a randomizer pokemon
 ## Settings:
 ### Pokemon Randomization
 - [ ] Randomize Wild Pokemon
+- [ ] Wild pokemon Scale with Routes
 - [ ] Allow Legendaries to be Randomized
+- [ ] Allow Mega Pokemon in Pool
 ### Trainer Randomization
 - [x] Randomize Trainer Pokemon
+- [ ] Trainer Pokemon Scale with Routes
 - [ ] Allow Legendaries on Regular Trainers
 - [ ] Allow Only 1 Legendary per Team
 ### Gym Randomization
@@ -29,12 +32,20 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Add Held Items from Later Generations to pool
 - [ ] Get Items from Trainers
 - [ ] Get Important Items only from Trainers
-- [ ] Add 10 Master Balls to Pool
 - [ ] Allow Poke-balls in Pool
+- [ ] Make Balls Reusable if unsuccessful
+- [ ] Limit Ball number in pool
 - [ ] Put Healing Items in Pool
 - [ ] Randomize Hidden (Itemfinder) Items
+- [ ] Randomize Items from talking to NPCs
+- [ ] Randomize Key Items (Fishing Pole, Bike)
+- [ ] Randomize Mega Stones
+- [ ] Randomize Z crystals
+- [ ] Randomize Running Shoes
+- [ ] Randomize TMs
 - [ ] Gym Leader Keys
 ### Other Settings
 - [ ] Allow HM's to be used without pokemon
 - [ ] Change [Evolution](evolution.md) Requirements for weird pokemon
 - [ ] Allow [Forms](forms.md) to appear for many pokemon
+- [ ] Level Caps on Gyms
