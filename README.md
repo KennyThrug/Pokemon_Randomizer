@@ -11,8 +11,10 @@ Launcher (and possibly runner) for a randomizer pokemon
 ## Settings:
 ### Pokemon Randomization
 - [ ] Randomize Wild Pokemon
+- [ ] Allow Pokemon from future generations
 - [ ] Wild pokemon Scale with Routes
 - [ ] Allow Legendaries to be Randomized
+- [ ] Force Legendary pokemon to randomize into other Legendaries
 - [ ] Allow Mega Pokemon in Pool
 ### Trainer Randomization
 - [x] Randomize Trainer Pokemon
@@ -29,7 +31,7 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Gym Location Randomization
 ### Item Randomization
 - [ ] Add Extra Rare Candies to Item Pool
-- [ ] Add Held Items from Later Generations to pool
+- [ ] Add Held Items
 - [ ] Get Items from Trainers
 - [ ] Get Important Items only from Trainers
 - [ ] Allow Poke-balls in Pool

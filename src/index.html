@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <title>Hello World!</title>
+  </head>
+  <body>
+      <!-- Tab links -->
+      <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Wild Pokemon')">Wild Pokemon</button>
+        <button class="tablinks" onclick="openTab(event, 'Trainers')">Trainers</button>
+        <button class="tablinks" onclick="openTab(event, 'Gyms')">Gyms</button>
+        <button class="tablinks" onclick="openTab(event, 'Items')">Items</button>
+        <button class="tablinks" onclick="openTab(event, 'Other')">Other</button>
+    <!--Wild Pokemon-->
+    </div>
+    <div id = "Wild Pokemon" class="tabcontent">
+        <p #WildPokemon>Hello world</p>
+        <label class="switch">
+            <input type="checkbox" onclick="change_Checkmark(event,'WildPokemon')">
+            <span class="slider round"></span>
+        </label>
+    </div>
+
+
+    <!--Trainers-->
+    <div id = "Trainers" class="tabcontent">
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <!--Gyms-->
+    <!--Items-->
+    <!--Other-->
+
+    <div>
+        <button onclick="convertToJson()"> Make Seed</button>
+    </div>
+    <h1>Hello World!</h1>
+    We are using Node.js <span id="node-version"></span>,
+    Chromium <span id="chrome-version"></span>,
+    and Electron <span id="electron-version"></span>.
+    <p>
+      <span>CPUs:</span>
+      <span id="number-of-cpus"></span>
+    </p>
+  </body>
+</html>
