@@ -6,5 +6,6 @@
 **/*.rs.bk
 
 node_modules
+decomp
 
 node_modules/.yarn-integrity
