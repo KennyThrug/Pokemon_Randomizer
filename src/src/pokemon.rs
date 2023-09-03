@@ -1081,6 +1081,7 @@ pub enum LegendStatus{
     Legendary,
     Mythical,
     Mega,
+    LegendMega,
 }
 
 const LEGEND_OFFSET : i32 = 50; //Level above "possible" level where they can start appearing
@@ -1119,13 +1120,13 @@ pub fn read_all_pokemon() -> Vec<PokemonStats>{
         }
         let cur_pokemon = cur_pokemon.unwrap();
         let min_level_string = cur_pokemon[5].to_string();
-        let min_level = if min_level_string == "Other".to_string() || min_level_string == "Mega"{
+        let min_level = if min_level_string == "Other".to_string() || min_level_string == "Mega".to_string(){
             0
         }
         else{
             min_level_string.parse::<i16>().unwrap()
         };
-        // println!("{}",cur_pokemon[0].to_string());
+        println!("{}",cur_pokemon[0].to_string());
         let add_pokemon = PokemonStats{
             pokemon_id: Pokemon::try_from(cur_num).unwrap(),
             pokemon_name: cur_pokemon[0].to_string(),
@@ -1169,6 +1170,7 @@ fn string_to_legend_status(pkmn_stats: String) -> LegendStatus{
         "TRUE" => LegendStatus::Legendary,
         "FALSE" => LegendStatus::Standard,
         "MEGA" => LegendStatus::Mega,
+        "LegendMega" => LegendStatus::LegendMega,
         _ => LegendStatus::Standard
     }
 }

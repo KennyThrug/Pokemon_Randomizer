@@ -39,10 +39,18 @@ fn get_random_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<
     if settings.scale_wild_pokemon && pokemon.min_level > level{
         return get_random_wild_pokemon(settings, pokemon_data, level);
     }
-    if settings.allow_legends_in_wild_pool == settings::WildLegends::NoLegends && pokemon.status == LegendStatus::Legendary{
+    if settings.allow_legends_in_wild_pool == settings::WildLegends::NoLegends && (pokemon.status == LegendStatus::Legendary || pokemon.status == LegendStatus::LegendMega){
         return  get_random_wild_pokemon(settings, pokemon_data, level);
     }
-    if settings.allow_legends_in_wild_pool == settings::WildLegends::SometimesLegends && pokemon.status == LegendStatus::Legendary{
+    if settings.allow_legends_in_wild_pool == settings::WildLegends::SometimesLegends && (pokemon.status == LegendStatus::Legendary || pokemon.status == LegendStatus::LegendMega){
+        if settings::get_next_seed(0, 25, settings) != 0{
+            return get_random_wild_pokemon(settings, pokemon_data, level);
+        }
+    }
+    if settings.allow_megas_in_wild_pool == settings::WildLegends::NoLegends && (pokemon.status == LegendStatus::Mega || pokemon.status == LegendStatus::LegendMega){
+         return get_random_wild_pokemon(settings, pokemon_data, level)
+    }
+    if settings.allow_megas_in_wild_pool == settings::WildLegends::SometimesLegends && (pokemon.status == LegendStatus::Mega || pokemon.status == LegendStatus::LegendMega){
         if settings::get_next_seed(0, 25, settings) != 0{
             return get_random_wild_pokemon(settings, pokemon_data, level);
         }

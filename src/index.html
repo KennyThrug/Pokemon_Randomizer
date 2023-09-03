@@ -46,7 +46,7 @@
         <input type="checkbox" id="ScaleWithRoutes">
         <span class="slider round"></span>
       </label>
-      <h4>Allow Legendaries to be randomized</h4>
+      <h4>Allow Legendaries to be randomized as Wild Pokemon</h4>
       <div>
         <input type="radio" id="AllowLegends" name="WildLegends" value="AllowLegends" checked>
         <label for="AllowLegends">Allow Legendary Pokemon</label>
@@ -59,7 +59,19 @@
         <input type="radio" id="NoLegends" name="WildLegends" value="NoLegends">
         <label for="NoLegends">Do not Allow Legendary Pokemon</label>
       </div>
-
+      <h4>Allow Mega Evolutions to be randomized as Wild Pokemon</h4>
+      <div>
+        <input type="radio" id="AllowMegas" name="WildMegas" value="AllowLegends" checked>
+        <label for="AllowLegends">Allow Mega Evolved Pokemon</label>
+      </div>
+      <div>
+        <input type="radio" id="SometimesMegas" name="WildMegas" value="SometimesLegends">
+        <label for="SometimesLegends">Rarely allow Mega Evolved Pokemon</label>
+      </div>
+      <div>
+        <input type="radio" id="NoMegas" name="WildMegas" value="NoLegends">
+        <label for="NoLegends">Do not Allow Mega Evolved Pokemon</label>
+      </div>
     </div>
   <!--Trainers-->
   <div id="Trainers" class="tabcontent">

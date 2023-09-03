@@ -28,7 +28,7 @@ function openTab(evt, tabName) {
       allow_pokemon_future_generation: document.getElementById("allow_pokemon_future_generation").checked,
       scale_wild_pokemon: document.getElementById("ScaleWithRoutes").checked,
       allow_legends_in_wild_pool: get_wild_legend(),
-      allow_megas_in_wild_pool: "NoLegends",
+      allow_megas_in_wild_pool: get_wild_mega(),
       //Trainer Randomization
       randomize_trainer_pokemon: true,
       trainers_scale: true,
@@ -70,7 +70,13 @@ function openTab(evt, tabName) {
     return "NoLegends";
   }
   function get_wild_mega(){
-
+    if(document.getElementById("AllowMegas").checked){
+      return "AllowLegends";
+    }
+    if(document.getElementById("SometimesMegas").checked){
+      return "SometimesLegends";
+    }
+    return "NoLegends";
   }
   function createRandomSeed(){
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
