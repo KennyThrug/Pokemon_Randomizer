@@ -9,6 +9,9 @@ pub struct Settings{
     pub seed_val: StdRng,
     //Wild Pokemon Randomization
     pub randomize_wild_pokemon: bool,
+    pub randomize_starter_pokemon: bool,
+    pub allow_starter_legendary: WildLegends,
+    pub allow_starter_mega: WildLegends,
     pub allow_pokemon_future_generation: bool,
     pub scale_wild_pokemon: bool,
     pub allow_legends_in_wild_pool: WildLegends,
@@ -48,6 +51,7 @@ pub enum AllowLegendaries{
     Allow
 }
 #[derive(PartialEq)]
+#[derive(Clone, Copy)]
 pub enum WildLegends{
     NoLegends, //Or Always Legends
     SometimesLegends, //Tries not to have legends, but sometimes fails
@@ -74,6 +78,9 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         seed_val: StdRng::from_seed(bytes),
         //Wild Pokemon
         randomize_wild_pokemon: parsed_json["randomize_wild_pokemon"].as_bool().unwrap(),
+        randomize_starter_pokemon: parsed_json["randomize_starter_pokemon"].as_bool().unwrap(),
+        allow_starter_legendary: convert_string_to_wild_legends(parsed_json["allow_starter_legendary"].to_string()),
+        allow_starter_mega: convert_string_to_wild_legends(parsed_json["allow_starter_mega"].to_string()),
         allow_pokemon_future_generation: parsed_json["allow_pokemon_future_generation"].as_bool().unwrap(),
         scale_wild_pokemon: parsed_json["scale_wild_pokemon"].as_bool().unwrap(),
         allow_legends_in_wild_pool: convert_string_to_wild_legends(parsed_json["allow_legends_in_wild_pool"].to_string()),

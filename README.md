@@ -11,11 +11,12 @@ Launcher (and possibly runner) for a randomizer pokemon
 ## Settings:
 ### Pokemon Randomization
 - [x] Randomize Wild Pokemon
+- [ ] Randomize Starter Pokemon
 - [x] Allow Pokemon from future generations
-- [ ] Wild pokemon Scale with Routes
-- [ ] Allow Legendaries to be Randomized
+- [x] Wild pokemon Scale with Routes
+- [x] Allow Legendaries to be Randomized
 - [ ] Force Legendary pokemon to randomize into other Legendaries
-- [ ] Allow Mega Pokemon in Pool
+- [x] Allow Mega Pokemon in Pool
 ### Trainer Randomization
 - [ ] Randomize Trainer Pokemon
 - [ ] Trainer Pokemon Scale with Routes

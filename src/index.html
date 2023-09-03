@@ -23,6 +23,7 @@
   <!-- Tab links -->
   <div class="tab" class="row">
     <button class="tablinks" onclick="openTab(event, 'Wild Pokemon')">Wild Pokemon</button>
+    <button class="tablinks" onclick="openTab(event,'Starter Pokemon')">Starter Pokemon</button>
     <button class="tablinks" onclick="openTab(event, 'Trainers')">Trainers</button>
     <button class="tablinks" onclick="openTab(event, 'Gyms')">Gyms</button>
     <button class="tablinks" onclick="openTab(event, 'Items')">Items</button>
@@ -73,6 +74,14 @@
         <label for="NoLegends">Do not Allow Mega Evolved Pokemon</label>
       </div>
     </div>
+  <!--Starter Pokemon-->
+  <div id="Starter Pokemon" class="tabcontent">
+    <h4>Randomize Starter Pokemon</h4>
+    <label class="switch">
+      <input type="checkbox" id="randomizeStarter">
+      <span class="slider round"></span>
+    </label>
+  </div>
   <!--Trainers-->
   <div id="Trainers" class="tabcontent">
     <label class="switch">

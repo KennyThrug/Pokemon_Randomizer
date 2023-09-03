@@ -3,6 +3,8 @@ use crate::src::settings;
 use crate::src::pokemon;
 use std::fs;
 
+
+//If you want the starters, they are going to be in the Trainers file
 const NUMBER_OF_ROUTES: usize = 124;
 pub fn randomize_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>){
     let data = fs::read_to_string("data/emerald/wild_encounters.json").expect("unable to read file");
@@ -25,10 +27,11 @@ pub fn randomize_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &V
     //write to file
     fs::write("decomp/pokeemerald-expansion/src/data/wild_encounters.json",
     parsed_data.to_string()).expect("couldn't write to file");
+    println!("Successfully wrote to file: src/data/wild_encounters.json");
 }
 
 //Gets a pokemon, checks if it can be put there, and returns the value
-fn get_random_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>,level: i16) -> String{
+pub fn get_random_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>,level: i16) -> String{
     //Make Random Pokemon
     let rand_val = settings::get_next_seed(0, pokemon_data.len() as i32, settings);
     let pokemon = pokemon_data[rand_val as usize].clone();

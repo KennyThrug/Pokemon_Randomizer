@@ -1,8 +1,10 @@
 use std::fs;
-use crate::src::{settings, pokemon::PokemonStats};
+use crate::src::{settings, pokemon::{PokemonStats, get_pokemon_data}};
 use json::{self, JsonValue::Null};
 
 use crate::src::pokemon;
+
+use super::wild_pokemon;
 
 pub struct Trainer{
     pub trainer_name: String,
@@ -103,6 +105,53 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
 }
 pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>){
     let trainer_data = read_all_trainers("data/emerald/trainer_parties.json".to_string(),all_stats);
+    let starters = randomize_starter_pokemon(settings, all_stats);
     //println!("len: {}",trainer_data.len());
     write_trainers_to_file("decomp/pokeemerald-expansion/src/data/trainer_parties.h".to_string(), trainer_data,all_stats);
+}
+
+fn randomize_starter_pokemon(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> Starter{
+    //Settings bullshit to make the preset settings work
+    let temp_legend_set = settings.allow_legends_in_wild_pool.clone();
+    let temp_mega_set = settings.allow_megas_in_wild_pool.clone();
+    settings.allow_legends_in_wild_pool = settings.allow_starter_legendary.clone();
+    settings.allow_megas_in_wild_pool = settings.allow_starter_mega.clone();
+    let starters: Starter = 
+    if settings.randomize_starter_pokemon{
+        Starter{
+            treeko: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 0),all_stats),all_stats),
+            torchic: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 0),all_stats),all_stats),
+            mudkip: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 0),all_stats),all_stats)
+        }
+    }
+    else{
+        Starter{
+            treeko: get_pokemon_data(pokemon::Pokemon::Treecko, all_stats),
+            torchic: get_pokemon_data(pokemon::Pokemon::Torchic, all_stats),
+            mudkip: get_pokemon_data(pokemon::Pokemon::Mudkip, all_stats)
+        }
+    };
+    //Setting to file
+    let part1 = fs::read_to_string("data/emerald/starter_choose.c").unwrap();
+    let part2 = fs::read_to_string("data/emerald/starter_choose_2.c").unwrap();
+
+
+    fs::write("decomp/pokeemerald-expansion/src/starter_choose.c",format!("{}\n{},\n{},\n{}\n{}",
+    part1,
+    pokemon::format_pokemon_name(starters.treeko.pokemon_name.clone()),
+    pokemon::format_pokemon_name(starters.torchic.pokemon_name.clone()),
+    pokemon::format_pokemon_name(starters.mudkip.pokemon_name.clone()),
+    part2).to_string()).expect("could not write to file starter_choose.c");
+    println!("Successfully wrote to file: src/starter_choose.c");
+    //Resetting settings so this doesn't mess anything else up
+    settings.allow_legends_in_wild_pool = temp_legend_set;
+    settings.allow_megas_in_wild_pool = temp_mega_set;
+
+    return starters;
+}
+
+struct Starter{
+    treeko: PokemonStats,
+    torchic: PokemonStats,
+    mudkip: PokemonStats
 }

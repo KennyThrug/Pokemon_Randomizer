@@ -25,6 +25,9 @@ function openTab(evt, tabName) {
       seed: document.getElementById("Seed").value,
       //Wild Pokemon
       randomize_wild_pokemon: document.getElementById("Randomize Wild Pokemon").checked,
+      randomize_starter_pokemon: document.getElementById("randomizeStarter").checked,
+      allow_starter_legendary: "NoLegends",
+      allow_starter_mega: "NoLegends",
       allow_pokemon_future_generation: document.getElementById("allow_pokemon_future_generation").checked,
       scale_wild_pokemon: document.getElementById("ScaleWithRoutes").checked,
       allow_legends_in_wild_pool: get_wild_legend(),
