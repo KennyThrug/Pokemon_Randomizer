@@ -9,9 +9,10 @@ pub struct Settings{
     pub seed_val: StdRng,
     //Wild Pokemon Randomization
     pub randomize_wild_pokemon: bool,
-    pub allow_pokemon_past_generation: bool,
-    pub allow_legends_in_wild_pool: bool,
-    pub allow_megas_in_wild_pool: bool,
+    pub allow_pokemon_future_generation: bool,
+    pub scale_wild_pokemon: bool,
+    pub allow_legends_in_wild_pool: WildLegends,
+    pub allow_megas_in_wild_pool: WildLegends,
     //Trainer Randomization
     pub randomize_trainer_pokemon: bool,
     pub trainers_scale: bool,
@@ -46,6 +47,7 @@ pub enum AllowLegendaries{
     AceLegend,
     Allow
 }
+#[derive(PartialEq)]
 pub enum WildLegends{
     NoLegends, //Or Always Legends
     SometimesLegends, //Tries not to have legends, but sometimes fails
@@ -72,9 +74,10 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         seed_val: StdRng::from_seed(bytes),
         //Wild Pokemon
         randomize_wild_pokemon: parsed_json["randomize_wild_pokemon"].as_bool().unwrap(),
-        allow_pokemon_past_generation: parsed_json["allow_pokemon_past_generation"].as_bool().unwrap(),
-        allow_legends_in_wild_pool: parsed_json["allow_legends_in_wild_pool"].as_bool().unwrap(),
-        allow_megas_in_wild_pool: parsed_json["allow_megas_in_wild_pool"].as_bool().unwrap(),
+        allow_pokemon_future_generation: parsed_json["allow_pokemon_future_generation"].as_bool().unwrap(),
+        scale_wild_pokemon: parsed_json["scale_wild_pokemon"].as_bool().unwrap(),
+        allow_legends_in_wild_pool: convert_string_to_wild_legends(parsed_json["allow_legends_in_wild_pool"].to_string()),
+        allow_megas_in_wild_pool: convert_string_to_wild_legends(parsed_json["allow_megas_in_wild_pool"].to_string()),
         //Trainer Randomization
         randomize_trainer_pokemon: parsed_json["randomize_trainer_pokemon"].as_bool().unwrap(),
         trainers_scale: parsed_json["trainers_scale"].as_bool().unwrap(),
@@ -100,6 +103,14 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         //Other Settings
         allow_hm_use: parsed_json["allow_hm_use"].as_bool().unwrap()
     })
+}
+fn convert_string_to_wild_legends(string: String) -> WildLegends{
+    match string.as_str(){
+        "NoLegends" => WildLegends::NoLegends,
+        "SometimesLegends" => WildLegends::SometimesLegends,
+        "AllowLegends" => WildLegends::AllowLegends,
+        _ => WildLegends::AllowLegends
+    }
 }
 fn convert_string_to_allow_legendaries(string: String) -> AllowLegendaries{
     match string.as_str(){

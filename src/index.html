@@ -42,9 +42,25 @@
         <span class="slider round"></span>
       </label>
       <h4>Wild pokemon Scale with Routes</h4>
-    </div>
+      <label class="switch">
+        <input type="checkbox" id="ScaleWithRoutes">
+        <span class="slider round"></span>
+      </label>
       <h4>Allow Legendaries to be randomized</h4>
+      <div>
+        <input type="radio" id="AllowLegends" name="WildLegends" value="AllowLegends" checked>
+        <label for="AllowLegends">Allow Legendary Pokemon</label>
+      </div>
+      <div>
+        <input type="radio" id="SometimesLegends" name="WildLegends" value="SometimesLegends">
+        <label for="SometimesLegends">Rarely allow Legendary Pokemon</label>
+      </div>
+      <div>
+        <input type="radio" id="NoLegends" name="WildLegends" value="NoLegends">
+        <label for="NoLegends">Do not Allow Legendary Pokemon</label>
+      </div>
 
+    </div>
   <!--Trainers-->
   <div id="Trainers" class="tabcontent">
     <label class="switch">

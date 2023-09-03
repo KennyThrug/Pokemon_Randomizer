@@ -25,9 +25,10 @@ function openTab(evt, tabName) {
       seed: document.getElementById("Seed").value,
       //Wild Pokemon
       randomize_wild_pokemon: document.getElementById("Randomize Wild Pokemon").checked,
-      allow_pokemon_past_generation: document.getElementById("allow_pokemon_future_generation").checked,
-      allow_legends_in_wild_pool: false,
-      allow_megas_in_wild_pool: false,
+      allow_pokemon_future_generation: document.getElementById("allow_pokemon_future_generation").checked,
+      scale_wild_pokemon: document.getElementById("ScaleWithRoutes").checked,
+      allow_legends_in_wild_pool: get_wild_legend(),
+      allow_megas_in_wild_pool: "NoLegends",
       //Trainer Randomization
       randomize_trainer_pokemon: true,
       trainers_scale: true,
@@ -58,6 +59,18 @@ function openTab(evt, tabName) {
     var settingsJson = JSON.stringify(settings);
     rust.getFile().emerald_rom(settingsJson);
     //const numberOfCPUs = rust.getFile().create_emerald_rom();
+  }
+  function get_wild_legend(){
+    if(document.getElementById("AllowLegends").checked){
+      return "AllowLegends";
+    }
+    if(document.getElementById("SometimesLegends").checked){
+      return "SometimesLegends";
+    }
+    return "NoLegends";
+  }
+  function get_wild_mega(){
+
   }
   function createRandomSeed(){
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

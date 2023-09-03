@@ -18,10 +18,10 @@ pub struct TrainerPokemon{
 pub fn write_trainers_to_file(filename:String,trainers: Vec<Trainer>,all_stats: &Vec<pokemon::PokemonStats>){
     let mut file_text = "".to_string();
     for cur_trainer in trainers{
-        println!("{}",cur_trainer.trainer_name);
+        //println!("{}",cur_trainer.trainer_name);
         let has_held_item = cur_trainer.pokemon[0].held_items.len() != 0;
         let has_custom_moves = cur_trainer.pokemon[0].moves.len() != 0;
-        println!("item: {} moves: {}",has_held_item,has_custom_moves);
+        //println!("item: {} moves: {}",has_held_item,has_custom_moves);
         if has_custom_moves && has_held_item{
             file_text += &format!("static const struct TrainerMonItemCustomMoves {} [] = {{\n",cur_trainer.trainer_name).to_string();
             for cur_pkmn in cur_trainer.pokemon{
@@ -57,7 +57,7 @@ pub fn write_trainers_to_file(filename:String,trainers: Vec<Trainer>,all_stats: 
         }
         file_text += "\n};\n\n"
     }
-    println!("text: {}",file_text);
+    //println!("text: {}",file_text);
     fs::write(filename,file_text).expect("Could not write trainer data");
 }
 
@@ -97,12 +97,12 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
             trainer_name: data_json["trainers"][i]["name"].to_string(),
              pokemon: team });
     }
-    println!("len1:{}",all_trainers.len());
+    //println!("len1:{}",all_trainers.len());
     //Read JSON file and put data in data
     return all_trainers;
 }
 pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>){
     let trainer_data = read_all_trainers("data/emerald/trainer_parties.json".to_string(),all_stats);
-    println!("len: {}",trainer_data.len());
+    //println!("len: {}",trainer_data.len());
     write_trainers_to_file("decomp/pokeemerald-expansion/src/data/trainer_parties.h".to_string(), trainer_data,all_stats);
 }
