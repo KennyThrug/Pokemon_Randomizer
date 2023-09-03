@@ -11,12 +11,19 @@ Launcher (and possibly runner) for a randomizer pokemon
 ## Settings:
 ### Pokemon Randomization
 - [x] Randomize Wild Pokemon
-- [ ] Randomize Starter Pokemon
 - [x] Allow Pokemon from future generations
 - [x] Wild pokemon Scale with Routes
 - [x] Allow Legendaries to be Randomized
 - [ ] Force Legendary pokemon to randomize into other Legendaries
 - [x] Allow Mega Pokemon in Pool
+### Starter Randomization
+- [x] Randomize Starter Pokemon
+- [ ] Allow Legendaries as Starters
+- [ ] Allow Mega Evolutions as Starters
+- [ ] Force Starter to be first stage or baby pokemon
+- [ ] Have May/Brendan keep other Starter
+- [ ] Have Wally keep Raltz randomization
+- [ ] Have Wally take 3rd Starter
 ### Trainer Randomization
 - [ ] Randomize Trainer Pokemon
 - [ ] Trainer Pokemon Scale with Routes
