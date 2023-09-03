@@ -4,17 +4,19 @@ use std::fs;
 
 const NUMBER_OF_ROUTES: usize = 124;
 pub fn randomize_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>){
-    let data = fs::read_to_string("decomp/pokeemerald-expansion/src/data/wild_encounters.json").expect("unable to read file");
+    let data = fs::read_to_string("data/emerald/wild_encounters.json").expect("unable to read file");
     let mut parsed_data = json::parse(&data).unwrap();
-    for i in 0..NUMBER_OF_ROUTES{
-        for place in ["land_mons","water_mons","fishing_mons"]{
-            for j in 0..30{ //Land Mons
-                if parsed_data["wild_encounter_groups"][0]["encounters"]
-                [i][place]["mons"][j]["species"] == json::JsonValue::Null{
-                    break;
+    if settings.randomize_wild_pokemon{
+        for i in 0..NUMBER_OF_ROUTES{
+            for place in ["land_mons","water_mons","fishing_mons","rock_smash_mons","fishing_mons"]{
+                for j in 0..30{ //Land Mons
+                    if parsed_data["wild_encounter_groups"][0]["encounters"]
+                    [i][place]["mons"][j]["species"] == json::JsonValue::Null{
+                        break;
+                    }
+                    parsed_data["wild_encounter_groups"][0]["encounters"]
+                    [i][place]["mons"][j]["species"] = get_random_wild_pokemon(settings,pokemon_data).into();
                 }
-                parsed_data["wild_encounter_groups"][0]["encounters"]
-                [i][place]["mons"][j]["species"] = get_random_wild_pokemon(settings,pokemon_data).into();
             }
         }
     }
@@ -29,14 +31,8 @@ fn get_random_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<
     let rand_val = settings::get_next_seed(0, pokemon_data.len() as i32, settings);
     let pokemon = pokemon_data[rand_val as usize].clone();
     //Check if it is a valid pokemon
-    if !settings.allow_pokemon_past_generation && pokemon.generation > 3{
-        return get_random_wild_pokemon(settings,pokemon_data);
-    }
-    if !settings.allow_legends_in_wild_pool && pokemon.status == pokemon::LegendStatus::Legendary{
-        return get_random_wild_pokemon(settings,pokemon_data);
-    }
-    if !settings.allow_megas_in_wild_pool && pokemon.status == pokemon::LegendStatus::Mega{
-        return get_random_wild_pokemon(settings,pokemon_data);
+    if !settings.allow_pokemon_past_generation && pokemon.generation >= 3{
+        return get_random_wild_pokemon(settings, pokemon_data);
     }
 
     //Return if it passes all checks

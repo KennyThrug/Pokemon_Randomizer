@@ -1,52 +1,76 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <title>Hello World!</title>
-  </head>
-  <body>
-      <!-- Tab links -->
-      <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'Wild Pokemon')">Wild Pokemon</button>
-        <button class="tablinks" onclick="openTab(event, 'Trainers')">Trainers</button>
-        <button class="tablinks" onclick="openTab(event, 'Gyms')">Gyms</button>
-        <button class="tablinks" onclick="openTab(event, 'Items')">Items</button>
-        <button class="tablinks" onclick="openTab(event, 'Other')">Other</button>
+
+<head>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <title>Hello World!</title>
+</head>
+
+<body>
+  <div class="row">
+    <div class="column">
+      <label for="Seed">Seed :</label>
+      <input type="text" id="Seed" name="Seed" size="32" maxlength="32" id="Seed">
+    </div>
+    <div class="column">
+      <button onclick="createRandomSeed()" id="randomSeed">Generate Random Seed Name</button>
+    </div>
+  </div>
+
+  <!-- Tab links -->
+  <div class="tab" class="row">
+    <button class="tablinks" onclick="openTab(event, 'Wild Pokemon')">Wild Pokemon</button>
+    <button class="tablinks" onclick="openTab(event, 'Trainers')">Trainers</button>
+    <button class="tablinks" onclick="openTab(event, 'Gyms')">Gyms</button>
+    <button class="tablinks" onclick="openTab(event, 'Items')">Items</button>
+    <button class="tablinks" onclick="openTab(event, 'Other')">Other</button>
     <!--Wild Pokemon-->
+  </div>
+  <div class="column">
+  <div id="Wild Pokemon" class="tabcontent">
+      <h4 id="H">Randomize Wild Pokemon</h4>
+      <label class="switch">
+        <input type="checkbox" id="Randomize Wild Pokemon">
+        <span class="slider round"></span>
+      </label>
+      <h4>Allow Pokemon from future generations</h4>
+      <label class="switch">
+        <input type="checkbox" id="allow_pokemon_future_generation">
+        <span class="slider round"></span>
+      </label>
+      <h4>Wild pokemon Scale with Routes</h4>
     </div>
-    <div id = "Wild Pokemon" class="tabcontent">
-        <p #WildPokemon>Hello world</p>
-        <label class="switch">
-            <input type="checkbox" onclick="change_Checkmark(event,'WildPokemon')">
-            <span class="slider round"></span>
-        </label>
-    </div>
+      <h4>Allow Legendaries to be randomized</h4>
 
+  <!--Trainers-->
+  <div id="Trainers" class="tabcontent">
+    <label class="switch">
+      <input type="checkbox">
+      <span class="slider round"></span>
+    </label>
+  </div>
+  <!--Gyms-->
+  <div id="Gyms" class="tabcontent">
 
-    <!--Trainers-->
-    <div id = "Trainers" class="tabcontent">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider round"></span>
-        </label>
-    </div>
-    <!--Gyms-->
-    <!--Items-->
-    <!--Other-->
+  </div>
+  <!--Items-->
+  <div id="Items" class="tabcontent">
 
+  </div>
+  <!--Other-->
+  <div id="Other" class="tabcontent">
+  </div>
+
+  </div>
+  <!--Always open-->
+  <div class="column">
     <div>
-        <button onclick="convertToJson()"> Make Seed</button>
+      <button onclick="convertToJson()" id="makeSeed"> Make Seed</button>
     </div>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
-    <p>
-      <span>CPUs:</span>
-      <span id="number-of-cpus"></span>
-    </p>
-  </body>
+  </div>
+</body>
+
 </html>

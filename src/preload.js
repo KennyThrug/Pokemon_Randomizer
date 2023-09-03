@@ -11,9 +11,6 @@ window.addEventListener("DOMContentLoaded", () => {
   for (const dependency of ["chrome", "node", "electron"]) {
     replaceText(`${dependency}-version`, process.versions[dependency]);
   }
-  const numberOfCPUs = lib.get();
-  const numberOfCPUsElement = document.getElementById("number-of-cpus");
-  numberOfCPUsElement.innerText = numberOfCPUs;
 });
 
 contextBridge.exposeInMainWorld('rust', {

@@ -10,14 +10,14 @@ Launcher (and possibly runner) for a randomizer pokemon
 
 ## Settings:
 ### Pokemon Randomization
-- [ ] Randomize Wild Pokemon
-- [ ] Allow Pokemon from future generations
+- [x] Randomize Wild Pokemon
+- [x] Allow Pokemon from future generations
 - [ ] Wild pokemon Scale with Routes
 - [ ] Allow Legendaries to be Randomized
 - [ ] Force Legendary pokemon to randomize into other Legendaries
 - [ ] Allow Mega Pokemon in Pool
 ### Trainer Randomization
-- [x] Randomize Trainer Pokemon
+- [ ] Randomize Trainer Pokemon
 - [ ] Trainer Pokemon Scale with Routes
 - [ ] Allow Legendaries on Regular Trainers
 - [ ] Allow Only 1 Legendary per Team

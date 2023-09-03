@@ -107,3 +107,25 @@
     from {opacity: 0;}
     to {opacity: 1;}
   }
+  .column {
+    float: left;
+    width: 50%;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  div{
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  #randomSeed {
+    font-size: 16px;
+  }
+  #makeSeed{
+    font-size: 40px;
+    text-align: center;
+  }
