@@ -14,4 +14,4 @@
 - [ ] Genesect chooses random Drive to hold
 - [ ] Silvaly chooses random Memory to hold
 - [ ] Figure something out to do for Zacian & Zamazenta
-- [ ] 
+- [ ] Urshifu Single Strike vs Rapid Strike

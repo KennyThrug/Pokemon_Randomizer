@@ -6,10 +6,12 @@ use crate::src::pokemon;
 
 use super::wild_pokemon;
 
+#[derive(Clone)]
 pub struct Trainer{
     pub trainer_name: String,
     pub pokemon: Vec<TrainerPokemon>
 }
+#[derive(Clone)]
 pub struct TrainerPokemon{
     iv: i32,
     species: pokemon::Pokemon,
@@ -104,8 +106,11 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
     return all_trainers;
 }
 pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>){
-    let trainer_data = read_all_trainers("data/emerald/trainer_parties.json".to_string(),all_stats);
+    let mut trainer_data = read_all_trainers("data/emerald/trainer_parties.json".to_string(),all_stats);
     let starters = randomize_starter_pokemon(settings, all_stats);
+    for i in 0..trainer_data.len(){
+        trainer_data[i] = get_random_trainer(trainer_data[i].clone(), settings, all_stats)
+    }
     //println!("len: {}",trainer_data.len());
     write_trainers_to_file("decomp/pokeemerald-expansion/src/data/trainer_parties.h".to_string(), trainer_data,all_stats);
 }
@@ -148,6 +153,57 @@ fn randomize_starter_pokemon(settings: &mut settings::Settings,all_stats: &Vec<p
     settings.allow_megas_in_wild_pool = temp_mega_set;
 
     return starters;
+}
+
+fn get_random_trainer(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> Trainer{
+    let mut trainer_pkmn: Vec<TrainerPokemon> = Vec::new();
+    for cur_pkmn in trainer.pokemon{
+        trainer_pkmn.push(get_random_pokemon_for_trainer(trainer.trainer_name.clone(), &cur_pkmn,all_stats,settings));
+    }
+    return Trainer{
+        trainer_name: trainer.trainer_name,
+        pokemon: trainer_pkmn
+    };
+}
+
+fn get_random_pokemon_for_trainer(trainerName: String, pokemon: &TrainerPokemon,pokemon_data: &Vec<pokemon::PokemonStats>,settings: &mut settings::Settings) -> TrainerPokemon{
+    if !settings.randomize_trainer_pokemon{
+        return pokemon.clone();
+    }
+    let rand_val = settings::get_next_seed(0, pokemon_data.len() as i32, settings);
+    let new_pokemon = scale_pokemon(pokemon_data[rand_val as usize].clone().pokemon_id,pokemon.level,pokemon_data,settings);
+
+    TrainerPokemon {
+        iv: pokemon.iv,
+        species: new_pokemon.pokemon_id.clone(),
+        level: pokemon.level,
+        moves: pokemon.moves.clone(),
+        held_items: pokemon.held_items.clone()
+    }
+}
+
+fn scale_pokemon(pokemon: pokemon::Pokemon,level: i32,all_stats: &Vec<pokemon::PokemonStats>,settings: &mut settings::Settings) -> PokemonStats{
+    let stats = get_pokemon_data(pokemon, all_stats).clone();
+    if !settings.trainers_scale{
+        return stats;
+    }
+    if get_pokemon_data(pokemon, all_stats).min_level > level as i16{
+        return scale_pokemon(get_pokemon_data(pokemon,all_stats).evolve_from, level, all_stats, settings)
+    }
+    for cur_evolution in randomize_next_evolutions(get_pokemon_data(pokemon, all_stats).evolve_into.clone(),settings){
+        if get_pokemon_data(cur_evolution, all_stats).min_level < level as i16{
+            return scale_pokemon(cur_evolution, level, all_stats, settings);
+        }
+    }
+    return stats;
+}
+//Warning: Do not use this on a non-copied Vector
+fn randomize_next_evolutions(mut next_evolutions: Vec<pokemon::Pokemon>,settings: &mut settings::Settings) -> Vec<pokemon::Pokemon>{
+    let mut return_values: Vec<pokemon::Pokemon> = Vec::new();
+    while next_evolutions.len() > 0 {
+        return_values.push(next_evolutions.remove(settings::get_next_seed(0, next_evolutions.len() as i32, settings) as usize));
+    }
+    return return_values;
 }
 
 struct Starter{

@@ -1,6 +1,7 @@
-## Changed Evolutions
+# Changed Evolutions
 #### Note: None of these will take place if you uncheck "Change evolution requirements" or their individual evolutions
 
+## Evolutions optionally changed
 - [ ] Pikachu can (randomly) Evolve into Alolan Raichu after using Thunder Stone
 - [ ] Cubone will Evolve into Alolan Marowak at Night
 - [ ] Mime Jr. can (randomly) Evolve into Galarian Mr. Mime
@@ -10,3 +11,193 @@
 - [ ] Quilava will (randomly) evolve into Hisuian Typhlosion
 - [ ] Dewott will (randomly) evolve into Hisiuian Samurott
 - [ ] Rockruff can be spawned with the Own Tempo Ability 1/3 of the time, giving access to Dusk form
+- [ ] Koffing will (randomly) Evolve into Galarian Weezing
+
+## Friendship Evolutions
+#### Friendship Evolutions are still an option, but you can add Alternative Evolutions
+- [ ] Crobat - Level 33
+- [ ] Pikachu - Level 10
+- [ ] Clefairy - Level 10
+- [ ] Jigglypuff - Level 10
+- [ ] Togetic - Level 10
+- [ ] Espeon - Level 25 (Day)
+- [ ] Umbreon - Level 25 (Night)
+- [ ] Blissey - Level 25
+- [ ] Marill - Level 10
+- [ ] Roselia - Level 10 (During Morning or Day)
+- [ ] Lopunny - Level 20
+- [ ] Chimecho - Level 10 (At Night)
+- [ ] Snorlax - Level 15
+- [ ] Lucario - Level 20 (During Day)
+- [ ] Swoobat - Level 20
+- [ ] Leavanny - Level 30
+- [ ] Sylveon - Level 25 (Has to know Fairy Move)
+- [ ] Alolan Persian - Level 28
+- [ ] Silvally - Level 35
+- [ ] Frosmoth - Level 20 (At Night)
+
+## Stone Evolutions
+#### Note: Only considered for scaling, you must still use Stones to evolve
+- [ ] Raichu  (Thunder Stone)
+- [ ] Alolan Raichu  (Thunder Stone)
+- [ ] Sandslash Alolan  (Ice Stone)
+- [ ] Nidoqueen (Moon Stone)
+- [ ] Nidoking (Moon Stone)
+- [ ] Clefable (Moon Stne)
+- [ ] Ninetales (Fire Stone)
+- [ ] Alolan Ninetales (Ice Stone)
+- [ ] Wigglytuff (Moon Stone)
+- [ ] Vileplume  (Leaf Stone)
+- [ ] Arcanine  (Fire Stone)
+- [ ] Hisuian Arcanine (Fire Stone)
+- [ ] Poliwrath  (Water Stone)
+- [ ] Victreebel  (Leaf Stone)
+- [ ] Galarian Slowbro (Galarica Cuff)
+- [ ] Galarian Slowking (Galarian Wreath)
+- [ ] Magneton  (Thunder Stone)
+- [ ] Cloyster  (Water Stone)
+- [ ] Hisuian Electrode  (Leaf Stone)
+- [ ] Exeggutor  (Leaf Stone)
+- [ ] Alolan Exeggutor  (Leaf Stone)
+- [ ] Starmie  (Water Stone)
+- [ ] Kleaver  (Black Augurite)
+- [ ] Bellosom  (Sun Stone)
+- [ ] Vaporeon  (Water Stone)
+- [ ] Jolteon  (Thunder Stone)
+- [ ] Flareon  (Fire Stone)
+- [ ] Leafeon  (Leaf Stone)
+- [ ] Glaceon  (Ice Stone)
+- [ ] Togekiss  (Shiny Stone)
+- [ ] Sunflora  (Sun Stone)
+- [ ] Honchkrow  (Dusk Stone)
+- [ ] Mismagius  (Dusk Stone)
+- [ ] Sneasler  (Razor Claw, Daytime)
+- [ ] Ursaluna  (Peat Block)
+- [ ] Ludicolo  (Water Stone)
+- [ ] Shiftry  (Leaf Stone)
+- [ ] Gallade  (Dawn Stone, Male)
+- [ ] Delcatty  (Moon Stone)
+- [ ] Roserade  (Shiny Stone)
+- [ ] Froslass  (Dawn Stone, Female)
+- [ ] Simisage  (Leaf Stone)
+- [ ] Pansear  (Fire Stone)
+- [ ] Panpour  (Water Stone)
+- [ ] Musharna  (Moon Stone)
+- [ ] Whimsicott  (Sun Stone)
+- [ ] Lilligant  (Sun Stone)
+- [ ] Lilligant  (Sun Stone)
+- [ ] Galarian Darmanitan  (Ice Stone)
+- [ ] Cinccino  (Shiny Stone)
+- [ ] Elektross  (Thunder Stone)
+- [ ] Chandelure  (Dusk Stone)
+- [ ] Florges  (Shiny Stone)
+- [ ] Aegislash  (Dusk Stone)
+- [ ] Heliolisk  (Sun Stone)
+- [ ] Vikavolt  (Thunder Stone)
+- [ ] Crabominable  (Ice Stone)
+- [ ] Flapple  (Tart Apple)
+- [ ] Appletun  (Sweet Apple)
+- [ ] Polteageist  (Cracked Pot)
+- [ ] Urshifu (Scroll of Darkness or Scroll of Waters)
+##### Changed Evolutions
+- [ ] Poliwag (Evolution changed to using Kings Rock)
+- [ ] Slowking (Evolution changed to using Kings Rock)
+- [ ] Steelix (Metal Coat)
+- [ ] Rhyperior (Protector)
+- [ ] Kingdra (Dragon Scale)
+- [ ] Scizor (Metal Coat)
+- [ ] Electivire (Electirizer)
+- [ ] Magmortar (Magmarizer)
+- [ ] Porygon2 (Upgrade)
+- [ ] Porygon-Z (Dubious Disc)
+- [ ] Milotic (Prism Scale)
+- [ ] Dusknoir (Reaper Cloth)
+- [ ] Gorebyss (Deep Sea Tooth)
+- [ ] Gorebyss (Deep Sea Scale)
+- [ ] Aromatisse (Sachet)
+- [ ] Slurpuff (Whipped Dream)
+
+## Other Evolutions
+- [ ] Chansey (Holding Oval Stone during daytime)
+- [ ] Tsareena (When Learning Stomp)
+- [ ] Lickilicky (After Learning Rollout)
+- [ ] Tangrowth (After Learning Ancient Power)
+- [ ] Yanmega (After Learning Ancient Power)
+- [ ] Gliscor (Holding Razor Fang during Nighttime)
+- [ ] Mamoswine (After Learning Ancient Power)
+- [ ] Ambipom (After Learning Double Hit)
+- [ ] Nangandel (After Learning Dragon Pulse)
+- [ ] Grapploct (After Learning Taunt)
+- [ ] Sirfetch'd (Achieve 3 Critical Hits in one battle)
+## Evolutions changed to Level up
+- [ ] Wyrdeer - Level 25
+- [ ] Runerigus - Level 34
+- [ ] Melmetal - Level 40
+- [ ] Probopass - Level 25
+- [ ] Alakazam - Level 26
+- [ ] Machamp - Level 38
+- [ ] Golem - Level 35
+- [ ] Alolan Golem - Level 35
+- [ ] Gengar - Level 35
+- [ ] Gigalith - Level 35
+- [ ] Conkeldurr - Level 35
+- [ ] Escavalier - Level 30
+- [ ] Accelgor - Level 30
+- [ ] Trevenant - Level 30
+- [ ] Gourgeist - Level 30
+- [ ] Milcery - Level 20
+- [ ] Basculegion - Level 25 (Must be White Striped)
+- [ ] Overqwil - Level 25
+
+# Mega Pokemon, 
+#### Mega Pokemon and when they would start showing up in wild or on enemy trainers teams, they will NOT evolve unless you use a mega stone
+- [ ] Venusaur - Level 47
+- [ ] Charizard (X and Y) - Level 51
+- [ ] Blastoise - Level 51
+- [ ] Beedrill - Level 40
+- [ ] Pidgeot - Level 51
+- [ ] Alakazam - Level 40
+- [ ] Slowbro - Level 47
+- [ ] Gengar - Level 45
+- [ ] Kangaskhan - Level 40
+- [ ] Pinsir - Level 40
+- [ ] Aerodactyl - Level 40
+- [ ] Mewtwo (X and Y) - Level 40
+- [ ] Ampharos - Level 40
+- [ ] Steelix - Level 40
+- [ ] Scizor - Level 40
+- [ ] Heracross - Level 40
+- [ ] Houndoom - Level 40
+- [ ] Tyranitar - Level 65
+- [ ] Sceptile - Level 46
+- [ ] Blaziken - Level 46
+- [ ] Swampert - Level 46
+- [ ] Gardevoir - Level 40
+- [ ] Sableye - Level 40
+- [ ] Mawile - Level 40
+- [ ] Aggron - Level 52
+- [ ] Medicham - Level 47
+- [ ] Manectric - Level 40
+- [ ] Sharpedo - Level 40
+- [ ] Camerupt - Level 43
+- [ ] Altaria - Level 45
+- [ ] Banette - Level 47
+- [ ] Absol - Level 40
+- [ ] Glalie - Level 52
+- [ ] Salamence - Level 60
+- [ ] Metagross - Level 55
+- [ ] Latias - Level 40
+- [ ] Latios - Level 40
+- [ ] Kyogre Primal - Level 40
+- [ ] Groudon Primal - Level 40
+- [ ] Rayquaza - Level 40
+- [ ] Garchomp - Level 58
+- [ ] Lucario - Level 40
+- [ ] Abomasnow - Level 50
+- [ ] Gallade - Level 40
+- [ ] Audino - Level 40
+- [ ] Diancie - Level 40
+- [ ] Necrozma (Dawn Wings, Dusk Mane) - Level 40
+- [ ] Ultra Necrozma - Level 50
+- [ ] Eternatus Eternamax - Level 50
+- [ ] 

@@ -81,11 +81,31 @@
       <input type="checkbox" id="randomizeStarter">
       <span class="slider round"></span>
     </label>
+    <h4>Legendary Starter Pokemon</h4>
+    <div>
+      <input type="radio" id="AllowStarterLegends" name="StarterLegends" value="AllowLegends" checked>
+      <label for="AllowStarterLegends">Allow Legendary's</label>
+    </div>
+    <div>
+      <input type="radio" id="SometimesStarterLegends" name="StarterLegends" value="SometimesLegends">
+      <label for="SometimesStarterLegends">Rarely Allow Starter Legendaries</label>
+    </div>
+    <div>
+      <input type="radio" id="NoStarterLegends" name="StarterLegends" value="NoLegends">
+      <label for="NoStarterLegends">No Starter Legendaries</label>
+    </div>
+
   </div>
   <!--Trainers-->
   <div id="Trainers" class="tabcontent">
+    <h4>Randomize Enemy Trainer Pokemon</h4>
     <label class="switch">
-      <input type="checkbox">
+      <input type="checkbox" id="RandomizeEnemyTrainers">
+      <span class="slider round"></span>
+    </label>
+    <h4>Trainer Pokemon Scale with Routes</h4>
+    <label class="switch">
+      <input type="checkbox" id="TrainerScaleRoutes">
       <span class="slider round"></span>
     </label>
   </div>

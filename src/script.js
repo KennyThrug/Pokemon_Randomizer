@@ -26,15 +26,15 @@ function openTab(evt, tabName) {
       //Wild Pokemon
       randomize_wild_pokemon: document.getElementById("Randomize Wild Pokemon").checked,
       randomize_starter_pokemon: document.getElementById("randomizeStarter").checked,
-      allow_starter_legendary: "NoLegends",
+      allow_starter_legendary: get_starter_legend(),
       allow_starter_mega: "NoLegends",
       allow_pokemon_future_generation: document.getElementById("allow_pokemon_future_generation").checked,
       scale_wild_pokemon: document.getElementById("ScaleWithRoutes").checked,
       allow_legends_in_wild_pool: get_wild_legend(),
       allow_megas_in_wild_pool: get_wild_mega(),
       //Trainer Randomization
-      randomize_trainer_pokemon: true,
-      trainers_scale: true,
+      randomize_trainer_pokemon: document.getElementById("RandomizeEnemyTrainers").checked,
+      trainers_scale: document.getElementById("TrainerScaleRoutes").checked,
       allow_trainer_legendaries: "NoLegends",
       //Gym Leader Randomization
       allow_leader_legendaries: "OneLegend",
@@ -61,7 +61,6 @@ function openTab(evt, tabName) {
     //document.getElementById("H").innerText = settings.randomize_wild_pokemon;
     var settingsJson = JSON.stringify(settings);
     rust.getFile().emerald_rom(settingsJson);
-    //const numberOfCPUs = rust.getFile().create_emerald_rom();
   }
   function get_wild_legend(){
     if(document.getElementById("AllowLegends").checked){
@@ -80,6 +79,15 @@ function openTab(evt, tabName) {
       return "SometimesLegends";
     }
     return "NoLegends";
+  }
+  function get_starter_legend(){
+    if(document.getElementById("AllowStarterLegends").checked){
+      return "AllowLegends"
+    }
+    if(document.getElementById("SometimesStarterLegends").checked){
+      return "SometimesLegends"
+    }
+    return "NoLegends"
   }
   function createRandomSeed(){
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

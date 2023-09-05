@@ -23,7 +23,7 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Force Starter to be first stage or baby pokemon
 - [ ] Have May/Brendan keep other Starter
 - [ ] Have Wally keep Raltz randomization
-- [ ] Have Wally take 3rd Starter
+- [ ] Have Wally keep Pokemon
 ### Trainer Randomization
 - [ ] Randomize Trainer Pokemon
 - [ ] Trainer Pokemon Scale with Routes
@@ -54,6 +54,8 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Randomize Running Shoes
 - [ ] Randomize TMs
 - [ ] Gym Leader Keys
+### Evolution Settings
+- [ ]
 ### Other Settings
 - [ ] Allow HM's to be used without pokemon
 - [ ] Change [Evolution](evolution.md) Requirements for weird pokemon

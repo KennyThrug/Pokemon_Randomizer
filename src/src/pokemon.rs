@@ -1037,7 +1037,8 @@ Basculegion,
 Sneasler,
 Overquil,
 Enamorus,
-Enamorus_Therian
+Enamorus_Therian,
+None
 }
 
 #[derive(Clone)]
@@ -1049,6 +1050,8 @@ pub struct PokemonStats{
     pub generation: i16,
     pub status: LegendStatus,
     pub min_level: i16,
+    pub evolve_from: Pokemon,
+    pub evolve_into: Vec<Pokemon>
 }
 
 #[derive(PartialEq)]
@@ -1098,6 +1101,10 @@ pub fn get_pokemon_data_integer(pokemon: i32,all_stats: &Vec<PokemonStats>) -> P
     all_stats[pokemon as usize].clone()
 }
 pub fn get_pokemon_from_name(pokemon_name: String,all_stats: &Vec<PokemonStats>) -> Pokemon{
+    //println!("get pokemon_{}_",pokemon_name);
+    if pokemon_name == ""{
+        return Pokemon::None;
+    }
     for i in 0..all_stats.len() {
         if all_stats[i].pokemon_name == pokemon_name{
             return all_stats[i].pokemon_id;
@@ -1114,7 +1121,7 @@ pub fn read_all_pokemon() -> Vec<PokemonStats>{
     let mut all_stats: Vec<PokemonStats> = Vec::new();
     let mut cur_num = 0;
     for cur_pokemon in reader.records(){
-        if cur_num == Pokemon::Volcanion as i32{
+        if cur_num == Pokemon::None as i32{
             println!("End of file");
             break;
         }
@@ -1126,6 +1133,14 @@ pub fn read_all_pokemon() -> Vec<PokemonStats>{
         else{
             min_level_string.parse::<i16>().unwrap()
         };
+        let mut evolve_into: Vec<Pokemon> = Vec::new();
+        for i in 7..13{
+            let nextPkmn = get_pokemon_from_name(cur_pokemon[i].to_string(), &all_stats);
+            if nextPkmn == Pokemon::None{
+                break;
+            }
+            evolve_into.push(nextPkmn);
+        }
         println!("{}",cur_pokemon[0].to_string());
         let add_pokemon = PokemonStats{
             pokemon_id: Pokemon::try_from(cur_num).unwrap(),
@@ -1134,8 +1149,12 @@ pub fn read_all_pokemon() -> Vec<PokemonStats>{
             type2: string_to_type(cur_pokemon[2].to_string()),
             generation: cur_pokemon[3].to_string().parse::<i16>().unwrap(),
             status: string_to_legend_status(cur_pokemon[4].to_string()),
-            min_level: min_level
+            min_level: min_level,
+            evolve_from: Pokemon::Bulbasaur,//get_pokemon_from_name(cur_pokemon[6].to_string(), &all_stats),
+            evolve_into: vec![Pokemon::Ivysaur]//evolve_into
         };
+        //println!("First Evolution: {}",get_pokemon_data(add_pokemon.evolve_into[0], &all_stats).pokemon_name);
+        //println!("Last Evolution: {}",get_pokemon_data(add_pokemon.evolve_into[add_pokemon.evolve_into.len()-1], &all_stats).pokemon_name);
         all_stats.push(add_pokemon);
         cur_num += 1;
     }
