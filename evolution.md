@@ -148,6 +148,7 @@
 - [ ] Milcery - Level 20
 - [ ] Basculegion - Level 25 (Must be White Striped)
 - [ ] Overqwil - Level 25
+- [ ] Manaphy - Level 20
 
 # Mega Pokemon, 
 #### Mega Pokemon and when they would start showing up in wild or on enemy trainers teams, they will NOT evolve unless you use a mega stone
