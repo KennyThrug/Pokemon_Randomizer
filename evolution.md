@@ -20,8 +20,6 @@
 - [ ] Clefairy - Level 10
 - [ ] Jigglypuff - Level 10
 - [ ] Togetic - Level 10
-- [ ] Espeon - Level 25 (Day)
-- [ ] Umbreon - Level 25 (Night)
 - [ ] Blissey - Level 25
 - [ ] Marill - Level 10
 - [ ] Roselia - Level 10 (During Morning or Day)
@@ -31,7 +29,6 @@
 - [ ] Lucario - Level 20 (During Day)
 - [ ] Swoobat - Level 20
 - [ ] Leavanny - Level 30
-- [ ] Sylveon - Level 25 (Has to know Fairy Move)
 - [ ] Alolan Persian - Level 28
 - [ ] Silvally - Level 35
 - [ ] Frosmoth - Level 20 (At Night)
@@ -116,6 +113,9 @@
 - [ ] Gorebyss (Deep Sea Scale)
 - [ ] Aromatisse (Sachet)
 - [ ] Slurpuff (Whipped Dream)
+- [ ] Espeon (Dawn Stone)
+- [ ] Umbreon (Dusk Stone)
+- [ ] Sylveon (Shiny Stone)
 
 ## Other Evolutions
 - [ ] Chansey (Holding Oval Stone during daytime)
