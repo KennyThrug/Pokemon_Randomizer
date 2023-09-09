@@ -19,6 +19,34 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
   }
 
+  //Makes only relevant Options Appear in Wild Pokemon Tab
+  function updateWildTab(evt){
+    if(document.getElementById("Randomize Wild Pokemon").checked){
+      document.getElementById("WildPokemonVisible").style.display = "block"
+    }
+    else{
+      document.getElementById("WildPokemonVisible").style.display = "none"
+    }
+  }
+
+  //Makes only relevant Options Appear in Trainer Tab
+  function updateTrainerTab(evt){
+    if(document.getElementById("RandomizeEnemyTrainers").checked){
+      document.getElementById("TrainersAppear").style.display = "block"
+    }
+    else{
+      document.getElementById("TrainersAppear").style.display = "none"
+    }
+    if(document.getElementById("TrainersNoLegendary").checked){
+      document.getElementById("TrainerLegendaryPokemonRareAppear").style.display = "none";
+    }
+    else{
+      document.getElementById("TrainerLegendaryPokemonRareAppear").style.display = "block";
+    }
+  }
+
+
+  //--------------------------------------------All Below this Line is functionallity and Helpers for Generating Seeds -------------------------------------------------------
   function convertToJson(){
     var settings = {
       //Seed
@@ -27,7 +55,7 @@ function openTab(evt, tabName) {
       randomize_wild_pokemon: document.getElementById("Randomize Wild Pokemon").checked,
       randomize_starter_pokemon: document.getElementById("randomizeStarter").checked,
       allow_starter_legendary: get_starter_legend(),
-      allow_starter_mega: "NoLegends",
+      scale_starter: document.getElementById("ScaleStarter").checked,
       allow_pokemon_future_generation: document.getElementById("allow_pokemon_future_generation").checked,
       scale_wild_pokemon: document.getElementById("ScaleWithRoutes").checked,
       allow_legends_in_wild_pool: get_wild_legend(),
@@ -35,7 +63,8 @@ function openTab(evt, tabName) {
       //Trainer Randomization
       randomize_trainer_pokemon: document.getElementById("RandomizeEnemyTrainers").checked,
       trainers_scale: document.getElementById("TrainerScaleRoutes").checked,
-      allow_trainer_legendaries: "NoLegends",
+      allow_trainer_legendaries: get_trainer_legends(),
+      trainer_legendaries_rare: document.getElementById("TrainerLegendRare").checked,
       //Gym Leader Randomization
       allow_leader_legendaries: "OneLegend",
       gym_type: "RandomType",
@@ -61,6 +90,15 @@ function openTab(evt, tabName) {
     //document.getElementById("H").innerText = settings.randomize_wild_pokemon;
     var settingsJson = JSON.stringify(settings);
     rust.getFile().emerald_rom(settingsJson);
+  }
+  function get_trainer_legends(){
+    if(document.getElementById("TrainerAllowLegends").checked){
+      return "AllowLegends";
+    }
+    if(document.getElementById("TrainersOneLegendary").checked){
+      return "OneLegend";
+    }
+    return "NoLegends";
   }
   function get_wild_legend(){
     if(document.getElementById("AllowLegends").checked){

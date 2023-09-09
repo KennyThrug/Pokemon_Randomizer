@@ -23,7 +23,7 @@
   <!-- Tab links -->
   <div class="tab" class="row">
     <button class="tablinks" onclick="openTab(event, 'Wild Pokemon')">Wild Pokemon</button>
-    <button class="tablinks" onclick="openTab(event,'Starter Pokemon')">Starter Pokemon</button>
+    <button class="tablinks" onclick="openTab(event, 'Starter Pokemon')">Starter Pokemon</button>
     <button class="tablinks" onclick="openTab(event, 'Trainers')">Trainers</button>
     <button class="tablinks" onclick="openTab(event, 'Gyms')">Gyms</button>
     <button class="tablinks" onclick="openTab(event, 'Items')">Items</button>
@@ -31,12 +31,13 @@
     <!--Wild Pokemon-->
   </div>
   <div class="column">
-  <div id="Wild Pokemon" class="tabcontent">
+    <div id="Wild Pokemon" class="tabcontent">
       <h4 id="H">Randomize Wild Pokemon</h4>
       <label class="switch">
-        <input type="checkbox" id="Randomize Wild Pokemon">
+        <input type="checkbox" id="Randomize Wild Pokemon" onclick="updateWildTab()">
         <span class="slider round"></span>
       </label>
+      <div id="WildPokemonVisible" style="display: none;">
       <h4>Allow Pokemon from future generations</h4>
       <label class="switch">
         <input type="checkbox" id="allow_pokemon_future_generation">
@@ -74,52 +75,79 @@
         <label for="NoLegends">Do not Allow Mega Evolved Pokemon</label>
       </div>
     </div>
-  <!--Starter Pokemon-->
-  <div id="Starter Pokemon" class="tabcontent">
-    <h4>Randomize Starter Pokemon</h4>
-    <label class="switch">
-      <input type="checkbox" id="randomizeStarter">
-      <span class="slider round"></span>
-    </label>
-    <h4>Legendary Starter Pokemon</h4>
-    <div>
-      <input type="radio" id="AllowStarterLegends" name="StarterLegends" value="AllowLegends" checked>
-      <label for="AllowStarterLegends">Allow Legendary's</label>
     </div>
-    <div>
-      <input type="radio" id="SometimesStarterLegends" name="StarterLegends" value="SometimesLegends">
-      <label for="SometimesStarterLegends">Rarely Allow Starter Legendaries</label>
+    <!--Starter Pokemon-->
+    <div id="Starter Pokemon" class="tabcontent">
+      <h4>Randomize Starter Pokemon</h4>
+      <label class="switch">
+        <input type="checkbox" id="randomizeStarter">
+        <span class="slider round"></span>
+      </label>
+      <h4>Legendary Starter Pokemon</h4>
+      <div>
+        <input type="radio" id="AllowStarterLegends" name="StarterLegends" value="AllowLegends" checked>
+        <label for="AllowStarterLegends">Allow Legendaries</label>
+      </div>
+      <div>
+        <input type="radio" id="SometimesStarterLegends" name="StarterLegends" value="SometimesLegends">
+        <label for="SometimesStarterLegends">Rarely Allow Starter Legendaries</label>
+      </div>
+      <div>
+        <input type="radio" id="NoStarterLegends" name="StarterLegends" value="NoLegends">
+        <label for="NoStarterLegends">No Starter Legendaries</label>
+      </div>
+      <h4>Force Starter to be First Stage</h4>
+      <label class="switch">
+        <input type="checkbox" id="ScaleStarter">
+        <span class="slider round"></span>
+      </label>
     </div>
-    <div>
-      <input type="radio" id="NoStarterLegends" name="StarterLegends" value="NoLegends">
-      <label for="NoStarterLegends">No Starter Legendaries</label>
+    <!--Trainers-->
+    <div id="Trainers" class="tabcontent">
+      <h4>Randomize Enemy Trainer Pokemon</h4>
+      <label class="switch">
+        <input type="checkbox" id="RandomizeEnemyTrainers" onclick="updateTrainerTab()">
+        <span class="slider round"></span>
+      </label>
+      <div id="TrainersAppear" style="display: none;">
+      <h4>Trainer Pokemon Scale with Routes</h4>
+      <label class="switch">
+        <input type="checkbox" id="TrainerScaleRoutes">
+        <span class="slider round"></span>
+      </label>
+      <h4>Trainer Pokemon can have legendaries?</h4>
+      <div>
+        <input type="radio" id="TrainerAllowLegends" name="TrainerLegends" value="TrainerAllowLegends" onclick="updateTrainerTab()" checked>
+        <label for="TrainerAllowLegends">Allow Legendaries</label>
+      </div>
+      <div>
+        <input type="radio" id="TrainersOneLegendary" name="TrainerLegends" value="TrainersOneLegendary" onclick="updateTrainerTab()">
+        <label for="TrainersOneLegendary">One Legendary Max Per Team</label>
+      </div>
+      <div>
+        <input type="radio" id="TrainersNoLegendary" name="TrainerLegends" value="TrainersNoLegendary" onclick="updateTrainerTab()">
+        <label for="TrainersNoLegendary">No Legendaries</label>
+      </div>
+      <div id="TrainerLegendaryPokemonRareAppear">
+        <h4>Make Legendary Pokemon Rare</h4>
+        <label class="switch">
+          <input type="checkbox" id="TrainerLegendRare">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      </div>
     </div>
+    <!--Gyms-->
+    <div id="Gyms" class="tabcontent">
 
-  </div>
-  <!--Trainers-->
-  <div id="Trainers" class="tabcontent">
-    <h4>Randomize Enemy Trainer Pokemon</h4>
-    <label class="switch">
-      <input type="checkbox" id="RandomizeEnemyTrainers">
-      <span class="slider round"></span>
-    </label>
-    <h4>Trainer Pokemon Scale with Routes</h4>
-    <label class="switch">
-      <input type="checkbox" id="TrainerScaleRoutes">
-      <span class="slider round"></span>
-    </label>
-  </div>
-  <!--Gyms-->
-  <div id="Gyms" class="tabcontent">
+    </div>
+    <!--Items-->
+    <div id="Items" class="tabcontent">
 
-  </div>
-  <!--Items-->
-  <div id="Items" class="tabcontent">
-
-  </div>
-  <!--Other-->
-  <div id="Other" class="tabcontent">
-  </div>
+    </div>
+    <!--Other-->
+    <div id="Other" class="tabcontent">
+    </div>
 
   </div>
   <!--Always open-->

@@ -1087,10 +1087,6 @@ pub enum LegendStatus{
     LegendMega,
 }
 
-const LEGEND_OFFSET : i32 = 50; //Level above "possible" level where they can start appearing
-const MEGA_OFFSET : i32 = 15; //Level above final stage evo where it is possible to find Mega forms in wild
-const MYTHICAL_OFFSET: i32 = 55;
-
 pub fn format_pokemon_name(pkmn_name: String) -> String{
     return format!("SPECIES_{}",pkmn_name.to_uppercase());
 }
@@ -1120,6 +1116,7 @@ pub fn read_all_pokemon() -> Vec<PokemonStats>{
     let mut reader = csv::Reader::from_reader(csv.as_bytes());
     let mut all_stats: Vec<PokemonStats> = Vec::new();
     let mut cur_num = 0;
+    let mut evolveinto: Vec<Vec<String>> = Vec::new(); //Dumb workaround because we don't have all the pokemon loaded at first, and we need a complete pokedex before adding "Evolve intos"
     for cur_pokemon in reader.records(){
         if cur_num == Pokemon::None as i32{
             println!("End of file");
@@ -1133,15 +1130,15 @@ pub fn read_all_pokemon() -> Vec<PokemonStats>{
         else{
             min_level_string.parse::<i16>().unwrap()
         };
-        let mut evolve_into: Vec<Pokemon> = Vec::new();
+        let mut next_evo = Vec::new();
         for i in 7..13{
-            let nextPkmn = get_pokemon_from_name(cur_pokemon[i].to_string(), &all_stats);
-            if nextPkmn == Pokemon::None{
+            let next_pkmn = cur_pokemon[i].to_string();
+            if next_pkmn == ""{
                 break;
             }
-            evolve_into.push(nextPkmn);
+            next_evo.push(next_pkmn);
         }
-        println!("{}",cur_pokemon[0].to_string());
+        evolveinto.push(next_evo);
         let add_pokemon = PokemonStats{
             pokemon_id: Pokemon::try_from(cur_num).unwrap(),
             pokemon_name: cur_pokemon[0].to_string(),
@@ -1150,13 +1147,19 @@ pub fn read_all_pokemon() -> Vec<PokemonStats>{
             generation: cur_pokemon[3].to_string().parse::<i16>().unwrap(),
             status: string_to_legend_status(cur_pokemon[4].to_string()),
             min_level: min_level,
-            evolve_from: Pokemon::Bulbasaur,//get_pokemon_from_name(cur_pokemon[6].to_string(), &all_stats),
-            evolve_into: vec![Pokemon::Ivysaur]//evolve_into
+            evolve_from: get_pokemon_from_name(cur_pokemon[6].to_string(), &all_stats),
+            evolve_into: vec![Pokemon::None]
         };
-        //println!("First Evolution: {}",get_pokemon_data(add_pokemon.evolve_into[0], &all_stats).pokemon_name);
-        //println!("Last Evolution: {}",get_pokemon_data(add_pokemon.evolve_into[add_pokemon.evolve_into.len()-1], &all_stats).pokemon_name);
         all_stats.push(add_pokemon);
         cur_num += 1;
+    }
+    //Go back through vector (makes this algorithm O(2n) but whatever I don't care that much)
+    for cur_pokemon_index in 0..evolveinto.len(){
+        let mut next_evos:Vec<Pokemon> = Vec::new();
+        for cur_pokemon_next in evolveinto[cur_pokemon_index].clone(){
+            next_evos.push(get_pokemon_from_name(cur_pokemon_next, &all_stats))
+        }
+        all_stats[cur_pokemon_index].evolve_into = next_evos;
     }
     all_stats
 }

@@ -99,7 +99,7 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
         }
         all_trainers.push(Trainer { 
             trainer_name: data_json["trainers"][i]["name"].to_string(),
-             pokemon: team });
+             pokemon: team});
     }
     //println!("len1:{}",all_trainers.len());
     //Read JSON file and put data in data
@@ -118,15 +118,15 @@ pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemo
 fn randomize_starter_pokemon(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> Starter{
     //Settings bullshit to make the preset settings work
     let temp_legend_set = settings.allow_legends_in_wild_pool.clone();
-    let temp_mega_set = settings.allow_megas_in_wild_pool.clone();
+    let temp_scale = settings.scale_wild_pokemon.clone();
     settings.allow_legends_in_wild_pool = settings.allow_starter_legendary.clone();
-    settings.allow_megas_in_wild_pool = settings.allow_starter_mega.clone();
+    settings.scale_wild_pokemon = settings.scale_starter.clone();
     let starters: Starter = 
     if settings.randomize_starter_pokemon{
         Starter{
-            treeko: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 0),all_stats),all_stats),
-            torchic: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 0),all_stats),all_stats),
-            mudkip: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 0),all_stats),all_stats)
+            treeko: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 5),all_stats),all_stats),
+            torchic: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 5),all_stats),all_stats),
+            mudkip: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 5),all_stats),all_stats)
         }
     }
     else{
@@ -150,15 +150,36 @@ fn randomize_starter_pokemon(settings: &mut settings::Settings,all_stats: &Vec<p
     println!("Successfully wrote to file: src/starter_choose.c");
     //Resetting settings so this doesn't mess anything else up
     settings.allow_legends_in_wild_pool = temp_legend_set;
-    settings.allow_megas_in_wild_pool = temp_mega_set;
+    settings.scale_starter = temp_scale;
 
     return starters;
 }
 
 fn get_random_trainer(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> Trainer{
     let mut trainer_pkmn: Vec<TrainerPokemon> = Vec::new();
+    let mut has_legend = false;
     for cur_pkmn in trainer.pokemon{
-        trainer_pkmn.push(get_random_pokemon_for_trainer(trainer.trainer_name.clone(), &cur_pkmn,all_stats,settings));
+        let next_pkmn = get_random_pokemon_for_trainer(trainer.trainer_name.clone(), &cur_pkmn,all_stats,settings,
+    if settings.allow_trainer_legendaries == settings::AllowLegendaries::NoLegends ||
+                     (settings.allow_trainer_legendaries == settings::AllowLegendaries::OneLegend && has_legend ||
+                    settings.allow_trainer_legendaries == settings::AllowLegendaries::AceLegend && has_legend)
+                        {false}else{true});
+        if get_pokemon_data(next_pkmn.species, all_stats).status == pokemon::LegendStatus::Legendary || get_pokemon_data(next_pkmn.species, all_stats).status == pokemon::LegendStatus::LegendMega{
+            has_legend = true;
+        }
+        trainer_pkmn.push(next_pkmn)
+    }
+    if settings.allow_trainer_legendaries == settings::AllowLegendaries::AceLegend && has_legend{
+        for i in 0..trainer_pkmn.len(){
+            if get_pokemon_data(trainer_pkmn[i].species,all_stats).status == pokemon::LegendStatus::Legendary || 
+            get_pokemon_data(trainer_pkmn[i].species,all_stats).status == pokemon::LegendStatus::Legendary{
+                //Switch Legend with Ace Pokemon
+                let temp = trainer_pkmn[i].species;
+                let last_pos = trainer_pkmn.len()-1;
+                trainer_pkmn[i].species = trainer_pkmn[last_pos].species;
+                trainer_pkmn[last_pos].species = temp;
+            }
+        }
     }
     return Trainer{
         trainer_name: trainer.trainer_name,
@@ -166,12 +187,21 @@ fn get_random_trainer(trainer: Trainer, settings: &mut settings::Settings,all_st
     };
 }
 
-fn get_random_pokemon_for_trainer(trainerName: String, pokemon: &TrainerPokemon,pokemon_data: &Vec<pokemon::PokemonStats>,settings: &mut settings::Settings) -> TrainerPokemon{
+fn get_random_pokemon_for_trainer(trainer_name: String, pokemon: &TrainerPokemon,pokemon_data: &Vec<pokemon::PokemonStats>,settings: &mut settings::Settings,can_be_legend: bool) -> TrainerPokemon{
     if !settings.randomize_trainer_pokemon{
         return pokemon.clone();
     }
     let rand_val = settings::get_next_seed(0, pokemon_data.len() as i32, settings);
     let new_pokemon = scale_pokemon(pokemon_data[rand_val as usize].clone().pokemon_id,pokemon.level,pokemon_data,settings);
+    
+    if !can_be_legend && (new_pokemon.status == pokemon::LegendStatus::Legendary || new_pokemon.status == pokemon::LegendStatus::LegendMega){
+        return get_random_pokemon_for_trainer(trainer_name, pokemon, pokemon_data, settings,can_be_legend);
+    }
+    if settings.trainer_legendaries_rare && (new_pokemon.status == pokemon::LegendStatus::Legendary || new_pokemon.status == pokemon::LegendStatus::LegendMega){
+        if settings::get_next_seed(0, 20, settings) != 0{
+            return get_random_pokemon_for_trainer(trainer_name, pokemon, pokemon_data, settings, can_be_legend)
+        }
+    }
 
     TrainerPokemon {
         iv: pokemon.iv,
@@ -188,10 +218,12 @@ fn scale_pokemon(pokemon: pokemon::Pokemon,level: i32,all_stats: &Vec<pokemon::P
         return stats;
     }
     if get_pokemon_data(pokemon, all_stats).min_level > level as i16{
+        println!("Test Going Down, min lvl: {}.{}",get_pokemon_data(pokemon,all_stats).pokemon_name,level);
         return scale_pokemon(get_pokemon_data(pokemon,all_stats).evolve_from, level, all_stats, settings)
     }
     for cur_evolution in randomize_next_evolutions(get_pokemon_data(pokemon, all_stats).evolve_into.clone(),settings){
-        if get_pokemon_data(cur_evolution, all_stats).min_level < level as i16{
+        if get_pokemon_data(cur_evolution, all_stats).min_level <= level as i16{
+            println!("Test Going Up: {}, min lvl: {}",get_pokemon_data(cur_evolution, all_stats).pokemon_name,level);
             return scale_pokemon(cur_evolution, level, all_stats, settings);
         }
     }

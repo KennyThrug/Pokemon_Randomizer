@@ -18,17 +18,17 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Allow Mega Pokemon in Pool
 ### Starter Randomization
 - [x] Randomize Starter Pokemon
-- [ ] Allow Legendaries as Starters
-- [ ] Allow Mega Evolutions as Starters
-- [ ] Force Starter to be first stage or baby pokemon
+- [x] Allow Legendaries as Starters
+- [x] Force Starter to be first stage or baby pokemon
 - [ ] Have May/Brendan keep other Starter
 - [ ] Have Wally keep Raltz randomization
 - [ ] Have Wally keep Pokemon
 ### Trainer Randomization
-- [ ] Randomize Trainer Pokemon
-- [ ] Trainer Pokemon Scale with Routes
-- [ ] Allow Legendaries on Regular Trainers
-- [ ] Allow Only 1 Legendary per Team
+- [x] Randomize Trainer Pokemon
+- [x] Trainer Pokemon Scale with Routes
+- [x] Allow Legendaries on Regular Trainers
+- [x] Allow Only 1 Legendary per Team
+- [x] Rarity for Legendaries
 ### Gym Randomization
 - [ ] Allow Legendaries on Gym Leaders
 - [ ] Allow Only 1 Legendary per Gym Leader

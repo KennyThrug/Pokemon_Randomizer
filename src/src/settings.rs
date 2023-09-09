@@ -11,7 +11,7 @@ pub struct Settings{
     pub randomize_wild_pokemon: bool,
     pub randomize_starter_pokemon: bool,
     pub allow_starter_legendary: WildLegends,
-    pub allow_starter_mega: WildLegends,
+    pub scale_starter: bool,
     pub allow_pokemon_future_generation: bool,
     pub scale_wild_pokemon: bool,
     pub allow_legends_in_wild_pool: WildLegends,
@@ -20,6 +20,7 @@ pub struct Settings{
     pub randomize_trainer_pokemon: bool,
     pub trainers_scale: bool,
     pub allow_trainer_legendaries: AllowLegendaries,
+    pub trainer_legendaries_rare: bool,
     //Gym Leader Randomization
     pub allow_leader_legendaries: AllowLegendaries,
     pub gym_type: GymType,
@@ -44,6 +45,7 @@ pub struct Settings{
     pub allow_hm_use: bool,
 }
 
+#[derive(PartialEq)]
 pub enum AllowLegendaries{
     NoLegends,
     OneLegend,
@@ -80,7 +82,7 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         randomize_wild_pokemon: parsed_json["randomize_wild_pokemon"].as_bool().unwrap(),
         randomize_starter_pokemon: parsed_json["randomize_starter_pokemon"].as_bool().unwrap(),
         allow_starter_legendary: convert_string_to_wild_legends(parsed_json["allow_starter_legendary"].to_string()),
-        allow_starter_mega: convert_string_to_wild_legends(parsed_json["allow_starter_mega"].to_string()),
+        scale_starter: parsed_json["scale_starter"].as_bool().unwrap(),
         allow_pokemon_future_generation: parsed_json["allow_pokemon_future_generation"].as_bool().unwrap(),
         scale_wild_pokemon: parsed_json["scale_wild_pokemon"].as_bool().unwrap(),
         allow_legends_in_wild_pool: convert_string_to_wild_legends(parsed_json["allow_legends_in_wild_pool"].to_string()),
@@ -89,6 +91,7 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         randomize_trainer_pokemon: parsed_json["randomize_trainer_pokemon"].as_bool().unwrap(),
         trainers_scale: parsed_json["trainers_scale"].as_bool().unwrap(),
         allow_trainer_legendaries: convert_string_to_allow_legendaries(parsed_json["allow_trainer_legendaries"].to_string()),
+        trainer_legendaries_rare: parsed_json["trainer_legendaries_rare"].as_bool().unwrap(),
         //Gym Leader Randomization
         allow_leader_legendaries: convert_string_to_allow_legendaries(parsed_json["allow_leader_legendaries"].to_string()),
         gym_type: convert_string_to_gym_type(parsed_json["gym_type"].to_string()),
@@ -124,7 +127,7 @@ fn convert_string_to_allow_legendaries(string: String) -> AllowLegendaries{
         "NoLegends" => AllowLegendaries::NoLegends,
         "OneLegend" => AllowLegendaries::OneLegend,
         "AceLegend" => AllowLegendaries::AceLegend,
-        "Allow" => AllowLegendaries::Allow,
+        "AllowLegends" => AllowLegendaries::Allow,
         _ => AllowLegendaries::NoLegends
     }
 }
