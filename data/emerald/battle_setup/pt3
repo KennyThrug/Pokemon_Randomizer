@@ -1,0 +1,241 @@
+;
+        break;
+    default:
+        transitionId = B_TRANSITION_GRID_SQUARES;
+        break;
+    }
+    CreateBattleStartTask(transitionId, MUS_VS_REGI);
+
+    IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
+    IncrementGameStat(GAME_STAT_WILD_BATTLES);
+    IncrementDailyWildBattles();
+    TryUpdateGymLeaderRematchFromWild();
+}
+
+static void CB2_EndWildBattle(void)
+{
+    CpuFill16(0, (void *)(BG_PLTT), BG_PLTT_SIZE);
+    ResetOamRange(0, 128);
+
+    if (IsPlayerDefeated(gBattleOutcome) == TRUE && !InBattlePyramid() && !InBattlePike())
+    {
+        SetMainCallback2(CB2_WhiteOut);
+    }
+    else
+    {
+        SetMainCallback2(CB2_ReturnToField);
+        gFieldCallback = FieldCB_ReturnToFieldNoScriptCheckMusic;
+    }
+}
+
+static void CB2_EndScriptedWildBattle(void)
+{
+    CpuFill16(0, (void *)(BG_PLTT), BG_PLTT_SIZE);
+    ResetOamRange(0, 128);
+
+    if (IsPlayerDefeated(gBattleOutcome) == TRUE)
+    {
+        if (InBattlePyramid())
+            SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+        else
+            SetMainCallback2(CB2_WhiteOut);
+    }
+    else
+    {
+        SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    }
+}
+
+u8 BattleSetup_GetTerrainId(void)
+{
+    u16 tileBehavior;
+    s16 x, y;
+
+    PlayerGetDestCoords(&x, &y);
+    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+
+    if (MetatileBehavior_IsTallGrass(tileBehavior))
+        return BATTLE_TERRAIN_GRASS;
+    if (MetatileBehavior_IsLongGrass(tileBehavior))
+        return BATTLE_TERRAIN_LONG_GRASS;
+    if (MetatileBehavior_IsSandOrDeepSand(tileBehavior))
+        return BATTLE_TERRAIN_SAND;
+
+    switch (gMapHeader.mapType)
+    {
+    case MAP_TYPE_TOWN:
+    case MAP_TYPE_CITY:
+    case MAP_TYPE_ROUTE:
+        break;
+    case MAP_TYPE_UNDERGROUND:
+        if (MetatileBehavior_IsIndoorEncounter(tileBehavior))
+            return BATTLE_TERRAIN_BUILDING;
+        if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
+            return BATTLE_TERRAIN_POND;
+        return BATTLE_TERRAIN_CAVE;
+    case MAP_TYPE_INDOOR:
+    case MAP_TYPE_SECRET_BASE:
+        return BATTLE_TERRAIN_BUILDING;
+    case MAP_TYPE_UNDERWATER:
+        return BATTLE_TERRAIN_UNDERWATER;
+    case MAP_TYPE_OCEAN_ROUTE:
+        if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
+            return BATTLE_TERRAIN_WATER;
+        return BATTLE_TERRAIN_PLAIN;
+    }
+    if (MetatileBehavior_IsDeepOrOceanWater(tileBehavior))
+        return BATTLE_TERRAIN_WATER;
+    if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
+        return BATTLE_TERRAIN_POND;
+    if (MetatileBehavior_IsMountain(tileBehavior))
+        return BATTLE_TERRAIN_MOUNTAIN;
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+    {
+        // Is BRIDGE_TYPE_POND_*?
+        if (MetatileBehavior_GetBridgeType(tileBehavior) != BRIDGE_TYPE_OCEAN)
+            return BATTLE_TERRAIN_POND;
+
+        if (MetatileBehavior_IsBridgeOverWater(tileBehavior) == TRUE)
+            return BATTLE_TERRAIN_WATER;
+    }
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE113) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE113))
+        return BATTLE_TERRAIN_SAND;
+    if (GetSavedWeather() == WEATHER_SANDSTORM)
+        return BATTLE_TERRAIN_SAND;
+
+    return BATTLE_TERRAIN_PLAIN;
+}
+
+static u8 GetBattleTransitionTypeByMap(void)
+{
+    u16 tileBehavior;
+    s16 x, y;
+
+    PlayerGetDestCoords(&x, &y);
+    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+
+    if (GetFlashLevel())
+        return TRANSITION_TYPE_FLASH;
+
+    if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
+        return TRANSITION_TYPE_WATER;
+
+    switch (gMapHeader.mapType)
+    {
+    case MAP_TYPE_UNDERGROUND:
+        return TRANSITION_TYPE_CAVE;
+    case MAP_TYPE_UNDERWATER:
+        return TRANSITION_TYPE_WATER;
+    default:
+        return TRANSITION_TYPE_NORMAL;
+    }
+}
+
+static u16 GetSumOfPlayerPartyLevel(u8 numMons)
+{
+    u8 sum = 0;
+    int i;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        u32 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES_OR_EGG);
+
+        if (species != SPECIES_EGG && species != SPECIES_NONE && GetMonData(&gPlayerParty[i], MON_DATA_HP) != 0)
+        {
+            sum += GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
+            if (--numMons == 0)
+                break;
+        }
+    }
+    return sum;
+}
+
+static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
+{
+    u8 i;
+    u8 sum;
+    u32 count = numMons;
+
+    if (gTrainers[opponentId].partySize < count)
+        count = gTrainers[opponentId].partySize;
+
+    sum = 0;
+
+    switch (gTrainers[opponentId].partyFlags)
+    {
+    case 0:
+        {
+            const struct TrainerMonNoItemDefaultMoves *party;
+            party = gTrainers[opponentId].party.NoItemDefaultMoves;
+            for (i = 0; i < count; i++)
+                sum += party[i].lvl;
+        }
+        break;
+    case F_TRAINER_PARTY_CUSTOM_MOVESET:
+        {
+            const struct TrainerMonNoItemCustomMoves *party;
+            party = gTrainers[opponentId].party.NoItemCustomMoves;
+            for (i = 0; i < count; i++)
+                sum += party[i].lvl;
+        }
+        break;
+    case F_TRAINER_PARTY_HELD_ITEM:
+        {
+            const struct TrainerMonItemDefaultMoves *party;
+            party = gTrainers[opponentId].party.ItemDefaultMoves;
+            for (i = 0; i < count; i++)
+                sum += party[i].lvl;
+        }
+        break;
+    case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
+        {
+            const struct TrainerMonItemCustomMoves *party;
+            party = gTrainers[opponentId].party.ItemCustomMoves;
+            for (i = 0; i < count; i++)
+                sum += party[i].lvl;
+        }
+        break;
+    case F_TRAINER_PARTY_EVERYTHING_CUSTOMIZED:
+        {
+            const struct TrainerMonCustomized *party;
+            party = gTrainers[opponentId].party.EverythingCustomized;
+            for (i = 0; i < count; i++)
+                sum += party[i].lvl;
+        }
+        break;
+    }
+
+    return sum;
+}
+
+u8 GetWildBattleTransition(void)
+{
+    u8 transitionType = GetBattleTransitionTypeByMap();
+    u8 enemyLevel = GetMonData(&gEnemyParty[0], MON_DATA_LEVEL);
+    u8 playerLevel = GetSumOfPlayerPartyLevel(1);
+
+    if (enemyLevel < playerLevel)
+    {
+        if (InBattlePyramid())
+            return B_TRANSITION_BLUR;
+        else
+            return sBattleTransitionTable_Wild[transitionType][0];
+    }
+    else
+    {
+        if (InBattlePyramid())
+            return B_TRANSITION_GRID_SQUARES;
+        else
+            return sBattleTransitionTable_Wild[transitionType][1];
+    }
+}
+
+u8 GetTrainerBattleTransition(void)
+{
+    u8 minPartyCount;
+    u8 transitionType;
+    u8 enemyLevel;
+    u8 playerLevel;
+
+    if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
+        return 

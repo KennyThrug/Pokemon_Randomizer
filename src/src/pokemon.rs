@@ -1196,4 +1196,3 @@ fn string_to_legend_status(pkmn_stats: String) -> LegendStatus{
         _ => LegendStatus::Standard
     }
 }
-

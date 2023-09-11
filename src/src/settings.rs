@@ -16,6 +16,7 @@ pub struct Settings{
     pub scale_wild_pokemon: bool,
     pub allow_legends_in_wild_pool: WildLegends,
     pub allow_megas_in_wild_pool: WildLegends,
+    pub force_legendaries_to_legendaries: LegendRarity,
     //Trainer Randomization
     pub randomize_trainer_pokemon: bool,
     pub trainers_scale: bool,
@@ -46,11 +47,19 @@ pub struct Settings{
 }
 
 #[derive(PartialEq)]
+pub enum LegendRarity{
+    AlwaysLegendary,
+    SometimesLegendary,//Will allow it to be legendary, but wont force it
+    LikelyLegendary,//Will ignore 1 in 100 non-legendaries, and will try to force a pokemon to be legendary, but can fail
+    NotLegendary
+}
+
+#[derive(PartialEq)]
 pub enum AllowLegendaries{
     NoLegends,
     OneLegend,
     AceLegend,
-    Allow
+    Allow,
 }
 #[derive(PartialEq)]
 #[derive(Clone, Copy)]
@@ -87,6 +96,7 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         scale_wild_pokemon: parsed_json["scale_wild_pokemon"].as_bool().unwrap(),
         allow_legends_in_wild_pool: convert_string_to_wild_legends(parsed_json["allow_legends_in_wild_pool"].to_string()),
         allow_megas_in_wild_pool: convert_string_to_wild_legends(parsed_json["allow_megas_in_wild_pool"].to_string()),
+        force_legendaries_to_legendaries: convert_string_to_legend_rarity(parsed_json["force_legendaries_to_legendaries"].to_string()),
         //Trainer Randomization
         randomize_trainer_pokemon: parsed_json["randomize_trainer_pokemon"].as_bool().unwrap(),
         trainers_scale: parsed_json["trainers_scale"].as_bool().unwrap(),
@@ -129,6 +139,14 @@ fn convert_string_to_allow_legendaries(string: String) -> AllowLegendaries{
         "AceLegend" => AllowLegendaries::AceLegend,
         "AllowLegends" => AllowLegendaries::Allow,
         _ => AllowLegendaries::NoLegends
+    }
+}
+fn convert_string_to_legend_rarity(string: String) -> LegendRarity{
+    match string.as_str(){
+        "AlwaysLegendary" => LegendRarity::AlwaysLegendary,
+        "SometimesLegendary" => LegendRarity::SometimesLegendary,
+        "LikelyLegendary" => LegendRarity::LikelyLegendary,
+        _ => LegendRarity::NotLegendary
     }
 }
 fn convert_string_to_gym_location(string: String) -> GymLocationRandomization{

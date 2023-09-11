@@ -60,6 +60,7 @@ function openTab(evt, tabName) {
       scale_wild_pokemon: document.getElementById("ScaleWithRoutes").checked,
       allow_legends_in_wild_pool: get_wild_legend(),
       allow_megas_in_wild_pool: get_wild_mega(),
+      force_legendaries_to_legendaries: "AlwaysLegendary",
       //Trainer Randomization
       randomize_trainer_pokemon: document.getElementById("RandomizeEnemyTrainers").checked,
       trainers_scale: document.getElementById("TrainerScaleRoutes").checked,

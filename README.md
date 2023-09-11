@@ -61,3 +61,5 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Change [Evolution](evolution.md) Requirements for weird pokemon
 - [ ] Allow [Forms](forms.md) to appear for many pokemon
 - [ ] Level Caps on Gyms
+- [x] Randomize Professor Birch's example pokemon
+- [ ] Randomize Battle Transitions for Legendaries

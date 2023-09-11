@@ -3,6 +3,7 @@ use crate::src::pokemon::read_all_pokemon;
 use crate::src::settings;
 use crate::src::gen3::wild_pokemon;
 use crate::src::gen3::trainers;
+use crate::src::gen3::emerald::other;
 use crate::src::settings::Settings;
 use rand::{Rng, rngs::StdRng, SeedableRng};
 //File that contains the functions that will be called by the launcher
@@ -15,6 +16,7 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
     let pkmn_data = read_all_pokemon();
     wild_pokemon::randomize_wild_pokemon(settings,&pkmn_data);
     trainers::shuffle_trainers(settings,&pkmn_data);
+    other::randomize_birch_pokemon(settings, &pkmn_data);
     setup_evolution_fixes(settings)
 }
 

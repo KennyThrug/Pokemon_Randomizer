@@ -1,10 +1,10 @@
 use std::fs;
-use crate::src::{settings, pokemon::{PokemonStats, get_pokemon_data}};
+use crate::src::{settings, pokemon::{PokemonStats, get_pokemon_data, Pokemon}};
 use json::{self, JsonValue::Null};
 
 use crate::src::pokemon;
 
-use super::wild_pokemon;
+use super::{wild_pokemon, emerald::{special_trainers::{self, handle_special_trainer}, static_pokemon}};
 
 #[derive(Clone)]
 pub struct Trainer{
@@ -13,11 +13,11 @@ pub struct Trainer{
 }
 #[derive(Clone)]
 pub struct TrainerPokemon{
-    iv: i32,
-    species: pokemon::Pokemon,
-    level: i32,
-    moves: Vec<String>,
-    held_items: String,
+    pub iv: i32,
+    pub species: pokemon::Pokemon,
+    pub level: i32,
+    pub moves: Vec<String>,
+    pub held_items: String,
 }
 pub fn write_trainers_to_file(filename:String,trainers: Vec<Trainer>,all_stats: &Vec<pokemon::PokemonStats>){
     let mut file_text = "".to_string();
@@ -108,8 +108,17 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
 pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>){
     let mut trainer_data = read_all_trainers("data/emerald/trainer_parties.json".to_string(),all_stats);
     let starters = randomize_starter_pokemon(settings, all_stats);
+    println!("Test1");
+    let (rival_team,wally_team) = create_rival_teams(settings, all_stats);
+    println!("Test2");
+    static_pokemon::randomize_static_pokemon(settings, all_stats, &rival_team, &wally_team);
     for i in 0..trainer_data.len(){
-        trainer_data[i] = get_random_trainer(trainer_data[i].clone(), settings, all_stats)
+        if special_trainers::check_if_special_trainer(trainer_data[i].clone()){
+            trainer_data[i] = handle_special_trainer(trainer_data[i].clone(), settings, all_stats,&starters,&rival_team,&wally_team);
+        }
+        else{//Regular Trainers
+            trainer_data[i] = get_random_trainer(trainer_data[i].clone(), settings, all_stats)
+        }
     }
     //println!("len: {}",trainer_data.len());
     write_trainers_to_file("decomp/pokeemerald-expansion/src/data/trainer_parties.h".to_string(), trainer_data,all_stats);
@@ -152,7 +161,11 @@ fn randomize_starter_pokemon(settings: &mut settings::Settings,all_stats: &Vec<p
     settings.allow_legends_in_wild_pool = temp_legend_set;
     settings.scale_starter = temp_scale;
 
-    return starters;
+    return Starter{
+        treeko: scale_pokemon(starters.treeko.pokemon_id, 34, all_stats, settings),
+        torchic: scale_pokemon(starters.torchic.pokemon_id, 34, all_stats, settings),
+        mudkip: scale_pokemon(starters.mudkip.pokemon_id, 34, all_stats, settings)
+    };
 }
 
 fn get_random_trainer(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> Trainer{
@@ -207,12 +220,12 @@ fn get_random_pokemon_for_trainer(trainer_name: String, pokemon: &TrainerPokemon
         iv: pokemon.iv,
         species: new_pokemon.pokemon_id.clone(),
         level: pokemon.level,
-        moves: pokemon.moves.clone(),
-        held_items: pokemon.held_items.clone()
+        moves: create_moveset(settings,new_pokemon.pokemon_id,pokemon.level,pokemon.moves.clone()),
+        held_items: create_held_item(settings,new_pokemon.pokemon_id,pokemon.level,pokemon.held_items.clone())
     }
 }
 
-fn scale_pokemon(pokemon: pokemon::Pokemon,level: i32,all_stats: &Vec<pokemon::PokemonStats>,settings: &mut settings::Settings) -> PokemonStats{
+pub fn scale_pokemon(pokemon: pokemon::Pokemon,level: i32,all_stats: &Vec<pokemon::PokemonStats>,settings: &mut settings::Settings) -> PokemonStats{
     let stats = get_pokemon_data(pokemon, all_stats).clone();
     if !settings.trainers_scale{
         return stats;
@@ -238,8 +251,114 @@ fn randomize_next_evolutions(mut next_evolutions: Vec<pokemon::Pokemon>,settings
     return return_values;
 }
 
-struct Starter{
+fn create_moveset(settings: &mut settings::Settings,pokemon: pokemon::Pokemon,level: i32,old_moveset: Vec<String>) -> Vec<String>{
+    //Placeholder for now, functionality will be added later
+    old_moveset
+}
+fn create_held_item(settings: &mut settings::Settings,pokemon: pokemon::Pokemon,level: i32,old_item: String) -> String{
+    //Placeholder for now, functionality will be added later
+    old_item
+}
+
+pub struct Starter{
     treeko: PokemonStats,
     torchic: PokemonStats,
     mudkip: PokemonStats
+}
+
+fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> (MayBrendanTeam,WallyTeam){
+    let mut fake_rival = Trainer{
+        trainer_name: "rival".to_string(),
+        pokemon: vec![
+            TrainerPokemon{
+                iv: 150,
+                level: 31,
+                species: pokemon::Pokemon::Tropius,
+                moves: Vec::new(),
+                held_items: "".to_string()
+            },
+            TrainerPokemon{
+                iv: 150,
+                level: 32,
+                species: pokemon::Pokemon::Ludicolo,
+                moves: Vec::new(),
+                held_items: "".to_string()
+            },
+            TrainerPokemon{
+                iv: 150,
+                level: 32,
+                species: pokemon::Pokemon::Slugma,
+                moves: Vec::new(),
+                held_items: "".to_string()
+            }
+        ]
+    };
+    fake_rival = get_random_trainer(fake_rival,settings,pokemon_data);
+    let may_team = MayBrendanTeam{
+        pokemon2: fake_rival.pokemon[0].species,
+        pokemon3: fake_rival.pokemon[1].species,
+        pokemon4: fake_rival.pokemon[2].species,
+    };
+    let mut fake_wally = Trainer{
+        trainer_name: "wally".to_string(),
+        pokemon: vec![
+            TrainerPokemon{
+                iv: 150,
+                level: 44,
+                species: pokemon::Pokemon::Altaria,
+                moves: Vec::new(),
+                held_items: "".to_string()
+            },
+            TrainerPokemon{
+                    iv: 150,
+                    level: 43,
+                    species: pokemon::Pokemon::Delcatty,
+                    moves: Vec::new(),
+                    held_items: "".to_string()
+                },
+            TrainerPokemon{
+                iv: 150,
+                level: 44,
+                species: pokemon::Pokemon::Roselia,
+                moves: Vec::new(),
+                held_items: "".to_string()
+            },
+            TrainerPokemon{
+                iv: 150,
+                level: 41,
+                species: pokemon::Pokemon::Magneton,
+                moves: Vec::new(),
+                held_items: "".to_string()
+            },
+            TrainerPokemon{
+                iv: 150,
+                level: 45,
+                species: pokemon::Pokemon::Gardevoir,
+                moves: Vec::new(),
+                held_items: "".to_string()
+            }
+        ]
+    };
+    fake_wally = get_random_trainer(fake_wally, settings, pokemon_data);
+    let wally_team = WallyTeam{
+        ralt_substitute: fake_wally.pokemon[4].species,
+        pokemon2: fake_wally.pokemon[0].species,
+        pokemon3: fake_wally.pokemon[1].species,
+        pokemon4: fake_wally.pokemon[2].species,
+        pokemon5: fake_wally.pokemon[3].species
+    };
+    (may_team,wally_team)
+}
+
+pub struct MayBrendanTeam{
+    pub pokemon2: pokemon::Pokemon,
+    pub pokemon3: pokemon::Pokemon,
+    pub pokemon4: pokemon::Pokemon,
+}
+pub struct WallyTeam{
+    pub ralt_substitute: pokemon::Pokemon,
+    pub pokemon2: pokemon::Pokemon,
+    pub pokemon3: pokemon::Pokemon,
+    pub pokemon4: pokemon::Pokemon,
+    pub pokemon5: pokemon::Pokemon,
 }
