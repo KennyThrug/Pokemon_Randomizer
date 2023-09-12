@@ -4,7 +4,7 @@ Launcher (and possibly runner) for a randomizer pokemon
 ## Features:
 
 - [ ] Launcher to set settings
-- [ ] Automatic Compilation of Roms
+- [x] Automatic Compilation of Roms
 - [ ] Up to Generation 8 pokemon
 - [ ] Physical Special Split Implemented
 

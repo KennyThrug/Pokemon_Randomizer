@@ -38,43 +38,43 @@
         <span class="slider round"></span>
       </label>
       <div id="WildPokemonVisible" style="display: none;">
-      <h4>Allow Pokemon from future generations</h4>
-      <label class="switch">
-        <input type="checkbox" id="allow_pokemon_future_generation">
-        <span class="slider round"></span>
-      </label>
-      <h4>Wild pokemon Scale with Routes</h4>
-      <label class="switch">
-        <input type="checkbox" id="ScaleWithRoutes">
-        <span class="slider round"></span>
-      </label>
-      <h4>Allow Legendaries to be randomized as Wild Pokemon</h4>
-      <div>
-        <input type="radio" id="AllowLegends" name="WildLegends" value="AllowLegends" checked>
-        <label for="AllowLegends">Allow Legendary Pokemon</label>
+        <h4>Allow Pokemon from future generations</h4>
+        <label class="switch">
+          <input type="checkbox" id="allow_pokemon_future_generation">
+          <span class="slider round"></span>
+        </label>
+        <h4>Wild pokemon Scale with Routes</h4>
+        <label class="switch">
+          <input type="checkbox" id="ScaleWithRoutes">
+          <span class="slider round"></span>
+        </label>
+        <h4>Allow Legendaries to be randomized as Wild Pokemon</h4>
+        <div>
+          <input type="radio" id="AllowLegends" name="WildLegends" value="AllowLegends" checked>
+          <label for="AllowLegends">Allow Legendary Pokemon</label>
+        </div>
+        <div>
+          <input type="radio" id="SometimesLegends" name="WildLegends" value="SometimesLegends">
+          <label for="SometimesLegends">Rarely allow Legendary Pokemon</label>
+        </div>
+        <div>
+          <input type="radio" id="NoLegends" name="WildLegends" value="NoLegends">
+          <label for="NoLegends">Do not Allow Legendary Pokemon</label>
+        </div>
+        <h4>Allow Mega Evolutions to be randomized as Wild Pokemon</h4>
+        <div>
+          <input type="radio" id="AllowMegas" name="WildMegas" value="AllowLegends" checked>
+          <label for="AllowLegends">Allow Mega Evolved Pokemon</label>
+        </div>
+        <div>
+          <input type="radio" id="SometimesMegas" name="WildMegas" value="SometimesLegends">
+          <label for="SometimesLegends">Rarely allow Mega Evolved Pokemon</label>
+        </div>
+        <div>
+          <input type="radio" id="NoMegas" name="WildMegas" value="NoLegends">
+          <label for="NoLegends">Do not Allow Mega Evolved Pokemon</label>
+        </div>
       </div>
-      <div>
-        <input type="radio" id="SometimesLegends" name="WildLegends" value="SometimesLegends">
-        <label for="SometimesLegends">Rarely allow Legendary Pokemon</label>
-      </div>
-      <div>
-        <input type="radio" id="NoLegends" name="WildLegends" value="NoLegends">
-        <label for="NoLegends">Do not Allow Legendary Pokemon</label>
-      </div>
-      <h4>Allow Mega Evolutions to be randomized as Wild Pokemon</h4>
-      <div>
-        <input type="radio" id="AllowMegas" name="WildMegas" value="AllowLegends" checked>
-        <label for="AllowLegends">Allow Mega Evolved Pokemon</label>
-      </div>
-      <div>
-        <input type="radio" id="SometimesMegas" name="WildMegas" value="SometimesLegends">
-        <label for="SometimesLegends">Rarely allow Mega Evolved Pokemon</label>
-      </div>
-      <div>
-        <input type="radio" id="NoMegas" name="WildMegas" value="NoLegends">
-        <label for="NoLegends">Do not Allow Mega Evolved Pokemon</label>
-      </div>
-    </div>
     </div>
     <!--Starter Pokemon-->
     <div id="Starter Pokemon" class="tabcontent">
@@ -110,31 +110,34 @@
         <span class="slider round"></span>
       </label>
       <div id="TrainersAppear" style="display: none;">
-      <h4>Trainer Pokemon Scale with Routes</h4>
-      <label class="switch">
-        <input type="checkbox" id="TrainerScaleRoutes">
-        <span class="slider round"></span>
-      </label>
-      <h4>Trainer Pokemon can have legendaries?</h4>
-      <div>
-        <input type="radio" id="TrainerAllowLegends" name="TrainerLegends" value="TrainerAllowLegends" onclick="updateTrainerTab()" checked>
-        <label for="TrainerAllowLegends">Allow Legendaries</label>
-      </div>
-      <div>
-        <input type="radio" id="TrainersOneLegendary" name="TrainerLegends" value="TrainersOneLegendary" onclick="updateTrainerTab()">
-        <label for="TrainersOneLegendary">One Legendary Max Per Team</label>
-      </div>
-      <div>
-        <input type="radio" id="TrainersNoLegendary" name="TrainerLegends" value="TrainersNoLegendary" onclick="updateTrainerTab()">
-        <label for="TrainersNoLegendary">No Legendaries</label>
-      </div>
-      <div id="TrainerLegendaryPokemonRareAppear">
-        <h4>Make Legendary Pokemon Rare</h4>
+        <h4>Trainer Pokemon Scale with Routes</h4>
         <label class="switch">
-          <input type="checkbox" id="TrainerLegendRare">
+          <input type="checkbox" id="TrainerScaleRoutes">
           <span class="slider round"></span>
         </label>
-      </div>
+        <h4>Trainer Pokemon can have legendaries?</h4>
+        <div>
+          <input type="radio" id="TrainerAllowLegends" name="TrainerLegends" value="TrainerAllowLegends"
+            onclick="updateTrainerTab()" checked>
+          <label for="TrainerAllowLegends">Allow Legendaries</label>
+        </div>
+        <div>
+          <input type="radio" id="TrainersOneLegendary" name="TrainerLegends" value="TrainersOneLegendary"
+            onclick="updateTrainerTab()">
+          <label for="TrainersOneLegendary">One Legendary Max Per Team</label>
+        </div>
+        <div>
+          <input type="radio" id="TrainersNoLegendary" name="TrainerLegends" value="TrainersNoLegendary"
+            onclick="updateTrainerTab()">
+          <label for="TrainersNoLegendary">No Legendaries</label>
+        </div>
+        <div id="TrainerLegendaryPokemonRareAppear">
+          <h4>Make Legendary Pokemon Rare</h4>
+          <label class="switch">
+            <input type="checkbox" id="TrainerLegendRare">
+            <span class="slider round"></span>
+          </label>
+        </div>
       </div>
     </div>
     <!--Gyms-->
