@@ -20,9 +20,9 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Randomize Starter Pokemon
 - [x] Allow Legendaries as Starters
 - [x] Force Starter to be first stage or baby pokemon
-- [ ] Have May/Brendan keep other Starter
-- [ ] Have Wally keep Raltz randomization
-- [ ] Have Wally keep Pokemon
+- [x] Have May/Brendan keep other Starter
+- [x] Have May/Brendan keep Whole Team
+- [x] Have Wally keep Raltz randomization
 ### Trainer Randomization
 - [x] Randomize Trainer Pokemon
 - [x] Trainer Pokemon Scale with Routes

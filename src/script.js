@@ -66,6 +66,10 @@ function openTab(evt, tabName) {
       trainers_scale: document.getElementById("TrainerScaleRoutes").checked,
       allow_trainer_legendaries: get_trainer_legends(),
       trainer_legendaries_rare: document.getElementById("TrainerLegendRare").checked,
+      //Rival Randomization
+      rival_keeps_starter: document.getElementById("RivalKeepStarter").checked,
+      rival_consistent_team: document.getElementById("RivalKeepTeam").checked,
+      wally_keeps_starter: document.getElementById("WallyRaltz").checked,
       //Gym Leader Randomization
       allow_leader_legendaries: "OneLegend",
       gym_type: "RandomType",

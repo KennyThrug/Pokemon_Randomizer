@@ -3,6 +3,7 @@ use rand::{Rng, rngs::StdRng, SeedableRng};
 
 //Contains the settings for all the games, big ass struct probably
 //Not all settings are implemented, see README for more information
+#[derive(Clone)]
 pub struct Settings{
     //Seed
     pub seed: String,
@@ -22,6 +23,10 @@ pub struct Settings{
     pub trainers_scale: bool,
     pub allow_trainer_legendaries: AllowLegendaries,
     pub trainer_legendaries_rare: bool,
+    //Rival Randomization
+    pub rival_keeps_starter: bool,
+    pub rival_consistent_team: bool,
+    pub wally_keeps_starter: bool,
     //Gym Leader Randomization
     pub allow_leader_legendaries: AllowLegendaries,
     pub gym_type: GymType,
@@ -46,7 +51,7 @@ pub struct Settings{
     pub allow_hm_use: bool,
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq,Clone)]
 pub enum LegendRarity{
     AlwaysLegendary,
     SometimesLegendary,//Will allow it to be legendary, but wont force it
@@ -54,7 +59,7 @@ pub enum LegendRarity{
     NotLegendary
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq,Clone)]
 pub enum AllowLegendaries{
     NoLegends,
     OneLegend,
@@ -68,11 +73,13 @@ pub enum WildLegends{
     SometimesLegends, //Tries not to have legends, but sometimes fails
     AllowLegends //Allows Legends in same pool as regular pokemon
 }
+#[derive(Clone)]
 pub enum GymType{
     CompletelyRandom,
     KeepType,
     RandomType
 }
+#[derive(Clone)]
 pub enum GymLocationRandomization{
     NoRandomization,
     RandomizeWithinGame,
@@ -102,6 +109,10 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         trainers_scale: parsed_json["trainers_scale"].as_bool().unwrap(),
         allow_trainer_legendaries: convert_string_to_allow_legendaries(parsed_json["allow_trainer_legendaries"].to_string()),
         trainer_legendaries_rare: parsed_json["trainer_legendaries_rare"].as_bool().unwrap(),
+        //Rival Randomization
+        rival_keeps_starter: parsed_json["rival_keeps_starter"].as_bool().unwrap(),
+        rival_consistent_team: parsed_json["rival_consistent_team"].as_bool().unwrap(),
+        wally_keeps_starter: parsed_json["wally_keeps_starter"].as_bool().unwrap(),
         //Gym Leader Randomization
         allow_leader_legendaries: convert_string_to_allow_legendaries(parsed_json["allow_leader_legendaries"].to_string()),
         gym_type: convert_string_to_gym_type(parsed_json["gym_type"].to_string()),

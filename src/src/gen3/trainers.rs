@@ -110,6 +110,7 @@ pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemo
     let starters = randomize_starter_pokemon(settings, all_stats);
     println!("Test1");
     let (rival_team,wally_team) = create_rival_teams(settings, all_stats);
+    println!("rival team member 1: {}",pokemon::format_pokemon_name(get_pokemon_data(rival_team.pokemon2,all_stats).pokemon_name));
     println!("Test2");
     static_pokemon::randomize_static_pokemon(settings, all_stats, &rival_team, &wally_team);
     for i in 0..trainer_data.len(){
@@ -168,7 +169,7 @@ fn randomize_starter_pokemon(settings: &mut settings::Settings,all_stats: &Vec<p
     };
 }
 
-fn get_random_trainer(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> Trainer{
+pub fn get_random_trainer(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> Trainer{
     let mut trainer_pkmn: Vec<TrainerPokemon> = Vec::new();
     let mut has_legend = false;
     for cur_pkmn in trainer.pokemon{
@@ -231,12 +232,12 @@ pub fn scale_pokemon(pokemon: pokemon::Pokemon,level: i32,all_stats: &Vec<pokemo
         return stats;
     }
     if get_pokemon_data(pokemon, all_stats).min_level > level as i16{
-        println!("Test Going Down, min lvl: {}.{}",get_pokemon_data(pokemon,all_stats).pokemon_name,level);
+        //println!("Test Going Down, min lvl: {}.{}",get_pokemon_data(pokemon,all_stats).pokemon_name,level);
         return scale_pokemon(get_pokemon_data(pokemon,all_stats).evolve_from, level, all_stats, settings)
     }
     for cur_evolution in randomize_next_evolutions(get_pokemon_data(pokemon, all_stats).evolve_into.clone(),settings){
         if get_pokemon_data(cur_evolution, all_stats).min_level <= level as i16{
-            println!("Test Going Up: {}, min lvl: {}",get_pokemon_data(cur_evolution, all_stats).pokemon_name,level);
+            //println!("Test Going Up: {}, min lvl: {}",get_pokemon_data(cur_evolution, all_stats).pokemon_name,level);
             return scale_pokemon(cur_evolution, level, all_stats, settings);
         }
     }
@@ -251,19 +252,19 @@ fn randomize_next_evolutions(mut next_evolutions: Vec<pokemon::Pokemon>,settings
     return return_values;
 }
 
-fn create_moveset(settings: &mut settings::Settings,pokemon: pokemon::Pokemon,level: i32,old_moveset: Vec<String>) -> Vec<String>{
+pub fn create_moveset(settings: &mut settings::Settings,pokemon: pokemon::Pokemon,level: i32,old_moveset: Vec<String>) -> Vec<String>{
     //Placeholder for now, functionality will be added later
     old_moveset
 }
-fn create_held_item(settings: &mut settings::Settings,pokemon: pokemon::Pokemon,level: i32,old_item: String) -> String{
+pub fn create_held_item(settings: &mut settings::Settings,pokemon: pokemon::Pokemon,level: i32,old_item: String) -> String{
     //Placeholder for now, functionality will be added later
     old_item
 }
 
 pub struct Starter{
-    treeko: PokemonStats,
-    torchic: PokemonStats,
-    mudkip: PokemonStats
+    pub treeko: PokemonStats,
+    pub torchic: PokemonStats,
+    pub mudkip: PokemonStats
 }
 
 fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> (MayBrendanTeam,WallyTeam){
