@@ -2,6 +2,8 @@ use crate::src::pokemon::LegendStatus;
 use crate::src::settings;
 use crate::src::pokemon;
 use std::fs;
+use std::option;
+use super::emerald::other;
 use super::trainers;
 
 //If you want the starters, they are going to be in the Trainers file
@@ -64,19 +66,26 @@ pub fn get_random_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &
 }
 
 //Gets a pokemon thats guarenteed to be a legendary
-pub fn get_legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>,level: i32) -> pokemon::PokemonStats{
+pub fn get_legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>,level: i32,other_legends: &mut Vec<pokemon::Pokemon>) -> pokemon::PokemonStats{
     let rand_val = settings::get_next_seed(0, pokemon_data.len() as i32, settings);
     let pokemon = pokemon_data[rand_val as usize].clone();
     if settings.force_legendaries_to_legendaries == settings::LegendRarity::AlwaysLegendary && !(pokemon.status == LegendStatus::LegendMega || pokemon.status == LegendStatus::Legendary){
-        return get_legendary_pokemon(settings, pokemon_data, level);
+        return get_legendary_pokemon(settings, pokemon_data, level,other_legends);
     }
-    else if settings.force_legendaries_to_legendaries == settings::LegendRarity::LikelyLegendary && !(pokemon.status == LegendStatus::LegendMega ||pokemon.status == LegendStatus::Legendary){
+    if settings.force_legendaries_to_legendaries == settings::LegendRarity::LikelyLegendary && !(pokemon.status == LegendStatus::LegendMega ||pokemon.status == LegendStatus::Legendary){
         if !settings::get_next_seed(0, 200, settings) == 0{
-            return get_legendary_pokemon(settings, pokemon_data, level);
+            return get_legendary_pokemon(settings, pokemon_data, level,other_legends);
         }
     }
-    else if settings.force_legendaries_to_legendaries == settings::LegendRarity::NotLegendary && (pokemon.status == LegendStatus::LegendMega ||pokemon.status == LegendStatus::Legendary){
-        return get_legendary_pokemon(settings, pokemon_data, level);
+    if settings.force_legendaries_to_legendaries == settings::LegendRarity::NotLegendary && (pokemon.status == LegendStatus::LegendMega ||pokemon.status == LegendStatus::Legendary){
+        return get_legendary_pokemon(settings, pokemon_data, level,other_legends);
     }
+    //Makes sure that no double legendaries exist. This isn't a feature I /want/ But a requirement for everything to compile correctly unfortunetly.
+    for i in other_legends.clone(){
+        if pokemon.pokemon_id == i{
+            return get_legendary_pokemon(settings, pokemon_data, level, other_legends);
+        }
+    }
+    other_legends.push(pokemon.pokemon_id);
     return trainers::scale_pokemon(pokemon.pokemon_id, level, pokemon_data, settings);
 }

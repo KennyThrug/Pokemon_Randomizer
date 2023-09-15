@@ -21,7 +21,7 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
     trainers::shuffle_trainers(settings,&pkmn_data);
     other::randomize_birch_pokemon(settings, &pkmn_data);
     setup_evolution_fixes(settings);
-    //build_rom(settings);
+    build_rom(settings);
 }
 
 pub fn build_rom(settings : &mut settings::Settings){

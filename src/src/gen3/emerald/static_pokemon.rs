@@ -1,5 +1,5 @@
 use crate::src::gen3::trainers::{scale_pokemon, WallyTeam, MayBrendanTeam};
-use crate::src::pokemon::{format_pokemon_name, PokemonStats};
+use crate::src::pokemon::{format_pokemon_name, PokemonStats, Pokemon};
 use crate::src::settings;
 use crate::src::gen3::wild_pokemon::get_legendary_pokemon;
 use std::fs;
@@ -29,17 +29,19 @@ pub fn randomize_static_pokemon(settings: &mut settings::Settings,pokemon_data: 
             fs::read_to_string(format!("data/emerald/battle_setup/pt{}",i)).expect("Could not Read")
         );
     }
+    let mut all_legends :Vec<Pokemon> = Vec::new();//This is a dumb fuckin hack that I should have forseen but I dont want to rewrite all my code so here we are
+                                                    //All this variable does is make sure that there are no duplicate legends because that causes problems with a switch statement later on
     //Legendary Pokemon
-    let groudon = get_legendary_pokemon(settings, pokemon_data, 70);
-    let kyogre = get_legendary_pokemon(settings, pokemon_data, 70);
-    let regirock = get_legendary_pokemon(settings, pokemon_data, 40);
-    let regice = get_legendary_pokemon(settings, pokemon_data, 40);
-    let registeel = get_legendary_pokemon(settings, pokemon_data, 40);
-    let rayquaza = get_legendary_pokemon(settings, pokemon_data, 70);
-    let mew = get_legendary_pokemon(settings, pokemon_data, 30);
-    let lugia = get_legendary_pokemon(settings, pokemon_data, 70);
-    let hooh = get_legendary_pokemon(settings, pokemon_data, 70);
-    let deoxys = get_legendary_pokemon(settings, pokemon_data, 30);
+    let groudon = get_legendary_pokemon(settings, pokemon_data, 70,&mut all_legends);
+    let kyogre = get_legendary_pokemon(settings, pokemon_data, 70,&mut all_legends);
+    let regirock = get_legendary_pokemon(settings, pokemon_data, 40,&mut all_legends);
+    let regice = get_legendary_pokemon(settings, pokemon_data, 40,&mut all_legends);
+    let registeel = get_legendary_pokemon(settings, pokemon_data, 40,&mut all_legends);
+    let rayquaza = get_legendary_pokemon(settings, pokemon_data, 70,&mut all_legends);
+    let mew = get_legendary_pokemon(settings, pokemon_data, 30,&mut all_legends);
+    let lugia = get_legendary_pokemon(settings, pokemon_data, 70,&mut all_legends);
+    let hooh = get_legendary_pokemon(settings, pokemon_data, 70,&mut all_legends);
+    let deoxys = get_legendary_pokemon(settings, pokemon_data, 30,&mut all_legends);
 
     //Setup file
     fs::write("decomp/pokeemerald-expansion/src/battle_setup.c", format!("{}{}{}{}:
