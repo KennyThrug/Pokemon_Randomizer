@@ -1,4 +1,4 @@
-use crate::src::{gen3::trainers::{Trainer, self, TrainerPokemon, scale_pokemon, MayBrendanTeam}, settings, pokemon};
+use crate::src::{gen3::{trainers::{Trainer, self, TrainerPokemon, scale_pokemon, MayBrendanTeam}, starter_randomization}, settings, pokemon};
 
 
 
@@ -27,7 +27,7 @@ pub fn check_if_special_trainer(trainer: Trainer) -> bool{
 //Pick Treeko -> Rival gets Torchic
 //Pick Mudkip -> Rival gets Treeko
 pub fn handle_special_trainer(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,
-    starters: &trainers::Starter,rival: &trainers::MayBrendanTeam,wally: &trainers::WallyTeam) -> Trainer{
+    starters: &starter_randomization::Starter,rival: &trainers::MayBrendanTeam,wally: &trainers::WallyTeam) -> Trainer{
         match trainer.trainer_name.as_str(){
             //Wally's
             "sParty_WallyMauville" => if settings.wally_keeps_starter{handle_wally(settings, all_stats, trainer.trainer_name, 1, wally)}else{trainers::get_random_trainer(trainer, settings, all_stats)},
