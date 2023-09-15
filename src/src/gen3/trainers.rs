@@ -1,10 +1,11 @@
 use std::fs;
-use crate::src::{settings, pokemon::{PokemonStats, get_pokemon_data, Pokemon}};
+use crate::src::{settings, pokemon::{PokemonStats, get_pokemon_data}};
 use json::{self, JsonValue::Null};
 
 use crate::src::pokemon;
+use crate::src::gen3::starter_randomization;
 
-use super::{wild_pokemon, emerald::{special_trainers::{self, handle_special_trainer}, static_pokemon}};
+use super::emerald::{static_pokemon, special_trainers::{handle_special_trainer, self}};
 
 #[derive(Clone)]
 pub struct Trainer{
@@ -105,13 +106,11 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
     //Read JSON file and put data in data
     return all_trainers;
 }
-pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>){
-    let mut trainer_data = read_all_trainers("data/emerald/trainer_parties.json".to_string(),all_stats);
-    let starters = randomize_starter_pokemon(settings, all_stats);
-    println!("Test1");
+pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,trainer_parties_read_filename: String,trainer_parties_write_filename: String,starters: starter_randomization::Starter){
+    let mut trainer_data = read_all_trainers(trainer_parties_read_filename,all_stats);
     let (rival_team,wally_team) = create_rival_teams(settings, all_stats);
-    println!("rival team member 1: {}",pokemon::format_pokemon_name(get_pokemon_data(rival_team.pokemon2,all_stats).pokemon_name));
-    println!("Test2");
+    //println!("rival team member 1: {}",pokemon::format_pokemon_name(get_pokemon_data(rival_team.pokemon2,all_stats).pokemon_name));
+    //println!("Test2");
     static_pokemon::randomize_static_pokemon(settings, all_stats, &rival_team, &wally_team);
     for i in 0..trainer_data.len(){
         if special_trainers::check_if_special_trainer(trainer_data[i].clone()){
@@ -122,51 +121,7 @@ pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemo
         }
     }
     //println!("len: {}",trainer_data.len());
-    write_trainers_to_file("decomp/pokeemerald-expansion/src/data/trainer_parties.h".to_string(), trainer_data,all_stats);
-}
-
-fn randomize_starter_pokemon(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> Starter{
-    //Settings bullshit to make the preset settings work
-    let temp_legend_set = settings.allow_legends_in_wild_pool.clone();
-    let temp_scale = settings.scale_wild_pokemon.clone();
-    settings.allow_legends_in_wild_pool = settings.allow_starter_legendary.clone();
-    settings.scale_wild_pokemon = settings.scale_starter.clone();
-    let starters: Starter = 
-    if settings.randomize_starter_pokemon{
-        Starter{
-            treeko: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 5),all_stats),all_stats),
-            torchic: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 5),all_stats),all_stats),
-            mudkip: get_pokemon_data(pokemon::get_pokemon_from_name(wild_pokemon::get_random_wild_pokemon(settings, all_stats, 5),all_stats),all_stats)
-        }
-    }
-    else{
-        Starter{
-            treeko: get_pokemon_data(pokemon::Pokemon::Treecko, all_stats),
-            torchic: get_pokemon_data(pokemon::Pokemon::Torchic, all_stats),
-            mudkip: get_pokemon_data(pokemon::Pokemon::Mudkip, all_stats)
-        }
-    };
-    //Setting to file
-    let part1 = fs::read_to_string("data/emerald/starter_choose.c").unwrap();
-    let part2 = fs::read_to_string("data/emerald/starter_choose_2.c").unwrap();
-
-
-    fs::write("decomp/pokeemerald-expansion/src/starter_choose.c",format!("{}\n{},\n{},\n{}\n{}",
-    part1,
-    pokemon::format_pokemon_name(starters.treeko.pokemon_name.clone()),
-    pokemon::format_pokemon_name(starters.torchic.pokemon_name.clone()),
-    pokemon::format_pokemon_name(starters.mudkip.pokemon_name.clone()),
-    part2).to_string()).expect("could not write to file starter_choose.c");
-    println!("Successfully wrote to file: src/starter_choose.c");
-    //Resetting settings so this doesn't mess anything else up
-    settings.allow_legends_in_wild_pool = temp_legend_set;
-    settings.scale_starter = temp_scale;
-
-    return Starter{
-        treeko: scale_pokemon(starters.treeko.pokemon_id, 34, all_stats, settings),
-        torchic: scale_pokemon(starters.torchic.pokemon_id, 34, all_stats, settings),
-        mudkip: scale_pokemon(starters.mudkip.pokemon_id, 34, all_stats, settings)
-    };
+    write_trainers_to_file(trainer_parties_write_filename, trainer_data,all_stats);
 }
 
 pub fn get_random_trainer(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> Trainer{
@@ -259,12 +214,6 @@ pub fn create_moveset(settings: &mut settings::Settings,pokemon: pokemon::Pokemo
 pub fn create_held_item(settings: &mut settings::Settings,pokemon: pokemon::Pokemon,level: i32,old_item: String) -> String{
     //Placeholder for now, functionality will be added later
     old_item
-}
-
-pub struct Starter{
-    pub treeko: PokemonStats,
-    pub torchic: PokemonStats,
-    pub mudkip: PokemonStats
 }
 
 fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> (MayBrendanTeam,WallyTeam){

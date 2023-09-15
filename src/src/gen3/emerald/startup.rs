@@ -6,9 +6,8 @@ use crate::src::settings;
 use crate::src::gen3::wild_pokemon;
 use crate::src::gen3::trainers;
 use crate::src::gen3::emerald::other;
+use crate::src::gen3::starter_randomization;
 use std::env;
-use crate::src::settings::Settings;
-use rand::{Rng, rngs::StdRng, SeedableRng};
 //File that contains the functions that will be called by the launcher
 
 //Randomizes every pokemon in the game according to json file
@@ -18,7 +17,8 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
     println!("Starting Rom Randomization Process");
     let pkmn_data = read_all_pokemon();
     wild_pokemon::randomize_wild_pokemon(settings,&pkmn_data);
-    trainers::shuffle_trainers(settings,&pkmn_data);
+    let starters = starter_randomization::randomize_starter_pokemon(settings, &pkmn_data,"data/emerald/starter_choose.c".to_string(),"data/emerald/starter_choose_2.c".to_string(),"decomp/pokeemerald-expansion/src/starter_choose.c".to_string());
+    trainers::shuffle_trainers(settings,&pkmn_data,"data/emerald/trainer_parties.json".to_string(),"decomp/pokeemerald-expansion/src/data/trainer_parties.h".to_string(),starters);
     other::randomize_birch_pokemon(settings, &pkmn_data);
     setup_evolution_fixes(settings);
     build_rom(settings);

@@ -2,8 +2,6 @@ use crate::src::pokemon::LegendStatus;
 use crate::src::settings;
 use crate::src::pokemon;
 use std::fs;
-use std::option;
-use super::emerald::other;
 use super::trainers;
 
 //If you want the starters, they are going to be in the Trainers file
