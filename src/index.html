@@ -157,11 +157,79 @@
     </div>
     <!--Gyms-->
     <div id="Gyms" class="tabcontent">
-
+      <h4>Gym Leader Keys</h4>
+      <label class="switch">
+        <input type="checkbox" id="GymLeaderKeys">
+        <span class="slider round"></span>
+      </label>
     </div>
     <!--Items-->
     <div id="Items" class="tabcontent">
-
+      <h4>Randomize Items</h4>
+      <label class="switch">
+        <input type="checkbox" id="RandomizeItems" onclick="updateItemTab()">
+        <span class="slider round"></span>
+      </label>
+      <div id="ItemsAppear" style="display: none">
+        <div>
+          <h4>Include Held items in pool</h4>
+          <label class="switch">
+            <input type="checkbox" id="HeldItemsInPool">
+            <span class="slider round"></span>
+          </label>
+          <h4>Include items from later gens</h4>
+          <label class="switch">
+            <input type="checkbox" id="LaterGenItemsInPool">
+            <span class="slider round"></span>
+          </label>
+          <h4>Number of Rare Candies in Pool</h4>
+          <input type="number" id="NumberRareCandies", value="200">
+          <h4>Add Healing Items into the pool</h4>
+          <label class="switch">
+            <input type="checkbox" id="HealingItems">
+            <span class="slider round"></span>
+          </label>
+          <h4>Trainers give items</h4>
+          <label class="switch">
+            <input type="checkbox" id="TrainersGiveItems">
+            <span class="slider round"></span>
+          </label>
+          <h4>Allow Pokeballs from store</h4>
+          <label class="switch">
+            <input type="checkbox" id="PokeballsNotInStores">
+            <span class="slider round"></span>
+          </label>
+          <h4>All Pokeballs act as Master Balls</h4>
+          <label class="switch">
+            <input type="checkbox" id="PokeballsMasterBall">
+            <span class="slider round"></span>
+          </label>
+          <h4>Number of Pokeballs in Pool</h4>
+          <input type="number" id="NumberPokeballs", value="20">
+          <h4>Randomize Store contents</h4>
+          <label class="switch">
+            <input type="checkbox" id="RandomizeStore">
+            <span class="slider round"></span>
+          </label>
+          <h4>Randomize HM's</h4>
+          <label class="switch">
+            <input type="checkbox" id="RandomizeHMs">
+            <span class="slider round"></span>
+          </label>
+          <h4>Number of duplicate HM's in Pool</h4>
+          <input type="number" id="NumHMs", value="4">
+          <h4>Randomize Key Items</h4>
+          <label class="switch">
+            <input type="checkbox" id="RandomizeKeyItems">
+            <span class="slider round"></span>
+          </label>
+          <h4>Randomize Hidden Items</h4>
+          <label class="switch">
+            <input type="checkbox" id="RandomizeHiddenItems">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
     </div>
     <!--Other-->
     <div id="Other" class="tabcontent">

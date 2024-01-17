@@ -44,7 +44,14 @@ function openTab(evt, tabName) {
       document.getElementById("TrainerLegendaryPokemonRareAppear").style.display = "block";
     }
   }
-
+  function updateItemTab(evt){
+    if(document.getElementById("RandomizeItems").checked){
+      document.getElementById("ItemsAppear").style.display = "block"
+    }
+    else{
+      document.getElementById("ItemsAppear").style.display = "none"
+    }
+  }
 
   //--------------------------------------------All Below this Line is functionallity and Helpers for Generating Seeds -------------------------------------------------------
   function convertToJson(){
@@ -76,17 +83,22 @@ function openTab(evt, tabName) {
       recieve_pokemon_reward_gym: true,
       randomize_gym_locations: false,
       //Item Randomization
-      add_rare_candy: 10,
-      add_held_items: true,
-      add_held_items_later_gens: true,
-      items_from_trainers: true,
-      important_items_only_from_trainers: false,
-      add_pokeballs: 10,
-      allow_pokeballs_from_store: false,
-      make_balls_reusable: true,
-      allow_healing_items: true,
-      randomize_hidden_items: false,
-      gym_leader_keys: true,
+      randomize_items: document.getElementById("RandomizeItems").checked,
+      add_rare_candy: document.getElementById("NumberRareCandies").value,
+      add_held_items: document.getElementById("HeldItemsInPool").checked,
+      add_held_items_later_gens: document.getElementById("LaterGenItemsInPool").checked,
+      items_from_trainers: document.getElementById("TrainersGiveItems").checked,
+      add_pokeballs: document.getElementById("NumberPokeballs").value,
+      allow_pokeballs_from_store: document.getElementById("PokeballsNotInStores").checked,
+      make_pokeballs_masterballs: document.getElementById("PokeballsMasterBall").checked,
+      randomize_stores: document.getElementById("RandomizeStore").checked,
+      randomize_hms: document.getElementById("RandomizeHMs").checked,
+      numberhms: document.getElementById("NumHMs").value,
+      randomize_key_items: document.getElementById("RandomizeKeyItems").checked,
+
+      allow_healing_items: document.getElementById("HealingItems").checked,
+      randomize_hidden_items: document.getElementById("RandomizeHiddenItems").checked,
+      gym_leader_keys: document.getElementById("GymLeaderKeys").checked,
       //Evolution Settings
 
       //Other Settings

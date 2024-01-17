@@ -54,6 +54,7 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Randomize Running Shoes
 - [ ] Randomize TMs
 - [ ] Gym Leader Keys
+- [ ] Randomize Berries
 ### Evolution Settings
 - [ ]
 ### Other Settings

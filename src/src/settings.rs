@@ -33,14 +33,18 @@ pub struct Settings{
     pub recieve_pokemon_reward_gym: bool,
     pub randomize_gym_locations: GymLocationRandomization,
     //Item Randomization
+    pub randomize_items: bool,
     pub add_rare_candy: i32, //Number of Rare candies to be added (have default)
     pub add_held_items: bool,
     pub add_held_items_later_gens: bool,
     pub items_from_trainers: bool,
-    pub important_items_only_from_trainers: bool,
     pub add_pokeballs: i32,
     pub allow_pokeballs_from_store: bool,
-    pub make_balls_reusable: bool,
+    pub make_pokeballs_masterballs: bool,
+    pub randomize_stores: bool,
+    pub randomize_hms: bool,
+    pub number_hms: i32,
+    pub randomize_key_items: bool,
     
     pub allow_healing_items: bool,
     pub randomize_hidden_items: bool,
@@ -119,17 +123,21 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         recieve_pokemon_reward_gym: parsed_json["recieve_pokemon_reward_gym"].as_bool().unwrap(),
         randomize_gym_locations: convert_string_to_gym_location(parsed_json["randomize_gym_locations"].to_string()),
         //Item Randomization
-        add_rare_candy: parsed_json["add_rare_candy"].as_i32().unwrap(),
+        randomize_items: parsed_json["randomize_items"].as_bool().unwrap(),
+        add_rare_candy: parsed_json["add_rare_candy"].to_string().parse().unwrap(),
         add_held_items: parsed_json["add_held_items"].as_bool().unwrap(),
         add_held_items_later_gens: parsed_json["add_held_items_later_gens"].as_bool().unwrap(),
         items_from_trainers: parsed_json["items_from_trainers"].as_bool().unwrap(),
-        important_items_only_from_trainers: parsed_json["important_items_only_from_trainers"].as_bool().unwrap(),
-        add_pokeballs: parsed_json["add_pokeballs"].as_i32().unwrap(),
+        add_pokeballs: parsed_json["add_pokeballs"].to_string().parse().unwrap(),
         allow_pokeballs_from_store: parsed_json["allow_pokeballs_from_store"].as_bool().unwrap(),
-        make_balls_reusable: parsed_json["make_balls_reusable"].as_bool().unwrap(),
+        make_pokeballs_masterballs: parsed_json["make_pokeballs_masterballs"].as_bool().unwrap(),
+        randomize_stores: parsed_json["randomize_stores"].as_bool().unwrap(),
         allow_healing_items: parsed_json["allow_healing_items"].as_bool().unwrap(),
         randomize_hidden_items: parsed_json["randomize_hidden_items"].as_bool().unwrap(),
         gym_leader_keys: parsed_json["gym_leader_keys"].as_bool().unwrap(),
+        randomize_hms: parsed_json["randomize_hms"].as_bool().unwrap(),
+        number_hms: parsed_json["numberhms"].to_string().parse().unwrap(),
+        randomize_key_items: parsed_json["randomize_key_items"].as_bool().unwrap(),
         //Evolution Settings
         //Other Settings
         allow_hm_use: parsed_json["allow_hm_use"].as_bool().unwrap()
