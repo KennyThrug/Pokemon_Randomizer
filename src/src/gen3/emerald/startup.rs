@@ -22,7 +22,7 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
     trainers::shuffle_trainers(settings,&pkmn_data,"data/emerald/trainer_parties.json".to_string(),"decomp/pokeemerald-expansion/src/data/trainer_parties.h".to_string(),starters);
     other::randomize_birch_pokemon(settings, &pkmn_data);
     setup_evolution_fixes(settings);
-    item_randomization::randomize_items(settings);
+    item_randomization::randomize_items(settings,&pkmn_data);
     build_rom(settings);
 }
 

@@ -1,7 +1,10 @@
 use std::fs;
 use crate::src::settings;
+use crate::src::gen3::wild_pokemon;
+use crate::src::pokemon;
 
 //Contains all the locations an item could be
+#[derive(Clone)]
 struct Item{
     item_name: String,
     item_script: String,
@@ -11,7 +14,7 @@ struct Item{
     prerequisites: Vec<String>
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq,Clone)]
 enum Location_type{
     ITEM_BALL,
     HIDDEN_ITEM,
@@ -31,7 +34,7 @@ fn parse_location_type(raw_string: String) -> Location_type{
         &_ => Location_type::TRAINER
     }
 }
-#[derive(PartialEq)]
+#[derive(PartialEq,Clone)]
 enum Item_type{
     NORMAL_ITEM,
     TRAINER,
@@ -80,103 +83,151 @@ fn get_all_items(filename: String) -> Vec<Item>{
 
 //Entry point, called by an outside file (i.e. emerald/startup.rs)
 //Doesn't actually do the randomization of the files, but calls functions that do (randomize)
-pub fn randomize_items(settings: &mut settings::Settings){
+pub fn randomize_items(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>){
     let mut all_items = get_all_items("data/emerald/item_locations.csv".to_string());
     //Note: this "randomize" function passes ownership of all_items
-    all_items = randomize(all_items,settings);
+    all_items = randomize(all_items,settings,pokemon_data);
     write_items_to_file("decomp/pokeemerald-expansion/data/scripts/item_ball_scripts.inc".to_string(),all_items);
 }
 
 //Function that handles the actual randomization
-fn randomize(mut all_items: Vec<Item>,settings: &mut settings::Settings) -> Vec<Item>{
+fn randomize(mut all_items: Vec<Item>,settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> Vec<Item>{
     if(settings.randomize_items == false){return all_items;}//No point in this function if randomization is off
     //Step one, get all the items we need to add to the pool
     let mut all_items_to_add = add_items_to_pool(settings);
     //Step two, randomize the items
-    let all_items = randomize_vector_item(settings,all_items);
+    let mut all_items = randomize_vector_item(settings,&mut all_items);
     //Step three, make a banned list of items
     //For example, if HM's aren't enabled, it will add the HM's
-    let banned_list: Vec<String> = Vec::new();
+    let mut banned_list: Vec<String> = Vec::new();
     if settings.randomize_hms == false {
-        banned_list.push_all(["ITEM_HM01","ITEM_HM02","ITEM_HM03","ITEM_HM04","ITEM_HM05","ITEM_HM06","ITEM_HM07","ITEM_HM08"]);
+        banned_list.append(&mut vec![
+            "ITEM_HM01".to_string(),
+            "ITEM_HM02".to_string(),
+            "ITEM_HM03".to_string(),
+            "ITEM_HM04".to_string(),
+            "ITEM_HM05".to_string(),
+            "ITEM_HM06".to_string(),
+            "ITEM_HM07".to_string(),
+            "ITEM_HM08".to_string()
+            ]);
     }
     if settings.randomize_key_items == false{
-        banned_list.push_all([
-            "ITEM_BICYCLE",
-            "ITEM_MACH_BIKE",
-            "ITEM_ACRO_BIKE",
-            "ITEM_OLD_ROD",
-            "ITEM_GOOD_ROD",
-            "ITEM_SUPER_ROD",
-            "ITEM_DOWSING_MACHINE",
-            "ITEM_TOWN_MAP",
-            "ITEM_VS_SEEKER",
-            "ITEM_TM_CASE",
-            "ITEM_BERRY_POUCH",
-            "ITEM_POKEMON_BOX_LINK",
-            "ITEM_COIN_CASE",
-            "ITEM_POWDER_JAR",
-            "ITEM_WAILMER_PAIL",
-            "ITEM_POKE_RADAR",
-            "ITEM_POKEBLOCK_CASE",
-            "ITEM_SOOT_SACK",
-            "ITEM_POKE_FLUTE",
-            "ITEM_FAME_CHECKER",
-            "ITEM_TEACHY_TV",
-            "ITEM_SS_TICKET",
-            "ITEM_EON_TICKET",
-            "ITEM_MYSTIC_TICKET",
-            "ITEM_AURORA_TICKET",
-            "ITEM_OLD_SEA_MAP",
-            "ITEM_LETTER",
-            "ITEM_DEVON_PARTS",
-            "ITEM_GO_GOGGLES",
-            "ITEM_DEVON_SCOPE",
-            "ITEM_BASEMENT_KEY",
-            "ITEM_SCANNER",
-            "ITEM_STORAGE_KEY",
-            "ITEM_KEY_TO_ROOM_1",
-            "ITEM_KEY_TO_ROOM_2",
-            "ITEM_KEY_TO_ROOM_4",
-            "ITEM_KEY_TO_ROOM_6",
-            "ITEM_METEORITE",
-            "ITEM_MAGMA_EMBLEM",
-            "ITEM_CONTEST_PASS",
-            "ITEM_OAKS_PARCEL",
-            "ITEM_SECRET_KEY",
-            "ITEM_BIKE_VOUCHER",
-            "ITEM_GOLD_TEETH",
-            "ITEM_CARD_KEY",
-            "ITEM_LIFT_KEY",
-            "ITEM_SILPH_SCOPE",
-            "ITEM_TRI_PASS",
-            "ITEM_RAINBOW_PASS",
-            "ITEM_TEA",
-            "ITEM_RUBY",
-            "ITEM_SAPPHIRE"
+        banned_list.append(&mut vec![
+            "ITEM_BICYCLE".to_string(),
+            "ITEM_MACH_BIKE".to_string(),
+            "ITEM_ACRO_BIKE".to_string(),
+            "ITEM_OLD_ROD".to_string(),
+            "ITEM_GOOD_ROD".to_string(),
+            "ITEM_SUPER_ROD".to_string(),
+            "ITEM_DOWSING_MACHINE".to_string(),
+            "ITEM_TOWN_MAP".to_string(),
+            "ITEM_VS_SEEKER".to_string(),
+            "ITEM_TM_CASE".to_string(),
+            "ITEM_BERRY_POUCH".to_string(),
+            "ITEM_POKEMON_BOX_LINK".to_string(),
+            "ITEM_COIN_CASE".to_string(),
+            "ITEM_POWDER_JAR".to_string(),
+            "ITEM_WAILMER_PAIL".to_string(),
+            "ITEM_POKE_RADAR".to_string(),
+            "ITEM_POKEBLOCK_CASE".to_string(),
+            "ITEM_SOOT_SACK".to_string(),
+            "ITEM_POKE_FLUTE".to_string(),
+            "ITEM_FAME_CHECKER".to_string(),
+            "ITEM_TEACHY_TV".to_string(),
+            "ITEM_SS_TICKET".to_string(),
+            "ITEM_EON_TICKET".to_string(),
+            "ITEM_MYSTIC_TICKET".to_string(),
+            "ITEM_AURORA_TICKET".to_string(),
+            "ITEM_OLD_SEA_MAP".to_string(),
+            "ITEM_LETTER".to_string(),
+            "ITEM_DEVON_PARTS".to_string(),
+            "ITEM_GO_GOGGLES".to_string(),
+            "ITEM_DEVON_SCOPE".to_string(),
+            "ITEM_BASEMENT_KEY".to_string(),
+            "ITEM_SCANNER".to_string(),
+            "ITEM_STORAGE_KEY".to_string(),
+            "ITEM_KEY_TO_ROOM_1".to_string(),
+            "ITEM_KEY_TO_ROOM_2".to_string(),
+            "ITEM_KEY_TO_ROOM_4".to_string(),
+            "ITEM_KEY_TO_ROOM_6".to_string(),
+            "ITEM_METEORITE".to_string(),
+            "ITEM_MAGMA_EMBLEM".to_string(),
+            "ITEM_CONTEST_PASS".to_string(),
+            "ITEM_OAKS_PARCEL".to_string(),
+            "ITEM_SECRET_KEY".to_string(),
+            "ITEM_BIKE_VOUCHER".to_string(),
+            "ITEM_GOLD_TEETH".to_string(),
+            "ITEM_CARD_KEY".to_string(),
+            "ITEM_LIFT_KEY".to_string(),
+            "ITEM_SILPH_SCOPE".to_string(),
+            "ITEM_TRI_PASS".to_string(),
+            "ITEM_RAINBOW_PASS".to_string(),
+            "ITEM_TEA".to_string(),
+            "ITEM_RUBY".to_string(),
+            "ITEM_SAPPHIRE".to_string(),
+            "ITEM_RED_ORB".to_string(),
+            "ITEM_BLUE_ORB".to_string()
         ])
     }
     //Finally, combine the items
-    let final_items: Vec<Item> = Vec::new();
+    let mut final_items: Vec<Item> = Vec::new();
     while(all_items.len() > 0){
-        let cur_item = all_items.pop();
+        let mut cur_item = all_items.pop().expect("Failed to get next item");
         //Check if the item is a trainer (if setting off)
         if settings.items_from_trainers == false && cur_item.location_type == Location_type::TRAINER{
-            final_items.push(cur_item);
+            final_items.push(cur_item.clone());
+            println!("Failed due to trainer");
             continue;
         }
         //Check if the item location is in the banned list
         for banned in banned_list.iter(){
-            if cur_item.item_name == banned{
-                final_items.push(cur_item);
+            if cur_item.item_name == *banned{
+                final_items.push(cur_item.clone());
                 continue;
             }
         }
         //Item to be added
-        let cur_item_to_add = all_items_to_add.pop();
+        let mut cur_item_to_add = all_items_to_add.pop().unwrap();
         //Check to make sure that the item is not a prereq of itself
-        //TODO
-
+        //Check to see what type of item this is
+        if cur_item_to_add == "EGG"{
+            //Pick a random level from 5 to 40 (maybe change this later)
+            let level_of_pokemon = settings::get_next_seed(5,40,settings) as i16;
+            cur_item_to_add = format!("{}, {}",
+                wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,level_of_pokemon),level_of_pokemon);//Some pokemon
+            cur_item.item_type = Item_type::EGG;
+        }
+        else if cur_item_to_add == "POKEMON"{
+            //Pick a random level from 5 to 40 (also maybe change this)
+            let level_of_pokemon = settings::get_next_seed(5,40,settings) as i16;
+            cur_item_to_add = format!("{}, {}",
+                wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,level_of_pokemon),level_of_pokemon);//Some pokemon
+            cur_item.item_type = Item_type::POKEMON;
+        }
+        else{
+            //Set it to a normal item, so that trainers actually give items
+            cur_item.item_type = Item_type::NORMAL_ITEM;
+        }
+        //Add Pokemon to gym leaders
+        if cur_item.location_type == Location_type::GYM_LEADER && settings.recieve_pokemon_reward_gym{
+            //Determine the level of the pokemon based off the ace pokemon of the gym leader (this is why we haven't updated the cur_item value yet)
+            let level_of_pokemon = match cur_item.item_name.as_str(){
+                "sParty_Roxanne1" => 15,
+                "sParty_Brawly1" => 19,
+                "sParty_Wattson1" => 24,
+                "sParty_Flannery1" => 29,
+                "sParty_Norman1" => 31,
+                "sParty_Winona1" => 33,
+                "sParty_TateAndLiza1" => 42,
+                "sParty_Juan1" => 46,
+                &_ => 5
+            };
+            cur_item_to_add.push_str(format!("\n givemon {}, {}",
+                wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,level_of_pokemon),level_of_pokemon).as_str());
+        }
+        cur_item.item_name = cur_item_to_add;
+        final_items.push(cur_item);
     }
     return final_items;
 }
@@ -270,8 +321,8 @@ fn add_items_to_pool(settings: &mut settings::Settings) -> Vec<String>{
     for i in item_types_to_add.iter(){
         add_items_of_type(&mut parsed_data[*i],&mut shuffled_items);
     }
-    shuffled_items = randomize_vector(settings,&mut shuffled_items)
-    shuffled_items.append(final_items);
+    shuffled_items = randomize_vector(settings,&mut shuffled_items);
+    shuffled_items.append(&mut total_items);
     return shuffled_items;
 }
 
@@ -317,7 +368,7 @@ fn convert_item_to_function(cur_item: Item) -> String{
     }
     let mut final_string = format!("{}::\n",cur_item.item_script);
     if cur_item.item_type == Item_type::POKEMON {
-        final_string.push_str(format!("givemon {}, 25, ITEM_NONE\n",cur_item.item_name).as_str());
+        final_string.push_str(format!("givemon {}, ITEM_NONE\n",cur_item.item_name).as_str());
     }
     else if cur_item.item_type == Item_type::EGG {
         final_string.push_str(format!("giveegg {}\n",cur_item.item_name).as_str());
