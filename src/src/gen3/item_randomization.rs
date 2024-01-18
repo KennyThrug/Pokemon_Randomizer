@@ -172,34 +172,32 @@ fn randomize(mut all_items: Vec<Item>,settings: &mut settings::Settings,pokemon_
     }
     //Finally, combine the items
     let mut final_items: Vec<Item> = Vec::new();
-    while(all_items.len() > 0){
+    'main_item_loop: while(all_items.len() > 0){
         let mut cur_item = all_items.pop().expect("Failed to get next item");
         //Check if the item is a trainer (if setting off)
         if settings.items_from_trainers == false && cur_item.location_type == Location_type::TRAINER{
             final_items.push(cur_item.clone());
             println!("Failed due to trainer");
-            continue;
+            continue 'main_item_loop;
         }
         //Check if the item location is in the banned list
         for banned in banned_list.iter(){
             if cur_item.item_name == *banned{
+                println!("Failed due to banned");
                 final_items.push(cur_item.clone());
-                continue;
+                continue 'main_item_loop;
             }
         }
         //Item to be added
-        let mut cur_item_to_add = all_items_to_add.pop().unwrap();
-        //Check to make sure that the item is not a prereq of itself
+        let mut cur_item_to_add = all_items_to_add.pop().expect("Failed to have enough items in pool");
+        //TODO: Check to make sure that the item is not a prereq of itself
         //Check to see what type of item this is
         if cur_item_to_add == "EGG"{
-            //Pick a random level from 5 to 40 (maybe change this later)
-            let level_of_pokemon = settings::get_next_seed(5,40,settings) as i16;
-            cur_item_to_add = format!("{}, {}",
-                wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,level_of_pokemon),level_of_pokemon);//Some pokemon
+            cur_item_to_add = wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,5);//Some pokemon
             cur_item.item_type = Item_type::EGG;
         }
         else if cur_item_to_add == "POKEMON"{
-            //Pick a random level from 5 to 40 (also maybe change this)
+            //Pick a random level from 5 to 40 (maybe change this later to an option)
             let level_of_pokemon = settings::get_next_seed(5,40,settings) as i16;
             cur_item_to_add = format!("{}, {}",
                 wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,level_of_pokemon),level_of_pokemon);//Some pokemon
@@ -308,7 +306,7 @@ fn add_items_to_pool(settings: &mut settings::Settings) -> Vec<String>{
         total_items.push(parsed_data["PokeBalls"][settings::get_next_seed(0,20,settings) as usize].to_string());
     }
     let mut shuffled_items: Vec<String> = Vec::new();
-    let item_types_to_add = vec!["Medicine","Potions","Potions","Potions","Potions","Potions",
+    let mut item_types_to_add = vec![
     "Regional Specialties","Vitamins","EV Feathers","Ability Modifiers","Mints",
     "Candy","Medicinal Flutes","Encounter-modifying Flutes","Encounter Modifiers",
     "X Items","X Items","Escape Items","Escape Items","Treasures","Fossils",
@@ -317,6 +315,12 @@ fn add_items_to_pool(settings: &mut settings::Settings) -> Vec<String>{
     "Incenses","Contest Scarves","EV Gain Modifiers","Type-boosting Held Items",
     "Choice Items","Status Orbs","Weather Rocks","Terrain Seeds","Type Activated Stat Modifiers",
     "Misc. Held Items","Berries","TM's","Charms","Gen IX Items","HM's","HM's"];
+    if(settings.allow_healing_items){
+        for i in 0..6{
+            item_types_to_add.push("Medicine");
+            item_types_to_add.push("Potions");
+        }
+    }
     //This has many potions so that there are plenty of potions (probably the most important item to have multis of)
     for i in item_types_to_add.iter(){
         add_items_of_type(&mut parsed_data[*i],&mut shuffled_items);

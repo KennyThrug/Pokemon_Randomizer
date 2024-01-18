@@ -85,8 +85,6 @@ function openTab(evt, tabName) {
       //Item Randomization
       randomize_items: document.getElementById("RandomizeItems").checked,
       add_rare_candy: document.getElementById("NumberRareCandies").value,
-      add_held_items: document.getElementById("HeldItemsInPool").checked,
-      add_held_items_later_gens: document.getElementById("LaterGenItemsInPool").checked,
       items_from_trainers: document.getElementById("TrainersGiveItems").checked,
       add_pokeballs: document.getElementById("NumberPokeballs").value,
       allow_pokeballs_from_store: document.getElementById("PokeballsNotInStores").checked,

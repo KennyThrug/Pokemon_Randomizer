@@ -38,19 +38,20 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Get Random Pokemon as Gym Reward
 - [ ] Gym Location Randomization
 ### Item Randomization
-- [ ] Add Extra Rare Candies to Item Pool
-- [ ] Add Held Items
-- [ ] Get Items from Trainers
+- [x] Add Extra Rare Candies to Item Pool
+- [x] Add Held Items
+- [x] Get Items from Trainers
 - [ ] Get Important Items only from Trainers
-- [ ] Allow Poke-balls in Pool
+- [x] Allow Poke-balls in Pool
 - [ ] Make Balls Reusable if unsuccessful
-- [ ] Limit Ball number in pool
+- [x] Limit Ball number in pool
 - [ ] Put Healing Items in Pool
+- [ ] Put Revives in Pool
 - [ ] Randomize Hidden (Itemfinder) Items
 - [ ] Randomize Items from talking to NPCs
 - [ ] Randomize Key Items (Fishing Pole, Bike)
-- [ ] Randomize Mega Stones
-- [ ] Randomize Z crystals
+- [x] Randomize Mega Stones
+- [x] Randomize Z crystals
 - [ ] Randomize Running Shoes
 - [ ] Randomize TMs
 - [ ] Gym Leader Keys

@@ -35,8 +35,6 @@ pub struct Settings{
     //Item Randomization
     pub randomize_items: bool,
     pub add_rare_candy: i32, //Number of Rare candies to be added (have default)
-    pub add_held_items: bool,
-    pub add_held_items_later_gens: bool,
     pub items_from_trainers: bool,
     pub add_pokeballs: i32,
     pub allow_pokeballs_from_store: bool,
@@ -125,8 +123,6 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         //Item Randomization
         randomize_items: parsed_json["randomize_items"].as_bool().unwrap(),
         add_rare_candy: parsed_json["add_rare_candy"].to_string().parse().unwrap(),
-        add_held_items: parsed_json["add_held_items"].as_bool().unwrap(),
-        add_held_items_later_gens: parsed_json["add_held_items_later_gens"].as_bool().unwrap(),
         items_from_trainers: parsed_json["items_from_trainers"].as_bool().unwrap(),
         add_pokeballs: parsed_json["add_pokeballs"].to_string().parse().unwrap(),
         allow_pokeballs_from_store: parsed_json["allow_pokeballs_from_store"].as_bool().unwrap(),
