@@ -51,6 +51,12 @@ function openTab(evt, tabName) {
     else{
       document.getElementById("ItemsAppear").style.display = "none"
     }
+    if(document.getElementById("RandomizeHMs").checked){
+      document.getElementById("HMsAppear").style.display = "block"
+    }
+    else{
+      document.getElementById("HMsAppear").style.display = "none"
+    }
   }
 
   //--------------------------------------------All Below this Line is functionallity and Helpers for Generating Seeds -------------------------------------------------------
@@ -86,10 +92,10 @@ function openTab(evt, tabName) {
       randomize_items: document.getElementById("RandomizeItems").checked,
       add_rare_candy: document.getElementById("NumberRareCandies").value,
       items_from_trainers: document.getElementById("TrainersGiveItems").checked,
+      randomize_gym_badges: document.getElementById("RandomizeGymBadges").checked,
       add_pokeballs: document.getElementById("NumberPokeballs").value,
-      allow_pokeballs_from_store: document.getElementById("PokeballsNotInStores").checked,
+      add_revives: document.getElementById("Revives").checked,
       make_pokeballs_masterballs: document.getElementById("PokeballsMasterBall").checked,
-      randomize_stores: document.getElementById("RandomizeStore").checked,
       randomize_hms: document.getElementById("RandomizeHMs").checked,
       numberhms: document.getElementById("NumHMs").value,
       randomize_key_items: document.getElementById("RandomizeKeyItems").checked,
@@ -97,6 +103,11 @@ function openTab(evt, tabName) {
       allow_healing_items: document.getElementById("HealingItems").checked,
       randomize_hidden_items: document.getElementById("RandomizeHiddenItems").checked,
       gym_leader_keys: document.getElementById("GymLeaderKeys").checked,
+      //Poke-Mart Settings
+      randomize_stores: document.getElementById("RandomizeStore").checked,
+      allow_pokeballs_from_store: document.getElementById("PokeballsNotInStores").checked,
+      allow_healing_from_store: document.getElementById("HealingItemsInStores").checked,
+      allow_status_healing_from_store: document.getElementById("StatusItemsInStores").checked,
       //Evolution Settings
 
       //Other Settings

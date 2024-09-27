@@ -45,16 +45,17 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Allow Poke-balls in Pool
 - [ ] Make Balls Reusable if unsuccessful
 - [x] Limit Ball number in pool
-- [ ] Put Healing Items in Pool
-- [ ] Put Revives in Pool
+- [x] Put Healing Items in Pool
+- [x] Put Revives in Pool
 - [ ] Randomize Hidden (Itemfinder) Items
-- [ ] Randomize Items from talking to NPCs
-- [ ] Randomize Key Items (Fishing Pole, Bike)
+- [x] Randomize Items from talking to NPCs
+- [x] Randomize Key Items (Fishing Pole, Bike)
 - [x] Randomize Mega Stones
 - [x] Randomize Z crystals
 - [ ] Randomize Running Shoes
-- [ ] Randomize TMs
+- [x] Randomize TMs
 - [ ] Gym Leader Keys
+- [ ] Randomize Gym Badges (in Normal pool)
 - [ ] Randomize Berries
 ### Evolution Settings
 - [ ]

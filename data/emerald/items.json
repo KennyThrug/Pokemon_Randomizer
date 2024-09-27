@@ -34,8 +34,6 @@
     "ITEM_HYPER_POTION",
     "ITEM_MAX_POTION",
     "ITEM_FULL_RESTORE",
-    "ITEM_REVIVE",
-    "ITEM_MAX_REVIVE",
     "ITEM_FRESH_WATER",
     "ITEM_SODA_POP",
     "ITEM_LEMONADE",
@@ -58,6 +56,10 @@
     "ITEM_SACRED_ASH",
     "ITEM_SWEET_HEART",
     "ITEM_MAX_HONEY"
+],
+"Revives": [
+    "ITEM_REVIVE",
+    "ITEM_MAX_REVIVE"
 ],
 "Potions":[
     "ITEM_POTION",
@@ -942,5 +944,15 @@
     "ITEM_BERSERK_GENE",
     "ITEMS_COUNT",
     "ITEM_FIELD_ARROW ITEMS_COUNT"
+],
+"Badges": [
+    "FLAG_UNUSED_0x8E5",
+    "FLAG_UNUSED_0x8E6",
+    "FLAG_UNUSED_0x8E7",
+    "FLAG_UNUSED_0x8E8",
+    "FLAG_UNUSED_0x8E9",
+    "FLAG_UNUSED_0x8EA",
+    "FLAG_UNUSED_0x8EB",
+    "FLAG_UNUSED_0x8EC"
 ]
 }

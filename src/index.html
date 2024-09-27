@@ -27,6 +27,7 @@
     <button class="tablinks" onclick="openTab(event, 'Trainers')">Trainers</button>
     <button class="tablinks" onclick="openTab(event, 'Gyms')">Gyms</button>
     <button class="tablinks" onclick="openTab(event, 'Items')">Items</button>
+    <button class="tablinks" onclick="openTab(event,'Store')">Poke-Mart</button>
     <button class="tablinks" onclick="openTab(event, 'Other')">Other</button>
     <!--Wild Pokemon-->
   </div>
@@ -173,10 +174,15 @@
       <div id="ItemsAppear" style="display: none">
         <div>
           <h4>Number of Extra Rare Candies in Pool</h4>
-          <input type="number" id="NumberRareCandies", value="200">
+          <input type="number" id="NumberRareCandies" , value="200">
           <h4>Add Healing Items into the pool</h4>
           <label class="switch">
             <input type="checkbox" id="HealingItems">
+            <span class="slider round"></span>
+          </label>
+          <h4>Add Revives into the pool</h4>
+          <label class="switch">
+            <input type="checkbox" id="Revives">
             <span class="slider round"></span>
           </label>
           <h4>Trainers give items</h4>
@@ -184,9 +190,9 @@
             <input type="checkbox" id="TrainersGiveItems">
             <span class="slider round"></span>
           </label>
-          <h4>Allow Pokeballs from store</h4>
+          <h4>Randomize Gym Badges</h4>
           <label class="switch">
-            <input type="checkbox" id="PokeballsNotInStores">
+            <input type="checkbox" id="RandomizeGymBadges">
             <span class="slider round"></span>
           </label>
           <h4>All Pokeballs act as Master Balls</h4>
@@ -195,19 +201,16 @@
             <span class="slider round"></span>
           </label>
           <h4>Number of Pokeballs in Pool</h4>
-          <input type="number" id="NumberPokeballs", value="20">
-          <h4>Randomize Store contents</h4>
-          <label class="switch">
-            <input type="checkbox" id="RandomizeStore">
-            <span class="slider round"></span>
-          </label>
+          <input type="number" id="NumberPokeballs" , value="20">
           <h4>Randomize HM's</h4>
-          <label class="switch">
+          <label class="switch" onclick="updateItemTab()">
             <input type="checkbox" id="RandomizeHMs">
             <span class="slider round"></span>
           </label>
-          <h4>Number of duplicate HM's in Pool</h4>
-          <input type="number" id="NumHMs", value="4">
+          <div id="HMsAppear" style="display: none">
+            <h4>Number of duplicate HM's in Pool</h4>
+            <input type="number" id="NumHMs" , value="4">
+          </div>
           <h4>Randomize Key Items</h4>
           <label class="switch">
             <input type="checkbox" id="RandomizeKeyItems">
@@ -220,6 +223,29 @@
           </label>
         </div>
       </div>
+    </div>
+    <!-- Poke-Mart -->
+    <div id="Store" class="tabcontent">
+      <h4>Randomize Store contents</h4>
+      <label class="switch">
+        <input type="checkbox" id="RandomizeStore">
+        <span class="slider round"></span>
+      </label>
+      <h4>Allow Pokeballs from store</h4>
+      <label class="switch">
+        <input type="checkbox" id="PokeballsNotInStores">
+        <span class="slider round"></span>
+      </label>
+      <h4>Allow Healing Items from store</h4>
+      <label class="switch">
+        <input type="checkbox" id="HealingItemsInStores">
+        <span class="slider round"></span>
+      </label>
+      <h4>Allow Status Items from store</h4>
+      <label class="switch">
+        <input type="checkbox" id="StatusItemsInStores">
+        <span class="slider round"></span>
+      </label>
     </div>
     <!--Other-->
     <div id="Other" class="tabcontent">

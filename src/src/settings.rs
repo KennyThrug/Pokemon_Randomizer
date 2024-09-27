@@ -36,17 +36,21 @@ pub struct Settings{
     pub randomize_items: bool,
     pub add_rare_candy: i32, //Number of Rare candies to be added (have default)
     pub items_from_trainers: bool,
+    pub randomize_gym_badges: bool,
     pub add_pokeballs: i32,
-    pub allow_pokeballs_from_store: bool,
     pub make_pokeballs_masterballs: bool,
-    pub randomize_stores: bool,
     pub randomize_hms: bool,
     pub number_hms: i32,
     pub randomize_key_items: bool,
-    
+    pub add_revives: bool,
     pub allow_healing_items: bool,
     pub randomize_hidden_items: bool,
     pub gym_leader_keys: bool,
+    //Poke Mart Settings
+    pub randomize_stores: bool,
+    pub allow_pokeballs_from_store: bool,
+    pub allow_healing_from_store: bool,
+    pub allow_status_healing_from_store: bool,
     //Evolution Settings
     
     //Other Settings
@@ -124,16 +128,21 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         randomize_items: parsed_json["randomize_items"].as_bool().unwrap(),
         add_rare_candy: parsed_json["add_rare_candy"].to_string().parse().unwrap(),
         items_from_trainers: parsed_json["items_from_trainers"].as_bool().unwrap(),
+        randomize_gym_badges: parsed_json["randomize_gym_badges"].as_bool().unwrap(),
         add_pokeballs: parsed_json["add_pokeballs"].to_string().parse().unwrap(),
-        allow_pokeballs_from_store: parsed_json["allow_pokeballs_from_store"].as_bool().unwrap(),
+        add_revives: parsed_json["add_revives"].as_bool().unwrap(),
         make_pokeballs_masterballs: parsed_json["make_pokeballs_masterballs"].as_bool().unwrap(),
-        randomize_stores: parsed_json["randomize_stores"].as_bool().unwrap(),
         allow_healing_items: parsed_json["allow_healing_items"].as_bool().unwrap(),
         randomize_hidden_items: parsed_json["randomize_hidden_items"].as_bool().unwrap(),
         gym_leader_keys: parsed_json["gym_leader_keys"].as_bool().unwrap(),
         randomize_hms: parsed_json["randomize_hms"].as_bool().unwrap(),
         number_hms: parsed_json["numberhms"].to_string().parse().unwrap(),
         randomize_key_items: parsed_json["randomize_key_items"].as_bool().unwrap(),
+        //Poke-Mart Settings
+        randomize_stores: parsed_json["randomize_stores"].as_bool().unwrap(),
+        allow_pokeballs_from_store: parsed_json["allow_pokeballs_from_store"].as_bool().unwrap(),
+        allow_healing_from_store: parsed_json["allow_healing_from_store"].as_bool().unwrap(),
+        allow_status_healing_from_store: parsed_json["allow_status_healing_from_store"].as_bool().unwrap(),
         //Evolution Settings
         //Other Settings
         allow_hm_use: parsed_json["allow_hm_use"].as_bool().unwrap()
