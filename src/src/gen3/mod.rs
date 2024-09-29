@@ -5,3 +5,4 @@ pub mod wild_pokemon;
 pub mod evolution_changes;
 pub mod item_randomization;
 pub mod starter_randomization;
+pub mod game_chooser;

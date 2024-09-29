@@ -8,6 +8,7 @@ pub struct Settings{
     //Seed
     pub seed: String,
     pub seed_val: StdRng,
+    pub game: Game,
     //Wild Pokemon Randomization
     pub randomize_wild_pokemon: bool,
     pub randomize_starter_pokemon: bool,
@@ -92,6 +93,11 @@ pub enum GymLocationRandomization{
     RandomizeWithinGeneration,
     RandomizeCompletely,
 }
+#[derive(PartialEq)]
+#[derive(Clone, Copy)]
+pub enum Game{
+    Emerald
+}
 
 pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
     let parsed_json = json::parse(&json_string).unwrap();
@@ -100,6 +106,7 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
     Ok(Settings{
         seed: parsed_json["seed"].to_string(),
         seed_val: StdRng::from_seed(bytes),
+        game: Game::Emerald,
         //Wild Pokemon
         randomize_wild_pokemon: parsed_json["randomize_wild_pokemon"].as_bool().unwrap(),
         randomize_starter_pokemon: parsed_json["randomize_starter_pokemon"].as_bool().unwrap(),
