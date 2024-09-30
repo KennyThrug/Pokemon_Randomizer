@@ -16,6 +16,11 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Allow Legendaries to be Randomized
 - [ ] Force Legendary pokemon to randomize into other Legendaries
 - [x] Allow Mega Pokemon in Pool
+### Region Randomization
+- [ ] Multiple Regions in a game
+- [ ] Kanto
+- [ ] Johto?
+- [ ] 
 ### Starter Randomization
 - [x] Randomize Starter Pokemon
 - [x] Allow Legendaries as Starters
@@ -35,7 +40,7 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Force Legendaries to be Ace Pokemon
 - [ ] Force Gym pokemon to share type
 - [ ] Randomize Gym Types
-- [ ] Get Random Pokemon as Gym Reward
+- [x] Get Random Pokemon as Gym Reward
 - [ ] Gym Location Randomization
 ### Item Randomization
 - [x] Add Extra Rare Candies to Item Pool
@@ -59,6 +64,9 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Randomize Berries
 ### Evolution Settings
 - [ ]
+### Cosmetic Settings
+- [ ] Random sprite for PC (Male, Female, Ruby/Sapphire, FRLG)
+- [ ] 
 ### Other Settings
 - [ ] Allow HM's to be used without pokemon
 - [ ] Change [Evolution](evolution.md) Requirements for weird pokemon

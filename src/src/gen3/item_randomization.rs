@@ -278,8 +278,6 @@ fn randomize(mut all_items: Vec<Item>,settings: &mut settings::Settings,pokemon_
                 "sParty_Juan1" => 46,
                 &_ => 5
             };
-            cur_item_to_add.push_str(format!("\n givemon {}, {}",
-                wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,level_of_pokemon),level_of_pokemon).as_str());
         }
         cur_item.item_name = cur_item_to_add;
         final_items.push(cur_item);
@@ -446,6 +444,7 @@ fn write_items_to_file(filename: String,items: Vec<Item>,settings: &mut settings
     }
     final_string.push_str(extra_pokemon_recieve_stuff().as_str());
     final_string.push_str(gym_gift_pokemon(settings,pokemon_data).as_str());
+    final_string.push_str(game_chooser::startup_stuff(settings).as_str());
     fs::write(filename,final_string.to_string()).expect("couldn't write to file");
 }
 
@@ -457,7 +456,10 @@ fn convert_item_to_function(cur_item: Item,trainer_funcs :&mut  String,settings:
     }
     let mut final_string = format!("{}::\n",cur_item.item_script);
     if cur_item.item_type == Item_type::POKEMON {
-        final_string.push_str(format!("givemon {}, ITEM_NONE\n",cur_item.item_name).as_str());
+        final_string.push_str(format!("\n
+        setvar VAR_TEMP_1, {}
+       setvar VAR_TEMP_2, {}
+       call Get_Pokemon\n",wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,5),"5".to_string()).as_str());    
     }
     else if cur_item.item_type == Item_type::EGG {
         final_string.push_str(format!("giveegg {}\n",cur_item.item_name).as_str());
@@ -474,10 +476,7 @@ fn convert_item_to_function(cur_item: Item,trainer_funcs :&mut  String,settings:
     }
     else if(cur_item.item_type == Item_type::NORMAL_ITEM){
         if(cur_item.location_type == Location_type::NPC || cur_item.location_type == Location_type::TRAINER){
-            final_string.push_str(format!("\n
-            setvar VAR_TEMP_1, {}
-           setvar VAR_TEMP_2, {}
-           call Get_Pokemon\n",wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,5),"5".to_string()).as_str());
+            final_string.push_str(format!("giveitem {}\n",cur_item.item_name).as_str());
         }
         else{
             final_string.push_str(format!("finditem {}\n",cur_item.item_name).as_str());
@@ -588,20 +587,21 @@ Recieve_Pokemon_Party::
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	call Common_EventScript_GetGiftMonPartySlot
 	call Common_EventScript_NameReceivedPartyMon
-	end
+	return
 
 Recieve_Pokemon_PC::
 	call Recieve_Mon_Fanfare
 	msgbox gText_NicknameThisPokemon, MSGBOX_YESNO
 	call Common_EventScript_NameReceivedBoxMon
    call Common_EventScript_TransferredToPC
-	end
+	return
 
 Get_Pokemon::
 	givemon VAR_TEMP_1, 15
 	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Recieve_Pokemon_Party
 	goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, Recieve_Pokemon_PC
-	goto Common_EventScript_NoMoreRoomForPokemon".to_string();
+	goto Common_EventScript_NoMoreRoomForPokemon
+    return".to_string();
 }
 
 //Only used for testing purposes

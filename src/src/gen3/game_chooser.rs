@@ -29,3 +29,10 @@ pub fn get_logic(settings: &mut settings::Settings,item_name: String, location_n
     }
     return true
 }
+
+pub fn startup_stuff(settings: &mut settings::Settings) -> String{
+    if settings.game == settings::Game::Emerald{
+        return emerald::startup_stuff::get_startup_stuff(settings);
+    }
+    return "\nreturn".to_string();
+}
