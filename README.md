@@ -74,4 +74,6 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Level Caps on Gyms
 - [x] Randomize Professor Birch's example pokemon
 - [ ] Randomize Battle Transitions for Legendaries
+- [ ] NPC to turn Pokemon to egg
+- [ ] Enforce level cap
 - [ ] Silly extras and Troll items (such as a gender change or reversing the name of the lead pokemon, teleporting you somewhere, etc.)
