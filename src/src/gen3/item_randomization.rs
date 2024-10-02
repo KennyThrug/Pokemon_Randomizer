@@ -449,7 +449,7 @@ fn write_items_to_file(filename: String,items: Vec<Item>,settings: &mut settings
     final_string.push_str(extra_pokemon_recieve_stuff().as_str());
     final_string.push_str(gym_gift_pokemon(settings,pokemon_data).as_str());
     final_string.push_str(game_chooser::startup_stuff(settings).as_str());
-    fs::write(filename,final_string.to_string()).expect("couldn't write to file");
+    // fs::write(filename,final_string.to_string()).expect("couldn't write to file");
 }
 
 //Formats the item to a correctly functioning file to then be compiled, adds trainer functions to the end to be added later

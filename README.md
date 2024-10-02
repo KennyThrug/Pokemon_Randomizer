@@ -4,61 +4,61 @@ Launcher (and possibly runner) for a randomizer pokemon
 ## Features:
 
 - [ ] Launcher to set settings
-- [x] Automatic Compilation of Roms
+- [ ] Automatic Compilation of Roms
 - [ ] Up to Generation 8 pokemon
 - [ ] Physical Special Split Implemented
 
 ## Settings:
 ### Pokemon Randomization
-- [x] Randomize Wild Pokemon
-- [x] Allow Pokemon from future generations
-- [x] Wild pokemon Scale with Routes
-- [x] Allow Legendaries to be Randomized
+- [ ] Randomize Wild Pokemon
+- [ ] Allow Pokemon from future generations
+- [ ] Wild pokemon Scale with Routes
+- [ ] Allow Legendaries to be Randomized
 - [ ] Force Legendary pokemon to randomize into other Legendaries
-- [x] Allow Mega Pokemon in Pool
+- [ ] Allow Mega Pokemon in Pool
 ### Region Randomization
 - [ ] Multiple Regions in a game
 - [ ] Kanto
 - [ ] Johto?
 - [ ] 
 ### Starter Randomization
-- [x] Randomize Starter Pokemon
-- [x] Allow Legendaries as Starters
-- [x] Force Starter to be first stage or baby pokemon
-- [x] Have May/Brendan keep other Starter
-- [x] Have May/Brendan keep Whole Team
-- [x] Have Wally keep Raltz randomization
+- [ ] Randomize Starter Pokemon
+- [ ] Allow Legendaries as Starters
+- [ ] Force Starter to be first stage or baby pokemon
+- [ ] Have May/Brendan keep other Starter
+- [ ] Have May/Brendan keep Whole Team
+- [ ] Have Wally keep Raltz randomization
 ### Trainer Randomization
-- [x] Randomize Trainer Pokemon
-- [x] Trainer Pokemon Scale with Routes
-- [x] Allow Legendaries on Regular Trainers
-- [x] Allow Only 1 Legendary per Team
-- [x] Rarity for Legendaries
+- [ ] Randomize Trainer Pokemon
+- [ ] Trainer Pokemon Scale with Routes
+- [ ] Allow Legendaries on Regular Trainers
+- [ ] Allow Only 1 Legendary per Team
+- [ ] Rarity for Legendaries
 ### Gym Randomization
 - [ ] Allow Legendaries on Gym Leaders
 - [ ] Allow Only 1 Legendary per Gym Leader
 - [ ] Force Legendaries to be Ace Pokemon
 - [ ] Force Gym pokemon to share type
 - [ ] Randomize Gym Types
-- [x] Get Random Pokemon as Gym Reward
+- [ ] Get Random Pokemon as Gym Reward
 - [ ] Gym Location Randomization
 ### Item Randomization
-- [x] Add Extra Rare Candies to Item Pool
-- [x] Add Held Items
-- [x] Get Items from Trainers
+- [ ] Add Extra Rare Candies to Item Pool
+- [ ] Add Held Items
+- [ ] Get Items from Trainers
 - [ ] Get Important Items only from Trainers
-- [x] Allow Poke-balls in Pool
+- [ ] Allow Poke-balls in Pool
 - [ ] Make Balls Reusable if unsuccessful
-- [x] Limit Ball number in pool
-- [x] Put Healing Items in Pool
-- [x] Put Revives in Pool
+- [ ] Limit Ball number in pool
+- [ ] Put Healing Items in Pool
+- [ ] Put Revives in Pool
 - [ ] Randomize Hidden (Itemfinder) Items
-- [x] Randomize Items from talking to NPCs
-- [x] Randomize Key Items (Fishing Pole, Bike)
-- [x] Randomize Mega Stones
-- [x] Randomize Z crystals
+- [ ] Randomize Items from talking to NPCs
+- [ ] Randomize Key Items (Fishing Pole, Bike)
+- [ ] Randomize Mega Stones
+- [ ] Randomize Z crystals
 - [ ] Randomize Running Shoes
-- [x] Randomize TMs
+- [ ] Randomize TMs
 - [ ] Gym Leader Keys
 - [ ] Randomize Gym Badges (in Normal pool)
 - [ ] Randomize Berries
@@ -72,8 +72,9 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Change [Evolution](evolution.md) Requirements for weird pokemon
 - [ ] Allow [Forms](forms.md) to appear for many pokemon
 - [ ] Level Caps on Gyms
-- [x] Randomize Professor Birch's example pokemon
+- [ ] Randomize Professor Birch's example pokemon
 - [ ] Randomize Battle Transitions for Legendaries
 - [ ] NPC to turn Pokemon to egg
+- [ ] Follower Pokemon
 - [ ] Enforce level cap
 - [ ] Silly extras and Troll items (such as a gender change or reversing the name of the lead pokemon, teleporting you somewhere, etc.)

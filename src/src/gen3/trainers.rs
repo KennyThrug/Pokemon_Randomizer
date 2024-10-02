@@ -63,7 +63,7 @@ pub fn write_trainers_to_file(filename:String,trainers: Vec<Trainer>,all_stats: 
         file_text += "\n};\n\n"
     }
     //println!("text: {}",file_text);
-    fs::write(filename,file_text).expect("Could not write trainer data");
+    // fs::write(filename,file_text).expect("Could not write trainer data");
 }
 
 fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) -> Vec<Trainer>{
