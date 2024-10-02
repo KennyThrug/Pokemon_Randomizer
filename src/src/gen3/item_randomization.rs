@@ -3,6 +3,7 @@ use crate::src::settings;
 use crate::src::gen3::wild_pokemon;
 use crate::src::pokemon;
 use crate::src::gen3::game_chooser;
+use crate::src::gen3::logic;
 
 //Contains all the locations an item could be
 #[derive(Clone)]
@@ -10,8 +11,9 @@ struct Item{
     item_name: String,
     trainer_name: String,
     item_script: String,
+    post_item_script: String,
     location_type: Location_type,
-    location_area: u8,
+    location_area: String,
     item_type: Item_type,
     item_hidden: bool,
     prerequisites: Vec<String>
@@ -66,7 +68,7 @@ fn get_all_items(settings: &mut settings::Settings) -> Vec<Item>{
         let cur_item = cur_item.unwrap();
 
         let mut prereqs: Vec<String> = Vec::new();
-        for i in 6..12{
+        for i in 7..14{
             if(cur_item[i].to_string() == ""){
                 break;
             }
@@ -76,11 +78,12 @@ fn get_all_items(settings: &mut settings::Settings) -> Vec<Item>{
             Item{
                 item_name: cur_item[0].to_string(),
                 item_script: cur_item[4].to_string(),
+                post_item_script: cur_item[5].to_string(),
                 trainer_name: cur_item[0].to_uppercase().to_string(),
                 location_type: parse_location_type(cur_item[3].to_string()),
-                location_area: game_chooser::convert_to_location(cur_item[1].to_string(),settings),
+                location_area: cur_item[1].to_string(),
                 item_type: parse_item_type(cur_item[2].to_string()),
-                item_hidden: if cur_item[5].to_string() == "TRUE" {true} else {false},
+                item_hidden: if cur_item[6].to_string() == "TRUE" {true} else {false},
                 prerequisites: prereqs
             }
         );
@@ -235,7 +238,7 @@ fn randomize(mut all_items: Vec<Item>,settings: &mut settings::Settings,pokemon_
         };
 
         //Do Logic and stuff
-        if !game_chooser::get_logic(settings,cur_item_to_add.clone(),cur_item.clone().location_area,cur_item.clone().prerequisites){
+        if !logic::check_logic(settings,cur_item_to_add.clone(),cur_item.clone().location_area,cur_item.clone().prerequisites){
             all_items_to_add.push(cur_item_to_add);
             all_items.insert(0,cur_item);
             continue 'main_item_loop;
@@ -279,6 +282,7 @@ fn randomize(mut all_items: Vec<Item>,settings: &mut settings::Settings,pokemon_
                 &_ => 5
             };
         }
+
         cur_item.item_name = cur_item_to_add;
         final_items.push(cur_item);
     }
@@ -482,12 +486,18 @@ fn convert_item_to_function(cur_item: Item,trainer_funcs :&mut  String,settings:
             final_string.push_str(format!("finditem {}\n",cur_item.item_name).as_str());
         }
     }
-    //IF it is the trainer, do this and don't add the function
+    //IF it is the trainer, do this so the function can know
     if cur_item.location_type == Location_type::TRAINER{
         let mut case_str = format!("\n  case {}, {}",cur_item.trainer_name,cur_item.item_script);
         trainer_funcs.push_str(case_str.as_str());
     }
-    final_string.push_str("return\n\n");
+
+    //Add post battle script (if applicable)
+    if cur_item.post_item_script != ""{
+        final_string.push_str(format!("\ncall {}",cur_item.post_item_script).as_str())
+    }
+
+    final_string.push_str("\nrelease\nreturn\n\n");
     final_string
 }
 
