@@ -22,9 +22,9 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Johto?
 - [ ] 
 ### Starter Randomization
-- [ ] Randomize Starter Pokemon
-- [ ] Allow Legendaries as Starters
-- [ ] Force Starter to be first stage or baby pokemon
+- [x] Randomize Starter Pokemon
+- [x] Allow Legendaries as Starters
+- [x] Force Starter to be first stage or baby pokemon
 - [ ] Have May/Brendan keep other Starter
 - [ ] Have May/Brendan keep Whole Team
 - [ ] Have Wally keep Raltz randomization
