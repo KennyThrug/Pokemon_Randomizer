@@ -10,12 +10,12 @@ Launcher (and possibly runner) for a randomizer pokemon
 
 ## Settings:
 ### Pokemon Randomization
-- [ ] Randomize Wild Pokemon
-- [ ] Allow Pokemon from future generations
-- [ ] Wild pokemon Scale with Routes
-- [ ] Allow Legendaries to be Randomized
+- [x] Randomize Wild Pokemon
+- [x] Allow Pokemon from future generations
+- [x] Wild pokemon Scale with Routes
+- [x] Allow Legendaries to be Randomized
 - [ ] Force Legendary pokemon to randomize into other Legendaries
-- [ ] Allow Mega Pokemon in Pool
+- [x] Allow Mega Pokemon in Pool
 ### Region Randomization
 - [ ] Multiple Regions in a game
 - [ ] Kanto

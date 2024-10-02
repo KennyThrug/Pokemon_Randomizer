@@ -37,12 +37,12 @@ pub fn randomize_starter_pokemon(settings: &mut settings::Settings,all_stats: &V
     let part2 = fs::read_to_string(file_name_read_2).unwrap();
 
 
-    // // fs::write(file_name_write,format!("{}\n{},\n{},\n{}\n{}",
-    // part1,
-    // pokemon::format_pokemon_name(starters.treeko.pokemon_name.clone()),
-    // pokemon::format_pokemon_name(starters.torchic.pokemon_name.clone()),
-    // pokemon::format_pokemon_name(starters.mudkip.pokemon_name.clone()),
-    // part2).to_string()).expect("could not write to file starter_choose.c");
+    fs::write(file_name_write,format!("{}\n{},\n{},\n{}\n{}",
+    part1,
+    pokemon::format_pokemon_name(starters.treeko.pokemon_name.clone()),
+    pokemon::format_pokemon_name(starters.torchic.pokemon_name.clone()),
+    pokemon::format_pokemon_name(starters.mudkip.pokemon_name.clone()),
+    part2).to_string()).expect("could not write to file starter_choose.c");
     println!("Successfully wrote to file: src/starter_choose.c");
     //Resetting settings so this doesn't mess anything else up
     settings.allow_legends_in_wild_pool = temp_legend_set;
