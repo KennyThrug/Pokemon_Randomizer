@@ -19,7 +19,7 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
     let pkmn_data = read_all_pokemon();
     wild_pokemon::randomize_wild_pokemon(settings,&pkmn_data);
     let starters = starter_randomization::randomize_starter_pokemon(settings, &pkmn_data,"data/emerald/starter_choose.c".to_string(),"data/emerald/starter_choose_2.c".to_string(),"decomp/pokeemerald-expansion/src/starter_choose.c".to_string());
-    trainers::shuffle_trainers(settings,&pkmn_data,"data/emerald/trainer_parties.json".to_string(),"decomp/pokeemerald-expansion/src/data/trainer_parties.h".to_string(),starters);
+    trainers::shuffle_trainers(settings,&pkmn_data,"data/emerald/trainers.txt".to_string(),"decomp/pokeemerald-expansion/src/data/trainers.party".to_string(),starters);
     other::randomize_birch_pokemon(settings, &pkmn_data);
     setup_evolution_fixes(settings);
     item_randomization::randomize_items(settings,&pkmn_data);

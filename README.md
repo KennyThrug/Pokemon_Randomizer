@@ -3,10 +3,10 @@ Launcher (and possibly runner) for a randomizer pokemon
 
 ## Features:
 
-- [ ] Launcher to set settings
-- [ ] Automatic Compilation of Roms
-- [ ] Up to Generation 8 pokemon
-- [ ] Physical Special Split Implemented
+- [x] Launcher to set settings
+- [x] Automatic Compilation of Roms
+- [x] Up to Generation 8 pokemon
+- [x] Physical Special Split Implemented
 
 ## Settings:
 ### Pokemon Randomization
@@ -25,15 +25,15 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Randomize Starter Pokemon
 - [x] Allow Legendaries as Starters
 - [x] Force Starter to be first stage or baby pokemon
-- [ ] Have May/Brendan keep other Starter
-- [ ] Have May/Brendan keep Whole Team
-- [ ] Have Wally keep Raltz randomization
+- [x] Have May/Brendan keep other Starter
+- [x] Have May/Brendan keep Whole Team
+- [x] Have Wally keep Raltz randomization
 ### Trainer Randomization
-- [ ] Randomize Trainer Pokemon
-- [ ] Trainer Pokemon Scale with Routes
-- [ ] Allow Legendaries on Regular Trainers
-- [ ] Allow Only 1 Legendary per Team
-- [ ] Rarity for Legendaries
+- [x] Randomize Trainer Pokemon
+- [x] Trainer Pokemon Scale with Routes
+- [x] Allow Legendaries on Regular Trainers
+- [x] Allow Only 1 Legendary per Team
+- [x] Rarity for Legendaries
 ### Gym Randomization
 - [ ] Allow Legendaries on Gym Leaders
 - [ ] Allow Only 1 Legendary per Gym Leader
