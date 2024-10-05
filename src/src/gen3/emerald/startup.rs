@@ -20,9 +20,11 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
     wild_pokemon::randomize_wild_pokemon(settings,&pkmn_data);
     let starters = starter_randomization::randomize_starter_pokemon(settings, &pkmn_data,"data/emerald/starter_choose.c".to_string(),"data/emerald/starter_choose_2.c".to_string(),"decomp/pokeemerald-expansion/src/starter_choose.c".to_string());
     trainers::shuffle_trainers(settings,&pkmn_data,"data/emerald/trainers.txt".to_string(),"decomp/pokeemerald-expansion/src/data/trainers.party".to_string(),starters);
-    other::randomize_birch_pokemon(settings, &pkmn_data);
     setup_evolution_fixes(settings);
     item_randomization::randomize_items(settings,&pkmn_data);
+
+    //Keep the Birch pokemon at the end so people can use it to make sure they have the same seed as a friend
+    other::randomize_birch_pokemon(settings, &pkmn_data);
     build_rom(settings);
 }
 
