@@ -19,8 +19,14 @@ pub fn handle_special_trainer(trainer: Trainer, settings: &mut settings::Setting
     starters: &starter_randomization::Starter,rival: &trainers::MayBrendanTeam,wally: &trainers::WallyTeam) -> Trainer{
         match trainer.trainer_name.as_str(){
             //Wally's
-            "=== TRAINER_WALLY_MAUVILLE ===" => if settings.wally_keeps_starter{handle_wally(settings, all_stats, trainer.trainer_name, 1, wally)}else{trainers::get_random_trainer(trainer, settings, all_stats)},
-            "=== TRAINER_WALLY_VR_1 ===" => if settings.wally_keeps_starter{handle_wally(settings, all_stats, trainer.trainer_name, 2, wally)}else{trainers::get_random_trainer(trainer, settings, all_stats)},
+            "WALLY" =>{
+                if trainer.trainer_full_name == "=== TRAINER_WALLY_MAUVILLE ==="{
+                    return if settings.wally_keeps_starter{handle_wally(settings, all_stats, trainer.trainer_full_name, 1, wally)}else{trainers::get_random_trainer(trainer, settings, all_stats)}
+                }
+                else{
+                    return if settings.wally_keeps_starter{handle_wally(settings, all_stats, trainer.trainer_full_name, 2, wally)}else{trainers::get_random_trainer(trainer, settings, all_stats)}
+                }
+            }
             _ => {
                 //Handle Rivals and all their fights (I swear this is a better way to do this than manually inputting all like 32 fights)
                 for i in ["May","Brendan"]{
@@ -227,7 +233,7 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
     match num_battle{
         1 => Trainer{ //Mawville City Rival Fight
             trainer_full_name: rival_name,
-            trainer_name: "Wally".to_string(),
+            trainer_name: "WALLY".to_string(),
             class: "Class: Rival".to_string(),
             pic: "Pic: Wally".to_string(),
             gender: "Gender: Male".to_string(),
@@ -247,7 +253,7 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
         },
         2 => Trainer { //Victory Road
             trainer_full_name: rival_name,
-            trainer_name: "Wally".to_string(),
+            trainer_name: "WALLY".to_string(),
             class: "Class: Rival".to_string(),
             pic: "Pic: Wally".to_string(),
             gender: "Gender: Male".to_string(),
