@@ -72,9 +72,18 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Change [Evolution](evolution.md) Requirements for weird pokemon
 - [ ] Allow [Forms](forms.md) to appear for many pokemon
 - [ ] Level Caps on Gyms
-- [ ] Randomize Professor Birch's example pokemon
+- [x] Randomize Professor Birch's example pokemon
 - [ ] Randomize Battle Transitions for Legendaries
 - [ ] NPC to turn Pokemon to egg
 - [ ] Follower Pokemon
 - [ ] Enforce level cap
 - [ ] Silly extras and Troll items (such as a gender change or reversing the name of the lead pokemon, teleporting you somewhere, etc.)
+
+
+
+# Technical Information
+
+## Files that are edited by the randomizer
+src/data/trainers.party
+src/data/wild_encounters
+src/main_menu.c

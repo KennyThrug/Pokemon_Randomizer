@@ -112,7 +112,8 @@ function openTab(evt, tabName) {
 
       //Other Settings
       allow_hm_use: document.getElementById("HMWithoutBadge").checked,
-      rare_candy_modification: document.getElementById("rare_candy_modification").checked
+      rare_candy_modification: document.getElementById("rare_candy_modification").checked,
+      follower_pokemon: document.getElementById("follower_pokemon").checked
     }
     //document.getElementById("H").innerText = settings.randomize_wild_pokemon;
     var settingsJson = JSON.stringify(settings);

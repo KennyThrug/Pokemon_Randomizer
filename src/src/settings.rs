@@ -56,7 +56,8 @@ pub struct Settings{
     
     //Other Settings
     pub allow_hm_use: bool,
-    pub rare_candy_modification: bool
+    pub rare_candy_modification: bool,
+    pub follower_pokemon: bool
 }
 
 #[derive(PartialEq,Clone)]
@@ -154,7 +155,8 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         //Evolution Settings
         //Other Settings
         allow_hm_use: parsed_json["allow_hm_use"].as_bool().unwrap(),
-        rare_candy_modification: parsed_json["rare_candy_modification"].as_bool().unwrap()
+        rare_candy_modification: parsed_json["rare_candy_modification"].as_bool().unwrap(),
+        follower_pokemon: parsed_json["follower_pokemon"].as_bool().unwrap()
     })
 }
 fn convert_string_to_wild_legends(string: String) -> WildLegends{

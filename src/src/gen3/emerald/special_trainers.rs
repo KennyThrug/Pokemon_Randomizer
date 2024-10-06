@@ -234,12 +234,12 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
         1 => Trainer{ //Mawville City Rival Fight
             trainer_full_name: rival_name,
             trainer_name: "WALLY".to_string(),
-            class: "Class: Rival".to_string(),
-            pic: "Pic: Wally".to_string(),
-            gender: "Gender: Male".to_string(),
-            music: "Music: Male".to_string(),
-            double_battle: "Double Battle: No".to_string(),
-            ai: "AI: Check Bad Move / Try To Faint / Check Viability".to_string(),
+            class: "Rival".to_string(),
+            pic: "Wally".to_string(),
+            gender: "Male".to_string(),
+            music: "Male".to_string(),
+            double_battle: "No".to_string(),
+            ai: "Check Bad Move / Try To Faint / Check Viability".to_string(),
             portrait: "".to_string(),
             pokemon: vec![
                 TrainerPokemon{
@@ -254,12 +254,12 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
         2 => Trainer { //Victory Road
             trainer_full_name: rival_name,
             trainer_name: "WALLY".to_string(),
-            class: "Class: Rival".to_string(),
-            pic: "Pic: Wally".to_string(),
-            gender: "Gender: Male".to_string(),
-            music: "Music: Male".to_string(),
-            double_battle: "Double Battle: No".to_string(),
-            ai: "AI: Check Bad Move / Try To Faint / Check Viability".to_string(),
+            class: "Rival".to_string(),
+            pic: "Wally".to_string(),
+            gender: "Male".to_string(),
+            music: "Male".to_string(),
+            double_battle: "No".to_string(),
+            ai: "Check Bad Move / Try To Faint / Check Viability".to_string(),
             portrait: "".to_string(),
             pokemon: vec![
                 TrainerPokemon{
@@ -300,12 +300,12 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
             ]
         },
         _ => Trainer {trainer_full_name: "TRAINER_WALLY".to_string(), trainer_name: rival_name,
-        class: "Class: Rival".to_string(),
-        pic: "Pic: Wally".to_string(),
-        gender: "Gender: Male".to_string(),
-        music: "Music: Male".to_string(),
-        double_battle: "Double Battle: No".to_string(),
-        ai: "AI: Check Bad Move / Try To Faint / Check Viability".to_string(),
+        class: "Rival".to_string(),
+        pic: "Wally".to_string(),
+        gender: "Male".to_string(),
+        music: "Male".to_string(),
+        double_battle: "No".to_string(),
+        ai: "Check Bad Move / Try To Faint / Check Viability".to_string(),
         portrait: "".to_string(),
         pokemon: vec![TrainerPokemon{ //Fake Battle (Route 103)
             iv: 0,

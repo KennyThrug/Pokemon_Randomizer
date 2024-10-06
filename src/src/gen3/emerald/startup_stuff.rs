@@ -5,6 +5,7 @@ pub fn get_startup_stuff(settings: &mut settings::Settings) -> String{
     final_string.push_str(get_ball_code(settings).as_str());
     final_string.push_str(get_hm_code(settings).as_str());
     final_string.push_str(get_rare_candy_code(settings).as_str());
+    final_string.push_str(get_follower_pokemon(settings).as_str());
     final_string.push_str("return\n");
     return final_string
 }
@@ -35,5 +36,14 @@ fn get_rare_candy_code(settings: &mut settings::Settings) -> String{
     }
     else{
         "clearflag FLAG_RARE_CANDY_MOD\n".to_string()
+    }
+}
+
+fn get_follower_pokemon(settings: &mut settings::Settings) -> String{
+    return if settings.follower_pokemon{
+        "setflag OW_FOLLOWERS_ENABLED\n".to_string()
+    }
+    else{
+        "clearflag OW_FOLLOWERS_ENABLED\n".to_string()
     }
 }
