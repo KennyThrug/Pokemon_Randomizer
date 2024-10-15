@@ -1,7 +1,7 @@
 use crate::src::settings;
 
 pub fn get_startup_stuff(settings: &mut settings::Settings) -> String{
-    let mut final_string : String = "Startup_Stuff::\n".to_string();
+    let mut final_string : String = "Eventscript_Startup_Flags::\n".to_string();
     final_string.push_str(get_ball_code(settings).as_str());
     final_string.push_str(get_hm_code(settings).as_str());
     final_string.push_str(get_rare_candy_code(settings).as_str());

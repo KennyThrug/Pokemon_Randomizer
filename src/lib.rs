@@ -1,4 +1,5 @@
 use neon::prelude::*;
+extern crate glob;
 use src::settings::read_json_for_settings;
 mod src;
 use crate::src::gen3::emerald::startup;

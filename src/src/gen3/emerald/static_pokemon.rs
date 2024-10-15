@@ -18,35 +18,9 @@ fn get_transition(settings: &mut settings::Settings) -> String{
     TRANSITION[settings::get_next_seed(0, TRANSITION.len() as i32 -1, settings) as usize].to_string()
 }
 pub fn randomize_static_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<PokemonStats>,rival: &MayBrendanTeam,wally: &WallyTeam){
-    if settings.randomize_wild_pokemon == false{
-        fs::write("decomp/pokeemerald-expansion/src/battle_setup.c",fs::read_to_string("data/emerald/battle_setup/original").expect("Could not read original battle_setup")).expect("Could not write to battle_setup.c");
-        return;
-    }
-    let mut file_read : Vec<String> = Vec::new();
-    for i in 1..6{
-        println!("{}",i);
-        file_read.push(
-            fs::read_to_string(format!("data/emerald/battle_setup/pt{}",i)).expect("Could not Read")
-        );
-    }
-    let mut all_legends :Vec<Pokemon> = Vec::new();//This is a dumb fuckin hack that I should have forseen but I dont want to rewrite all my code so here we are
-                                                    //All this variable does is make sure that there are no duplicate legends because that causes problems with a switch statement later on
-    //Legendary Pokemon
-    let groudon = get_legendary_pokemon(settings, pokemon_data, 70,&mut all_legends);
-    let kyogre = get_legendary_pokemon(settings, pokemon_data, 70,&mut all_legends);
-    let regirock = get_legendary_pokemon(settings, pokemon_data, 40,&mut all_legends);
-    let regice = get_legendary_pokemon(settings, pokemon_data, 40,&mut all_legends);
-    let registeel = get_legendary_pokemon(settings, pokemon_data, 40,&mut all_legends);
-    let rayquaza = get_legendary_pokemon(settings, pokemon_data, 70,&mut all_legends);
-    let mew = get_legendary_pokemon(settings, pokemon_data, 30,&mut all_legends);
-    let lugia = get_legendary_pokemon(settings, pokemon_data, 70,&mut all_legends);
-    let hooh = get_legendary_pokemon(settings, pokemon_data, 70,&mut all_legends);
-    let deoxys = get_legendary_pokemon(settings, pokemon_data, 30,&mut all_legends);
-
-    //Setup file
     fs::write("decomp/pokeemerald-expansion/src/battle_setup.c", format!("{}{}{}",
-    fs::read_to_string("data/emerald/battle_setup.c").expect("Could not Read Battle setup"),
-    pokemon_to_formatted_name(scale_pokemon(wally.ralt_substitute,5,pokemon_data,settings).pokemon_id,pokemon_data),
-    fs::read_to_string("data/emerald/battle_setup2.c").expect("Could not Read Battle setup 2")
-    )).expect("Could not write to file battle_setup.c");
+        fs::read_to_string("data/emerald/battle_setup.c").expect("Could not Read Battle setup"),
+        pokemon_to_formatted_name(scale_pokemon(wally.ralt_substitute,5,pokemon_data,settings).pokemon_id,pokemon_data),
+        fs::read_to_string("data/emerald/battle_setup2.c").expect("Could not Read Battle setup 2")
+        )).expect("Could not write to file battle_setup.c");
 }

@@ -8,6 +8,7 @@ use crate::src::gen3::wild_pokemon;
 use crate::src::gen3::trainers;
 use crate::src::gen3::emerald::other;
 use crate::src::gen3::starter_randomization;
+use crate::src::gen3::create_rando_script;
 use std::env;
 //File that contains the functions that will be called by the launcher
 
@@ -21,7 +22,10 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
     let starters = starter_randomization::randomize_starter_pokemon(settings, &pkmn_data,"data/emerald/starter_choose.c".to_string(),"data/emerald/starter_choose_2.c".to_string(),"decomp/pokeemerald-expansion/src/starter_choose.c".to_string());
     trainers::shuffle_trainers(settings,&pkmn_data,"data/emerald/trainers.txt".to_string(),"decomp/pokeemerald-expansion/src/data/trainers.party".to_string(),starters);
     setup_evolution_fixes(settings);
-    item_randomization::randomize_items(settings,&pkmn_data);
+
+    let mut all_items : Vec<item_randomization::Item> = item_randomization::randomize_items(settings,&pkmn_data);
+
+    create_rando_script::create_rando_scripts(settings,all_items,&pkmn_data);
 
     //Keep the Birch pokemon at the end so people can use it to make sure they have the same seed as a friend
     other::randomize_birch_pokemon(settings, &pkmn_data);

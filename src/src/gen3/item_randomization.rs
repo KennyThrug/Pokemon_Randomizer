@@ -7,20 +7,20 @@ use crate::src::gen3::logic;
 
 //Contains all the locations an item could be
 #[derive(Clone)]
-struct Item{
-    item_name: String,
-    trainer_name: String,
-    item_script: String,
-    post_item_script: String,
-    location_type: Location_type,
-    location_area: String,
-    item_type: Item_type,
-    item_hidden: bool,
-    prerequisites: Vec<String>
+pub struct Item{
+    pub item_name: String,
+    pub trainer_name: String,
+    pub item_script: String,
+    pub post_item_script: String,
+    pub location_type: Location_type,
+    pub location_area: String,
+    pub item_type: Item_type,
+    pub item_hidden: bool,
+    pub prerequisites: Vec<String>
 }
 
 #[derive(PartialEq,Clone)]
-enum Location_type{
+pub enum Location_type{
     ITEM_BALL,
     HIDDEN_ITEM,
     TRAINER,
@@ -40,7 +40,7 @@ fn parse_location_type(raw_string: String) -> Location_type{
     }
 }
 #[derive(PartialEq,Clone)]
-enum Item_type{
+pub enum Item_type{
     NORMAL_ITEM,
     TRAINER,
     EGG,
@@ -93,11 +93,11 @@ fn get_all_items(settings: &mut settings::Settings) -> Vec<Item>{
 
 //Entry point, called by an outside file (i.e. emerald/startup.rs)
 //Doesn't actually do the randomization of the files, but calls functions that do (randomize)
-pub fn randomize_items(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>){
+pub fn randomize_items(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> Vec<Item>{
     let mut all_items = get_all_items(settings);
     //Note: this "randomize" function passes ownership of all_items
     all_items = randomize(all_items,settings,pokemon_data);
-    write_items_to_file("decomp/pokeemerald-expansion/data/scripts/item_ball_scripts.inc".to_string(),all_items,settings,pokemon_data);
+    return all_items;
 }
 
 //Function that handles the actual randomization
@@ -432,74 +432,25 @@ fn add_items_of_type(data: &mut json::JsonValue,total_items: &mut Vec<String>){
     }
 }
 
-fn write_items_to_file(filename: String,items: Vec<Item>,settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>){
-    let mut final_string : String = "".to_string();
-    let mut trainer_funcs : String = "\n".to_string();
-    for cur_item in items{
-        final_string.push_str(convert_item_to_function(cur_item,&mut trainer_funcs,settings,pokemon_data).as_str())
-    }
-    final_string.push_str("\ntrainer_items::\n    switch VAR_TRAINER_BATTLE_OPPONENT_A");
-    if trainer_funcs == "".to_string(){
-        final_string.push_str("\nreturn");
-    }
-    else{
-        final_string.push_str(trainer_funcs.as_str());
-        final_string.push_str(format!("\n{}",extra_rival_stuff()).as_str());
-    }
-    final_string.push_str(extra_pokemon_recieve_stuff().as_str());
-    final_string.push_str(gym_gift_pokemon(settings,pokemon_data).as_str());
-    final_string.push_str(game_chooser::startup_stuff(settings).as_str());
-    // fs::write(filename,final_string.to_string()).expect("couldn't write to file");
-}
-
-//Formats the item to a correctly functioning file to then be compiled, adds trainer functions to the end to be added later
-fn convert_item_to_function(cur_item: Item,trainer_funcs :&mut  String,settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> String{
-    if cur_item.item_script == "map.json"{
-        //TODO Handle this
-        return "".to_string();
-    }
-    let mut final_string = format!("{}::\n",cur_item.item_script);
-    if cur_item.item_type == Item_type::POKEMON {
-        final_string.push_str(format!("\n
-        setvar VAR_TEMP_1, {}
-       setvar VAR_TEMP_2, {}
-       call Get_Pokemon\n",wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,5),"5".to_string()).as_str());    
-    }
-    else if cur_item.item_type == Item_type::EGG {
-        final_string.push_str(format!("giveegg {}\n",cur_item.item_name).as_str());
-    }
-    else if cur_item.item_type == Item_type::TRAP {
-        //TODO traps
-    }
-    else if cur_item.item_type == Item_type::BADGE{
-        final_string.push_str(
-            format!("message {}\nwaitmessage\ncall Common_EventScript_PlayGymBadgeFanfare\n setflag {}\nmsgbox {}, MSGBOX_DEFAULT\n"
-            ,helper_gym_before(cur_item.item_name.clone()),
-            cur_item.item_name.clone(),
-            helper_gym_text(cur_item.item_name.clone())).as_str());
-    }
-    else if(cur_item.item_type == Item_type::NORMAL_ITEM){
-        if(cur_item.location_type == Location_type::NPC || cur_item.location_type == Location_type::TRAINER){
-            final_string.push_str(format!("giveitem {}\n",cur_item.item_name).as_str());
-        }
-        else{
-            final_string.push_str(format!("finditem {}\n",cur_item.item_name).as_str());
-        }
-    }
-    //IF it is the trainer, do this so the function can know
-    if cur_item.location_type == Location_type::TRAINER{
-        let mut case_str = format!("\n  case {}, {}",cur_item.trainer_name,cur_item.item_script);
-        trainer_funcs.push_str(case_str.as_str());
-    }
-
-    //Add post battle script (if applicable)
-    if cur_item.post_item_script != ""{
-        final_string.push_str(format!("\ncall {}",cur_item.post_item_script).as_str())
-    }
-
-    final_string.push_str("\nrelease\nreturn\n\n");
-    final_string
-}
+// fn write_items_to_file(filename: String,items: Vec<Item>,settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>){
+//     let mut final_string : String = "".to_string();
+//     let mut trainer_funcs : String = "\n".to_string();
+//     for cur_item in items{
+//         final_string.push_str(convert_item_to_function(cur_item,&mut trainer_funcs,settings,pokemon_data).as_str())
+//     }
+//     final_string.push_str("\ntrainer_items::\n    switch VAR_TRAINER_BATTLE_OPPONENT_A");
+//     if trainer_funcs == "".to_string(){
+//         final_string.push_str("\nreturn");
+//     }
+//     else{
+//         final_string.push_str(trainer_funcs.as_str());
+//         // final_string.push_str(format!("\n{}",extra_rival_stuff()).as_str());
+//     }
+//     final_string.push_str(extra_pokemon_recieve_stuff().as_str());
+//     final_string.push_str(gym_gift_pokemon(settings,pokemon_data).as_str());
+//     final_string.push_str(game_chooser::startup_stuff(settings).as_str());
+//     // fs::write(filename,final_string.to_string()).expect("couldn't write to file");
+// }
 
 fn helper_gym_before(cur_item: String) -> String{
     match cur_item.as_str(){
@@ -527,32 +478,6 @@ fn helper_gym_text(cur_item: String) -> String{
         &_ => "SootopolisCity_Gym_1F_Text_ExplainRainBadgeTakeThis"
     }.to_string()
 }
-
-fn extra_rival_stuff() -> String{
-    return "case TRAINER_BRENDAN_ROUTE_103_MUDKIP, Route103_EventScript_Item_Rival
-    case TRAINER_BRENDAN_ROUTE_110_MUDKIP, Route110_EventScript_GiveItemfinder_Item2
-    case TRAINER_BRENDAN_ROUTE_119_MUDKIP, Route119_EventScript_RivalExitScottArrive_Item
-    case TRAINER_BRENDAN_ROUTE_103_TREECKO, Route103_EventScript_Item_Rival
-    case TRAINER_BRENDAN_ROUTE_110_TREECKO, Route110_EventScript_GiveItemfinder_Item2
-    case TRAINER_BRENDAN_ROUTE_119_TREECKO, Route119_EventScript_RivalExitScottArrive_Item
-    case TRAINER_BRENDAN_ROUTE_103_TORCHIC, Route103_EventScript_Item_Rival
-    case TRAINER_BRENDAN_ROUTE_110_TORCHIC, Route110_EventScript_GiveItemfinder_Item2
-    case TRAINER_BRENDAN_ROUTE_119_TORCHIC, Route119_EventScript_RivalExitScottArrive_Item
-    case TRAINER_BRENDAN_ROUTE_103_MUDKIP, Route103_EventScript_Item_Rival
-    case TRAINER_MAY_ROUTE_103_TREECKO, Route103_EventScript_Item_Rival
-    case TRAINER_MAY_ROUTE_110_TREECKO, Route110_EventScript_GiveItemfinder_Item2
-    case TRAINER_MAY_ROUTE_119_TREECKO, Route119_EventScript_RivalExitScottArrive_Item
-    case TRAINER_MAY_ROUTE_103_TORCHIC, Route103_EventScript_Item_Rival
-    case TRAINER_MAY_ROUTE_110_TORCHIC, Route110_EventScript_GiveItemfinder_Item2
-    case TRAINER_MAY_ROUTE_119_TORCHIC, Route119_EventScript_RivalExitScottArrive_Item
-    case TRAINER_BRENDAN_LILYCOVE_MUDKIP, LilycoveCity_EventScript_Rival_Item
-    case TRAINER_BRENDAN_LILYCOVE_TREECKO, LilycoveCity_EventScript_Rival_Item
-    case TRAINER_BRENDAN_LILYCOVE_TORCHIC, LilycoveCity_EventScript_Rival_Item
-    case TRAINER_MAY_LILYCOVE_TREECKO, LilycoveCity_EventScript_Rival_Item
-    case TRAINER_MAY_LILYCOVE_TORCHIC, LilycoveCity_EventScript_Rival_Item
-    return".to_string()
-}
-
 
 fn gym_gift_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> String{
     let mut final_string: String = "".to_string();

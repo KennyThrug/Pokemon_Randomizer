@@ -7,3 +7,4 @@ pub mod item_randomization;
 pub mod starter_randomization;
 pub mod game_chooser;
 pub mod logic;
+pub mod create_rando_script;
