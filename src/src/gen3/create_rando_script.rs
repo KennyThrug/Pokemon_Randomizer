@@ -24,7 +24,8 @@ pub fn create_rando_scripts(settings: &mut settings::Settings,mut all_items: Vec
         }
     }
     create_map_jsons(settings,all_item_balls);
-    fs::write("decomp/pokeemerald-expansion/data/scripts/randomizer_scripts.inc",final_string);
+    final_string.push_str(create_trainer_functions(settings,&all_trainers,pokemon_data).as_str());
+    fs::write("decomp/pokeemerald-expansion/data/scripts/randomizer_scripts.inc",final_string).expect("Cannot write to randomizer_scripts.inc");
 }
 
 //Goes through every map.json and change stuff
@@ -42,27 +43,28 @@ fn create_map_jsons(settings: &mut settings::Settings, mut all_items: Vec<Item>)
 }
 
 fn extra_rival_stuff() -> String{
-    return "case TRAINER_BRENDAN_ROUTE_103_MUDKIP, Route103_EventScript_Item_Rival
-    case TRAINER_BRENDAN_ROUTE_110_MUDKIP, Route110_EventScript_GiveItemfinder_Item2
-    case TRAINER_BRENDAN_ROUTE_119_MUDKIP, Route119_EventScript_RivalExitScottArrive_Item
-    case TRAINER_BRENDAN_ROUTE_103_TREECKO, Route103_EventScript_Item_Rival
-    case TRAINER_BRENDAN_ROUTE_110_TREECKO, Route110_EventScript_GiveItemfinder_Item2
-    case TRAINER_BRENDAN_ROUTE_119_TREECKO, Route119_EventScript_RivalExitScottArrive_Item
-    case TRAINER_BRENDAN_ROUTE_103_TORCHIC, Route103_EventScript_Item_Rival
-    case TRAINER_BRENDAN_ROUTE_110_TORCHIC, Route110_EventScript_GiveItemfinder_Item2
-    case TRAINER_BRENDAN_ROUTE_119_TORCHIC, Route119_EventScript_RivalExitScottArrive_Item
-    case TRAINER_BRENDAN_ROUTE_103_MUDKIP, Route103_EventScript_Item_Rival
-    case TRAINER_MAY_ROUTE_103_TREECKO, Route103_EventScript_Item_Rival
-    case TRAINER_MAY_ROUTE_110_TREECKO, Route110_EventScript_GiveItemfinder_Item2
-    case TRAINER_MAY_ROUTE_119_TREECKO, Route119_EventScript_RivalExitScottArrive_Item
-    case TRAINER_MAY_ROUTE_103_TORCHIC, Route103_EventScript_Item_Rival
-    case TRAINER_MAY_ROUTE_110_TORCHIC, Route110_EventScript_GiveItemfinder_Item2
-    case TRAINER_MAY_ROUTE_119_TORCHIC, Route119_EventScript_RivalExitScottArrive_Item
-    case TRAINER_BRENDAN_LILYCOVE_MUDKIP, LilycoveCity_EventScript_Rival_Item
-    case TRAINER_BRENDAN_LILYCOVE_TREECKO, LilycoveCity_EventScript_Rival_Item
-    case TRAINER_BRENDAN_LILYCOVE_TORCHIC, LilycoveCity_EventScript_Rival_Item
-    case TRAINER_MAY_LILYCOVE_TREECKO, LilycoveCity_EventScript_Rival_Item
-    case TRAINER_MAY_LILYCOVE_TORCHIC, LilycoveCity_EventScript_Rival_Item
+    return "
+    case TRAINER_BRENDAN_ROUTE_103_MUDKIP, TRAINER_MAY_ROUTE_103_MUDKIP_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_ROUTE_110_MUDKIP, TRAINER_May_Route_110_Mudkip_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_ROUTE_119_MUDKIP, TRAINER_May_Route_119_Mudkip_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_ROUTE_103_TREECKO, TRAINER_MAY_ROUTE_103_MUDKIP_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_ROUTE_110_TREECKO, TRAINER_May_Route_110_Mudkip_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_ROUTE_119_TREECKO, TRAINER_May_Route_119_Mudkip_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_ROUTE_103_TORCHIC, TRAINER_MAY_ROUTE_103_MUDKIP_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_ROUTE_110_TORCHIC, TRAINER_May_Route_110_Mudkip_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_ROUTE_119_TORCHIC, TRAINER_May_Route_119_Mudkip_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_ROUTE_103_MUDKIP, TRAINER_MAY_ROUTE_103_MUDKIP_EVENTSCRIPT_ITEM
+    case TRAINER_MAY_ROUTE_103_TREECKO, TRAINER_MAY_ROUTE_103_MUDKIP_EVENTSCRIPT_ITEM
+    case TRAINER_MAY_ROUTE_110_TREECKO, TRAINER_May_Route_110_Mudkip_EVENTSCRIPT_ITEM
+    case TRAINER_MAY_ROUTE_119_TREECKO, TRAINER_May_Route_119_Mudkip_EVENTSCRIPT_ITEM
+    case TRAINER_MAY_ROUTE_103_TORCHIC, TRAINER_MAY_ROUTE_103_MUDKIP_EVENTSCRIPT_ITEM
+    case TRAINER_MAY_ROUTE_110_TORCHIC, TRAINER_May_Route_110_Mudkip_EVENTSCRIPT_ITEM
+    case TRAINER_MAY_ROUTE_119_TORCHIC, TRAINER_May_Route_119_Mudkip_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_LILYCOVE_MUDKIP, TRAINER_MAY_LILLYCOVE_MUDKIP_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_LILYCOVE_TREECKO, TRAINER_MAY_LILLYCOVE_MUDKIP_EVENTSCRIPT_ITEM
+    case TRAINER_BRENDAN_LILYCOVE_TORCHIC, TRAINER_MAY_LILLYCOVE_MUDKIP_EVENTSCRIPT_ITEM
+    case TRAINER_MAY_LILYCOVE_TREECKO, TRAINER_MAY_LILLYCOVE_MUDKIP_EVENTSCRIPT_ITEM
+    case TRAINER_MAY_LILYCOVE_TORCHIC, TRAINER_MAY_LILLYCOVE_MUDKIP_EVENTSCRIPT_ITEM
     return".to_string()
 }
 
@@ -85,25 +87,29 @@ fn change_item_in_map_json(filename: String,all_items: &mut Vec<Item>){
         }
 
         //Add back into array
-        end_data.push(cur_obj);
+        end_data.push(cur_obj).expect("Could not add data to json array");
     }
     parsed_data["object_events"] = end_data;
-    fs::write(filename.clone(),parsed_data.to_string());
+    fs::write(filename.clone(),parsed_data.to_string()).expect(format!("Writing to map.json {} failed",filename).as_str());
 }
 
 fn get_item_script(item_type :Item_type) -> String{
     return match item_type{
         Item_type::NORMAL_ITEM => "Common_EventScript_FindItem".to_string(),
         Item_type::TRAINER => "common_rando_".to_string(),
-        Item_type::EGG => "common_rando_".to_string(),
+        Item_type::EGG => "Randomizer_Eventscript_Give_Egg_From_Template".to_string(),
         Item_type::POKEMON => "Randomizer_Eventscript_Give_Pokemon".to_string(),
-        Item_type::TRAP => "common_rando_".to_string(),
+        Item_type::TRAP => "Randomizer_Eventscript_Do_Trap_From_Template".to_string(),
         Item_type::BADGE => "common_rando_".to_string()
     };
 }
 
 //Formats the item to a correctly functioning file to then be compiled, adds trainer functions to the end to be added later
 fn convert_item_to_function(cur_item: Item,settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> String{
+    //Fail safe if there is no script
+    if cur_item.item_script == ""{
+        return "".to_string();
+    }
     let mut final_string = format!("{}::\n",cur_item.item_script);
 
     if cur_item.item_type == Item_type::NORMAL_ITEM {
@@ -147,4 +153,17 @@ fn convert_badge_to_message(badge_name: String) -> String{
         "FLAG_BADGE08_GET" => "SootopolisCity_Gym_1F_Text_ReceivedRainBadge",
         &_ => ""
     }.to_string();
+}
+
+fn create_trainer_functions(settings: &mut settings::Settings,all_trainers: &Vec<Item>,pokemon_data: &Vec<pokemon::PokemonStats>) -> String{
+    let mut all_functions: String = "\n".to_string();
+    let mut trainer_item_func : String = "trainer_items::\n switch VAR_TRAINER_BATTLE_OPPONENT_A".to_string();
+    for cur_trainer in all_trainers{
+        trainer_item_func.push_str(format!("\n      case {}, {}",cur_trainer.trainer_name,cur_trainer.item_script).as_str());
+        all_functions.push_str(convert_item_to_function(cur_trainer.clone(),settings,pokemon_data).as_str());
+    }
+    trainer_item_func.push_str(extra_rival_stuff().as_str());
+    trainer_item_func.push_str("\n  return");
+    all_functions.push_str(trainer_item_func.as_str());
+    return all_functions;
 }

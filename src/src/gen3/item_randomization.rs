@@ -255,8 +255,8 @@ fn randomize(mut all_items: Vec<Item>,settings: &mut settings::Settings,pokemon_
         else if cur_item_to_add == "POKEMON"{
             //Pick a random level from 5 to 40 (maybe change this later to an option)
             let level_of_pokemon = settings::get_next_seed(5,40,settings) as i16;
-            cur_item_to_add = format!("{}, {}",
-                wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,level_of_pokemon),level_of_pokemon);//Some pokemon
+            cur_item_to_add = format!("{}",
+                wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,level_of_pokemon));//Some pokemon
             cur_item.item_type = Item_type::POKEMON;
         }
         //check if it is a Badge (Has format FLAG_UNUSED_0x8E5-C)
