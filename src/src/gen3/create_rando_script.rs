@@ -156,6 +156,7 @@ fn convert_badge_to_message(badge_name: String) -> String{
 }
 
 fn create_trainer_functions(settings: &mut settings::Settings,all_trainers: &Vec<Item>,pokemon_data: &Vec<pokemon::PokemonStats>) -> String{
+    if !settings.items_from_trainers {return "".to_string()}
     let mut all_functions: String = "\n".to_string();
     let mut trainer_item_func : String = "trainer_items::\n switch VAR_TRAINER_BATTLE_OPPONENT_A".to_string();
     for cur_trainer in all_trainers{

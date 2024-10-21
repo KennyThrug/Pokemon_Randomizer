@@ -83,6 +83,7 @@ pub enum WildLegends{
     AllowLegends //Allows Legends in same pool as regular pokemon
 }
 #[derive(Clone)]
+#[derive(PartialEq)]
 pub enum GymType{
     CompletelyRandom,
     KeepType,

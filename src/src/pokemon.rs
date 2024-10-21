@@ -1199,6 +1199,7 @@ pub enum Type{
     Dragon,
     Dark,
     Fairy,
+    Stellar,
     None
 }
 #[derive(PartialEq)]

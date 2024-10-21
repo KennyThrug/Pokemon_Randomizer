@@ -189,9 +189,10 @@ pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemo
     let mut trainer_data = read_all_trainers(trainer_parties_read_filename,all_stats);
     let (rival_team,wally_team) = create_rival_teams(settings, all_stats);
     static_pokemon::randomize_static_pokemon(settings, all_stats, &rival_team, &wally_team);
+    let gym_types = special_trainers::randomize_gym_types(12,settings);
     for i in 0..trainer_data.len(){
         if special_trainers::check_if_special_trainer(trainer_data[i].clone()){
-            trainer_data[i] = handle_special_trainer(trainer_data[i].clone(), settings, all_stats,&starters,&rival_team,&wally_team);
+            trainer_data[i] = handle_special_trainer(trainer_data[i].clone(), settings, all_stats,&starters,&rival_team,&wally_team,gym_types.clone());
         }
         else{//Regular Trainers
             trainer_data[i] = get_random_trainer(trainer_data[i].clone(), settings, all_stats)
@@ -242,7 +243,7 @@ pub fn get_random_trainer(trainer: Trainer, settings: &mut settings::Settings,al
     };
 }
 
-fn get_random_pokemon_for_trainer(trainer_name: String, pokemon: &TrainerPokemon,pokemon_data: &Vec<pokemon::PokemonStats>,settings: &mut settings::Settings,can_be_legend: bool) -> TrainerPokemon{
+pub fn get_random_pokemon_for_trainer(trainer_name: String, pokemon: &TrainerPokemon,pokemon_data: &Vec<pokemon::PokemonStats>,settings: &mut settings::Settings,can_be_legend: bool) -> TrainerPokemon{
     if !settings.randomize_trainer_pokemon{
         return pokemon.clone();
     }
@@ -262,7 +263,9 @@ fn get_random_pokemon_for_trainer(trainer_name: String, pokemon: &TrainerPokemon
         species: new_pokemon.pokemon_id.clone(),
         level: pokemon.level,
         moves: create_moveset(settings,new_pokemon.pokemon_id,pokemon.level,pokemon.moves.clone()),
-        held_items: create_held_item(settings,new_pokemon.pokemon_id,pokemon.level,pokemon.held_items.clone())
+        held_items: create_held_item(settings,new_pokemon.pokemon_id,pokemon.level,pokemon.held_items.clone()),
+        // gimmick: None,
+        // gimmick_string: "".to_string()
     }
 }
 
@@ -300,7 +303,7 @@ fn randomize_next_evolutions(mut next_evolutions: Vec<pokemon::Pokemon>,settings
 
 pub fn create_moveset(settings: &mut settings::Settings,pokemon: pokemon::Pokemon,level: i32,old_moveset: Vec<String>) -> Vec<String>{
     //Placeholder for now, functionality will be added later
-    old_moveset
+    return Vec::new();
 }
 pub fn create_held_item(settings: &mut settings::Settings,pokemon: pokemon::Pokemon,level: i32,old_item: String) -> String{
     //Placeholder for now, functionality will be added later

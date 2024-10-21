@@ -85,7 +85,7 @@ function openTab(evt, tabName) {
       wally_keeps_starter: document.getElementById("WallyRaltz").checked,
       //Gym Leader Randomization
       allow_leader_legendaries: "OneLegend",
-      gym_type: "RandomType",
+      gym_type: "Random_Type",
       recieve_pokemon_reward_gym: true,
       randomize_gym_locations: false,
       //Item Randomization

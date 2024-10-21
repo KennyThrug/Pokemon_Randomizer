@@ -68,7 +68,7 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Random sprite for PC (Male, Female, Ruby/Sapphire, FRLG)
 - [ ] 
 ### Other Settings
-- [ ] Allow HM's to be used without pokemon
+- [x] Allow HM's to be used without pokemon
 - [ ] Change [Evolution](evolution.md) Requirements for weird pokemon
 - [ ] Allow [Forms](forms.md) to appear for many pokemon
 - [ ] Level Caps on Gyms
