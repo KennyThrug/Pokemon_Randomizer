@@ -15,6 +15,7 @@ pub struct Trainer{
     pub pic: String,
     pub gender: String,
     pub music: String,
+    pub items: String,
     pub double_battle: String,
     pub ai: String,
     pub portrait: String,
@@ -25,6 +26,7 @@ pub struct TrainerPokemon{
     pub iv: i32,
     pub species: pokemon::Pokemon,
     pub level: i32,
+    pub extra_scripts: String,
     pub moves: Vec<String>,
     pub held_items: String,
 }
@@ -49,6 +51,9 @@ pub fn write_trainers_to_file(filename:String,trainers: Vec<Trainer>,all_stats: 
         file_text += format!("\nClass: {}",cur_trainer.class).as_str();
         file_text += format!("\nPic: {}",cur_trainer.pic).as_str();
         file_text += format!("\nGender: {}",cur_trainer.gender).as_str();
+        if cur_trainer.items != ""{
+            file_text += format!("\nItems: {}",cur_trainer.items).as_str();
+        }
         file_text += format!("\nMusic: {}",cur_trainer.music).as_str();
         file_text += format!("\nDouble Battle: {}",cur_trainer.double_battle).as_str();
         if cur_trainer.ai != ""{
@@ -74,6 +79,7 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
         pic: "".to_string(),
         gender: "".to_string(),
         music: "".to_string(),
+        items: "".to_string(),
         double_battle: "".to_string(),
         ai: "".to_string(),
         portrait: "".to_string(),
@@ -83,6 +89,7 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
         iv : 0,
         species : pokemon::Pokemon::None,
         level : 5,
+        extra_scripts: "".to_string(),
         moves : Vec::new(),
         held_items: "".to_string()
     };
@@ -104,6 +111,7 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
                 pic: "".to_string(),
                 gender: "".to_string(),
                 music: "".to_string(),
+                items: "".to_string(),
                 double_battle: "".to_string(),
                 ai: "".to_string(),
                 portrait: "".to_string(),
@@ -126,6 +134,9 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
         else if cat[0] == "Music"{
             cur_trainer.music = cat[1].to_string();
         }
+        else if cat[0] == "Items"{
+            cur_trainer.items = cat[1].to_string();
+        }
         else if cat[0] == "Double Battle"{
             cur_trainer.double_battle = cat[1].to_string();
         }
@@ -145,6 +156,7 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
                 iv : 0,
                 species : pokemon::Pokemon::None,
                 level : 5,
+                extra_scripts: "".to_string(),
                 moves : Vec::new(),
                 held_items: "".to_string()
             };
@@ -174,6 +186,12 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
 
 pub fn get_pokemon(pokemon: TrainerPokemon,all_stats: &Vec<pokemon::PokemonStats>) -> String{
     let mut formatted_moves : String = "".to_string();
+    let mut formatted_name : String = if pokemon.held_items == ""{
+        pokemon::pokemon_to_formatted_name(pokemon.species,all_stats)
+    }
+    else{
+        format!("{} @ {}",pokemon::pokemon_to_formatted_name(pokemon.species,all_stats),pokemon.held_items)
+    };
     for i in pokemon.moves{
         formatted_moves.push_str(format!("- {}\n",i).as_str());
     }
@@ -181,7 +199,7 @@ pub fn get_pokemon(pokemon: TrainerPokemon,all_stats: &Vec<pokemon::PokemonStats
 Level: {level}
 IVs: {iv} HP / {iv} Atk / {iv} Def / {iv} SpA / {iv} SpD / {iv} Spe
 {moves}
-",pkmn_name=pokemon::pokemon_to_formatted_name(pokemon.species,all_stats),level=pokemon.level,
+",pkmn_name=formatted_name,level=pokemon.level,
 iv=pokemon.iv,moves=formatted_moves);
 }
 
@@ -189,7 +207,7 @@ pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemo
     let mut trainer_data = read_all_trainers(trainer_parties_read_filename,all_stats);
     let (rival_team,wally_team) = create_rival_teams(settings, all_stats);
     static_pokemon::randomize_static_pokemon(settings, all_stats, &rival_team, &wally_team);
-    let gym_types = special_trainers::randomize_gym_types(12,settings);
+    let gym_types = special_trainers::randomize_gym_types(13,settings);
     for i in 0..trainer_data.len(){
         if special_trainers::check_if_special_trainer(trainer_data[i].clone()){
             trainer_data[i] = handle_special_trainer(trainer_data[i].clone(), settings, all_stats,&starters,&rival_team,&wally_team,gym_types.clone());
@@ -236,6 +254,7 @@ pub fn get_random_trainer(trainer: Trainer, settings: &mut settings::Settings,al
         pic: trainer.pic,
         gender: trainer.gender,
         music: trainer.music,
+        items: "".to_string(),
         double_battle: trainer.double_battle,
         ai: trainer.ai,
         portrait: "".to_string(),
@@ -262,6 +281,7 @@ pub fn get_random_pokemon_for_trainer(trainer_name: String, pokemon: &TrainerPok
         iv: pokemon.iv,
         species: new_pokemon.pokemon_id.clone(),
         level: pokemon.level,
+        extra_scripts: "".to_string(),
         moves: create_moveset(settings,new_pokemon.pokemon_id,pokemon.level,pokemon.moves.clone()),
         held_items: create_held_item(settings,new_pokemon.pokemon_id,pokemon.level,pokemon.held_items.clone()),
         // gimmick: None,
@@ -318,6 +338,7 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
         pic: "".to_string(),
         gender: "".to_string(),
         music: "".to_string(),
+        items: "".to_string(),
         double_battle: "".to_string(),
         ai: "".to_string(),
         portrait: "".to_string(),
@@ -325,6 +346,7 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
             TrainerPokemon{
                 iv: 150,
                 level: 31,
+                extra_scripts: "".to_string(),
                 species: pokemon::Pokemon::Tropius,
                 moves: Vec::new(),
                 held_items: "".to_string()
@@ -332,6 +354,7 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
             TrainerPokemon{
                 iv: 150,
                 level: 32,
+                extra_scripts: "".to_string(),
                 species: pokemon::Pokemon::Ludicolo,
                 moves: Vec::new(),
                 held_items: "".to_string()
@@ -339,6 +362,7 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
             TrainerPokemon{
                 iv: 150,
                 level: 32,
+                extra_scripts: "".to_string(),
                 species: pokemon::Pokemon::Slugma,
                 moves: Vec::new(),
                 held_items: "".to_string()
@@ -358,6 +382,7 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
         pic: "".to_string(),
         gender: "".to_string(),
         music: "".to_string(),
+        items: "".to_string(),
         double_battle: "".to_string(),
         ai: "".to_string(),
         portrait: "".to_string(),
@@ -365,6 +390,7 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
             TrainerPokemon{
                 iv: 150,
                 level: 44,
+                extra_scripts: "".to_string(),
                 species: pokemon::Pokemon::Altaria,
                 moves: Vec::new(),
                 held_items: "".to_string()
@@ -372,6 +398,7 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
             TrainerPokemon{
                     iv: 150,
                     level: 43,
+                    extra_scripts: "".to_string(),
                     species: pokemon::Pokemon::Delcatty,
                     moves: Vec::new(),
                     held_items: "".to_string()
@@ -379,6 +406,7 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
             TrainerPokemon{
                 iv: 150,
                 level: 44,
+                extra_scripts: "".to_string(),
                 species: pokemon::Pokemon::Roselia,
                 moves: Vec::new(),
                 held_items: "".to_string()
@@ -386,6 +414,7 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
             TrainerPokemon{
                 iv: 150,
                 level: 41,
+                extra_scripts: "".to_string(),
                 species: pokemon::Pokemon::Magneton,
                 moves: Vec::new(),
                 held_items: "".to_string()
@@ -393,6 +422,7 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
             TrainerPokemon{
                 iv: 150,
                 level: 45,
+                extra_scripts: "".to_string(),
                 species: pokemon::Pokemon::Gardevoir,
                 moves: Vec::new(),
                 held_items: "".to_string()
@@ -408,6 +438,10 @@ fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokem
         pokemon5: fake_wally.pokemon[3].species
     };
     (may_team,wally_team)
+}
+
+pub fn get_z_crystal(pokemon_species: pokemon::Pokemon, prefered_type: pokemon::Type) -> String{
+    return "ITEM_ORAN_BERRY".to_string();
 }
 
 pub struct MayBrendanTeam{

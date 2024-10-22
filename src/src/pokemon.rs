@@ -1294,7 +1294,7 @@ pub fn read_all_pokemon() -> Vec<PokemonStats>{
 
 fn string_to_type(pkmn_type: String) -> Type{
     match pkmn_type.as_str(){
-        "Normal" => Type::Grass,
+        "Normal" => Type::Normal,
         "Fighting" => Type::Fighting,
         "Flying" => Type::Flying,
         "Poison" => Type::Poison,
@@ -1312,8 +1312,33 @@ fn string_to_type(pkmn_type: String) -> Type{
         "Dragon" => Type::Dragon,
         "Dark" => Type::Dark,
         "Fairy" => Type::Fairy,
+        "Stellar" => Type::Stellar,
         _ => Type::None
     }
+}
+pub fn type_to_string(pkmn_type: Type) -> String{
+    match pkmn_type{
+         Type::Normal => "Normal",
+         Type::Fighting => "Fighting",
+         Type::Flying => "Flying",
+         Type::Poison => "Poison",
+         Type::Ground => "Ground",
+         Type::Rock => "Rock",
+         Type::Bug => "Bug",
+         Type::Ghost => "Ghost",
+         Type::Steel => "Steel",
+         Type::Fire => "Fire",
+         Type::Water => "Water",
+         Type::Grass => "Grass",
+         Type::Electric => "Electric",
+         Type::Psychic => "Psychic",
+         Type::Ice => "Ice",
+         Type::Dragon => "Dragon",
+         Type::Dark => "Dark",
+         Type::Fairy => "Fairy",
+         Type::Stellar => "Stellar",
+        _ => "Normal"
+    }.to_string()
 }
 fn string_to_legend_status(pkmn_stats: String) -> LegendStatus{
     match pkmn_stats.as_str(){
