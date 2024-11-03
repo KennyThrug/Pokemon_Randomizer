@@ -316,10 +316,10 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
     let mut added_pokemon : Vec<TrainerPokemon> = Vec::new();
     let mut num_tries = 0;
     while num_tries < 80 && (has_mega || has_legend){
-        let mut temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[trainer.pokemon.len()-1],all_stats,settings,true);
+        let mut temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[trainer.pokemon.len()-(1 + added_pokemon.len())],all_stats,settings,true);
         while (pokemon::get_pokemon_data(temp_mon.species,all_stats).type1 != pkmn_type && pokemon::get_pokemon_data(temp_mon.species,all_stats).type2 != pkmn_type){
             println!("Adding Loop");
-            temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[trainer.pokemon.len()-1],all_stats,settings,true);
+            temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[trainer.pokemon.len()-(1 + added_pokemon.len())],all_stats,settings,true);
         }
         match pokemon::get_pokemon_data(temp_mon.species,all_stats).status{
             pokemon::LegendStatus::Standard => {}
@@ -346,12 +346,12 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
         println!("loop 1 {}",num_tries);
         num_tries += 1;
     }
-    let mut cur_party_member = 0;
+    let mut cur_party_member = trainer.pokemon.len() - 1;
     //Combine it with the original party
     let mut new_party: VecDeque<TrainerPokemon> = VecDeque::new();
     for cur_mon in added_pokemon{
         new_party.push_front(cur_mon);
-        cur_party_member += 1;
+        cur_party_member -= 1;
     }
 
     if has_dynamax{
@@ -360,9 +360,9 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
             println!("Dynamax Loop");
             temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
         }
-        temp_mon.extra_scripts = format!("Dynamax Level: {}\nGigantamax: Yes",numGym - 2);
+        temp_mon.extra_scripts = format!("\nDynamax Level: {}\nGigantamax: Yes",numGym - 2);
         new_party.push_front(temp_mon);
-        cur_party_member += 1;
+        cur_party_member -= 1;
     }
     if has_terra{
         let mut temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
@@ -374,13 +374,13 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
         }
         if counter_failed == 0{
             //Same type as gym
-            temp_mon.extra_scripts = format!("Tera Type: {}",pokemon::type_to_string(pkmn_type));
+            temp_mon.extra_scripts = format!("\nTera Type: {}",pokemon::type_to_string(pkmn_type));
         }
         else{
-            temp_mon.extra_scripts = format!("Terra Type: {}",pokemon::type_to_string(get_random_type(settings)));
+            temp_mon.extra_scripts = format!("\nTerra Type: {}",pokemon::type_to_string(get_random_type(settings)));
         }
         new_party.push_front(temp_mon);
-        cur_party_member += 1;
+        cur_party_member -= 1;
     }
     if has_z_crystal{
         let mut temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
@@ -390,7 +390,7 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
         }
         temp_mon.held_items = trainers::get_z_crystal(temp_mon.species,pkmn_type);
         new_party.push_front(temp_mon);
-        cur_party_member += 1;
+        cur_party_member -= 1;
     }
 
     while new_party.len() < trainer.pokemon.len(){
@@ -398,9 +398,12 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
         while (pokemon::get_pokemon_data(temp_mon.species,all_stats).type1 != pkmn_type && pokemon::get_pokemon_data(temp_mon.species,all_stats).type2 != pkmn_type){
             println!("Adding Loop");
             temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
+            temp_mon.held_items = trainers::create_held_item(settings,temp_mon.species,temp_mon.level,temp_mon.held_items,true,all_stats);
         }
+        println!("Number: {}, trainer: {}, Counter: {}",new_party.len(),trainer.pokemon.len(),cur_party_member);
         new_party.push_front(temp_mon);
-        cur_party_member += 1;
+        if cur_party_member == 0{break;}//Fix for an underflow. Bandaid fix, yes I know, but frankly if it works it works and I was confounded by this one
+        cur_party_member -= 1;
     }
     let mut new_trainer = trainer.clone();
     new_trainer.pokemon = Vec::from(new_party);
@@ -434,7 +437,7 @@ fn get_gym_trainer_pokemon(trainer: Trainer, settings: &mut settings::Settings,a
     return new_trainer;
 }
 
-fn get_random_type(settings: &mut settings::Settings) -> pokemon::Type{
+pub fn get_random_type(settings: &mut settings::Settings) -> pokemon::Type{
     let rand_val = settings::get_next_seed(0, 19 as i32, settings);
     return match rand_val{
         0 => pokemon::Type::Normal,
@@ -554,7 +557,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: scale_pokemon(rival_team.pokemon2.clone(), 13, all_stats, settings).pokemon_id,
                 moves: trainers::create_moveset(settings, scale_pokemon(rival_team.pokemon2.clone(), 13, all_stats, &mut settings.clone()).pokemon_id, 13, Vec::new()),
-                held_items: trainers::create_held_item(settings, scale_pokemon(rival_team.pokemon2.clone(), 13, all_stats, &mut settings.clone()).pokemon_id, 13, "".to_string())
+                held_items: trainers::create_held_item(settings, scale_pokemon(rival_team.pokemon2.clone(), 13, all_stats, &mut settings.clone()).pokemon_id, 13, "".to_string(),true,all_stats)
             },
             TrainerPokemon{
                 iv: 25,
@@ -562,7 +565,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: scale_pokemon(starter.clone(), 15, all_stats, settings).pokemon_id,
                 moves: trainers::create_moveset(settings, scale_pokemon(starter.clone(), 15, all_stats, &mut settings.clone()).pokemon_id, 15, Vec::new()),
-                held_items: trainers::create_held_item(settings, scale_pokemon(starter.clone(), 15, all_stats, &mut settings.clone()).pokemon_id, 15, "".to_string())
+                held_items: trainers::create_held_item(settings, scale_pokemon(starter.clone(), 15, all_stats, &mut settings.clone()).pokemon_id, 15, "".to_string(),true,all_stats)
             } 
         ],
         3 => vec![ //Route 110 (Hell)
@@ -572,7 +575,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: scale_pokemon(rival_team.pokemon3.clone(), 18, all_stats, settings).pokemon_id,
                 moves: trainers::create_moveset(settings, scale_pokemon(rival_team.pokemon3.clone(), 18, all_stats, &mut settings.clone()).pokemon_id, 18, Vec::new()),
-                held_items: trainers::create_held_item(settings, scale_pokemon(rival_team.pokemon3.clone(), 18, all_stats, &mut settings.clone()).pokemon_id, 18, "".to_string())
+                held_items: trainers::create_held_item(settings, scale_pokemon(rival_team.pokemon3.clone(), 18, all_stats, &mut settings.clone()).pokemon_id, 18, "".to_string(),true,all_stats)
             },
             TrainerPokemon{
                 iv: 50,
@@ -580,7 +583,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: scale_pokemon(rival_team.pokemon2, 18, all_stats, settings).pokemon_id,
                 moves: trainers::create_moveset(settings, scale_pokemon(rival_team.pokemon3.clone(), 18, all_stats, &mut settings.clone()).pokemon_id, 18, Vec::new()),
-                held_items: trainers::create_held_item(settings, scale_pokemon(rival_team.pokemon3.clone(), 18, all_stats, &mut settings.clone()).pokemon_id, 18, "".to_string())
+                held_items: trainers::create_held_item(settings, scale_pokemon(rival_team.pokemon3.clone(), 18, all_stats, &mut settings.clone()).pokemon_id, 18, "".to_string(),true,all_stats)
             },
             TrainerPokemon{
                 iv: 100,
@@ -588,7 +591,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: scale_pokemon(starter.clone(), 20, all_stats, settings).pokemon_id,
                 moves: trainers::create_moveset(settings, scale_pokemon(starter.clone(), 20, all_stats, &mut settings.clone()).pokemon_id, 20, Vec::new()),
-                held_items: trainers::create_held_item(settings, scale_pokemon(starter.clone(), 20, all_stats, &mut settings.clone()).pokemon_id, 20, "".to_string())
+                held_items: trainers::create_held_item(settings, scale_pokemon(starter.clone(), 20, all_stats, &mut settings.clone()).pokemon_id, 20, "".to_string(),true,all_stats)
             }
         ],
         4 => vec![ //Route 119
@@ -598,7 +601,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: scale_pokemon(rival_team.pokemon3.clone(), 29, all_stats, settings).pokemon_id,
                 moves: trainers::create_moveset(settings, scale_pokemon(rival_team.pokemon3.clone(), 29, all_stats, &mut settings.clone()).pokemon_id, 29, Vec::new()),
-                held_items: trainers::create_held_item(settings, scale_pokemon(rival_team.pokemon3.clone(), 29, all_stats, &mut settings.clone()).pokemon_id, 29, "".to_string())
+                held_items: trainers::create_held_item(settings, scale_pokemon(rival_team.pokemon3.clone(), 29, all_stats, &mut settings.clone()).pokemon_id, 29, "".to_string(),true,all_stats)
             },
             TrainerPokemon{
                 iv: 100,
@@ -606,7 +609,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: scale_pokemon(rival_team.pokemon2, 29, all_stats, settings).pokemon_id,
                 moves: trainers::create_moveset(settings, scale_pokemon(rival_team.pokemon3.clone(), 29, all_stats, &mut settings.clone()).pokemon_id, 29, Vec::new()),
-                held_items: trainers::create_held_item(settings, scale_pokemon(rival_team.pokemon3.clone(), 29, all_stats, &mut settings.clone()).pokemon_id, 29, "".to_string())
+                held_items: trainers::create_held_item(settings, scale_pokemon(rival_team.pokemon3.clone(), 29, all_stats, &mut settings.clone()).pokemon_id, 29, "".to_string(),true,all_stats)
             },
             TrainerPokemon{
                 iv: 100,
@@ -614,7 +617,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: scale_pokemon(starter.clone(), 31, all_stats, settings).pokemon_id,
                 moves: trainers::create_moveset(settings, scale_pokemon(starter.clone(), 31, all_stats, &mut settings.clone()).pokemon_id, 31, Vec::new()),
-                held_items: trainers::create_held_item(settings, scale_pokemon(starter.clone(), 31, all_stats, &mut settings.clone()).pokemon_id, 31, "".to_string())
+                held_items: trainers::create_held_item(settings, scale_pokemon(starter.clone(), 31, all_stats, &mut settings.clone()).pokemon_id, 31, "".to_string(),true,all_stats)
             }
         ],
         5 => vec![ //Lillycove
@@ -625,7 +628,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: rival_team.pokemon4.clone(),
                 moves: trainers::create_moveset(settings,rival_team.pokemon4.clone(),31,Vec::new()),
-                held_items: trainers::create_held_item(settings, rival_team.pokemon4.clone(), 31, "".to_string())
+                held_items: trainers::create_held_item(settings, rival_team.pokemon4.clone(), 31, "".to_string(),true,all_stats)
             },
             TrainerPokemon{
                 iv: 15,
@@ -633,7 +636,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: rival_team.pokemon3.clone(),
                 moves: trainers::create_moveset(settings, rival_team.pokemon3.clone(), 32, Vec::new()),
-                held_items: trainers::create_held_item(settings, rival_team.pokemon3.clone(), 32, "".to_string())
+                held_items: trainers::create_held_item(settings, rival_team.pokemon3.clone(), 32, "".to_string(),true,all_stats)
             },
             TrainerPokemon{
                 iv: 15,
@@ -641,7 +644,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: rival_team.pokemon2.clone(),
                 moves: trainers::create_moveset(settings, rival_team.pokemon3.clone(), 32, Vec::new()),
-                held_items: trainers::create_held_item(settings, rival_team.pokemon3.clone(), 32, "".to_string())
+                held_items: trainers::create_held_item(settings, rival_team.pokemon3.clone(), 32, "".to_string(),true,all_stats)
             },
             TrainerPokemon{
                 iv: 15,
@@ -649,7 +652,7 @@ fn handle_rival(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                 extra_scripts: "".to_string(),
                 species: scale_pokemon(starter.clone(), 34, all_stats, settings).pokemon_id,
                 moves: trainers::create_moveset(settings, starter.clone(), 34, Vec::new()),
-                held_items: trainers::create_held_item(settings, starter.clone(), 34, "".to_string())
+                held_items: trainers::create_held_item(settings, starter.clone(), 34, "".to_string(),true,all_stats)
             }
         ],
         _ => vec![TrainerPokemon{ //First Battle (Route 103)
@@ -684,7 +687,7 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                     extra_scripts: "".to_string(),
                     species: scale_pokemon(wally_team.ralt_substitute.clone(),16,all_stats,settings).pokemon_id,
                     moves: trainers::create_moveset(settings,scale_pokemon(wally_team.ralt_substitute,16,all_stats,&mut settings.clone()).pokemon_id,16,Vec::new()),
-                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.ralt_substitute,16,all_stats,&mut settings.clone()).pokemon_id, 16, "".to_string())
+                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.ralt_substitute,16,all_stats,&mut settings.clone()).pokemon_id, 16, "".to_string(),true,all_stats)
                 }
             ]
         },
@@ -706,7 +709,7 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                     extra_scripts: "".to_string(),
                     species: scale_pokemon(wally_team.pokemon2, 44, all_stats, settings).pokemon_id,
                     moves: trainers::create_moveset(settings,scale_pokemon(wally_team.pokemon2,44,all_stats,&mut settings.clone()).pokemon_id,44,Vec::new()),
-                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.pokemon2, 44, all_stats, &mut settings.clone()).pokemon_id, 44, "".to_string())
+                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.pokemon2, 44, all_stats, &mut settings.clone()).pokemon_id, 44, "".to_string(),true,all_stats)
                 },
                 TrainerPokemon{
                     iv: 15,
@@ -714,7 +717,7 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                     extra_scripts: "".to_string(),
                     species: scale_pokemon(wally_team.pokemon3, 43, all_stats, settings).pokemon_id,
                     moves: trainers::create_moveset(settings,scale_pokemon(wally_team.pokemon3,43,all_stats,&mut settings.clone()).pokemon_id,43,Vec::new()),
-                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.pokemon3, 43, all_stats, &mut settings.clone()).pokemon_id, 43, "".to_string())
+                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.pokemon3, 43, all_stats, &mut settings.clone()).pokemon_id, 43, "".to_string(),true,all_stats)
                 },
                 TrainerPokemon{
                     iv: 15,
@@ -722,7 +725,7 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                     extra_scripts: "".to_string(),
                     species: scale_pokemon(wally_team.pokemon4, 44, all_stats, settings).pokemon_id,
                     moves: trainers::create_moveset(settings,scale_pokemon(wally_team.pokemon4,44,all_stats,&mut settings.clone()).pokemon_id,44,Vec::new()),
-                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.pokemon4, 44, all_stats, &mut settings.clone()).pokemon_id, 44, "".to_string())
+                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.pokemon4, 44, all_stats, &mut settings.clone()).pokemon_id, 44, "".to_string(),true,all_stats)
                 },
                 TrainerPokemon{
                     iv: 15,
@@ -730,7 +733,7 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                     extra_scripts: "".to_string(),
                     species: scale_pokemon(wally_team.pokemon5, 41, all_stats, settings).pokemon_id,
                     moves: trainers::create_moveset(settings,scale_pokemon(wally_team.pokemon5,41,all_stats,&mut settings.clone()).pokemon_id,41,Vec::new()),
-                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.pokemon4, 41, all_stats, &mut settings.clone()).pokemon_id, 41, "".to_string())
+                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.pokemon4, 41, all_stats, &mut settings.clone()).pokemon_id, 41, "".to_string(),true,all_stats)
                 },
                 TrainerPokemon{
                     iv: 15,
@@ -738,7 +741,7 @@ fn handle_wally(settings: &mut settings::Settings,all_stats: &Vec<pokemon::Pokem
                     extra_scripts: "".to_string(),
                     species: scale_pokemon(wally_team.ralt_substitute, 45, all_stats, settings).pokemon_id,
                     moves: trainers::create_moveset(settings,scale_pokemon(wally_team.ralt_substitute,45,all_stats,&mut settings.clone()).pokemon_id,45,Vec::new()),
-                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.pokemon4, 45, all_stats, &mut settings.clone()).pokemon_id, 45, "".to_string())
+                    held_items: trainers::create_held_item(settings, scale_pokemon(wally_team.pokemon4, 45, all_stats, &mut settings.clone()).pokemon_id, 45, "".to_string(),true,all_stats)
                 }
             ]
         },
