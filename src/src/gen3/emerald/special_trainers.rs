@@ -262,6 +262,7 @@ fn handle_gym_trainer(trainer: Trainer, settings: &mut settings::Settings,all_st
 }
 
 fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,pkmn_type: pokemon::Type,standard_type: pokemon::Type,numGym: i16) -> Trainer{
+    if !settings.randomize_trainer_pokemon {return trainer;}
     if numGym <= 1{
         return handle_gym_trainer(trainer,settings,all_stats,pkmn_type,standard_type);
     }
@@ -411,6 +412,7 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
 }
 
 fn get_gym_trainer_pokemon(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,pkmn_type: pokemon::Type,legend_rule: settings::AllowLegendaries) -> Trainer{
+    if !settings.randomize_trainer_pokemon {return trainer;}
     let mut has_legend = false;
     println!("Hello There");
     let mut trainer_pokemon = Vec::new();

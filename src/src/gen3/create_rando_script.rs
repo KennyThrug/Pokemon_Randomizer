@@ -75,7 +75,6 @@ fn change_item_in_map_json(filename: String,all_items: &mut Vec<Item>){
     let mut end_data = json::JsonValue::new_array();
     while !parsed_data["object_events"].is_empty(){
         let mut cur_obj = parsed_data["object_events"].pop();
-        println!("Objects: {}",cur_obj["script"].to_string());
 
         //Get Randomized items and set them into their spots
         for cur_item in &mut all_items.iter(){
@@ -89,7 +88,9 @@ fn change_item_in_map_json(filename: String,all_items: &mut Vec<Item>){
         //Add back into array
         end_data.push(cur_obj).expect("Could not add data to json array");
     }
+    // println!("{}",end_data.to_string());
     parsed_data["object_events"] = end_data;
+    println!("{}",parsed_data);
     fs::write(filename.clone(),parsed_data.to_string()).expect(format!("Writing to map.json {} failed",filename).as_str());
 }
 

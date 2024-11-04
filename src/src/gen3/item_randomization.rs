@@ -100,15 +100,23 @@ pub fn randomize_items(settings: &mut settings::Settings,pokemon_data: &Vec<poke
 
 //Primary function used to Randomize items. If you are looking to change randomization, probably look at this or look at logic
 fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> Vec<Item>{
+    println!("Got Here");
     if(settings.randomize_items == false){return all_item_locations;}//No point in this function if randomization is off
+    println!("Also got here");
     //Step one, get all the items we need to add to the pool
     let mut all_items_to_add = add_items_to_pool(settings);
     //Step two, randomize the items
-    let mut all_items = randomize_vector_item(settings,&mut all_item_locations);
+    let mut all_items = randomize_vector_item(settings,&mut all_item_locations.clone());
     let banned_items = get_banned_items(settings);
     let mut final_items: Vec<Item> = Vec::new();
     let mut added = false;
+    println!("before : {}",all_item_locations.len());
     for mut cur_loc in all_item_locations{
+        println!("Pre Item name: {} Item Script: {}",cur_loc.item_name,cur_loc.item_script);
+        if cur_loc.item_script == "Oldale_Eventscript_Item".to_string(){
+            println!("Right here!~!!!");
+            println!("Oldale Item name: {} Item Script: {}",cur_loc.item_name,cur_loc.item_script);
+        }
         added = false;
         if is_banned(cur_loc.clone().item_name,banned_items.clone()) 
         || (!settings.items_from_trainers && cur_loc.location_type == Location_type::TRAINER)
@@ -129,6 +137,7 @@ fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings
                 item_failed.push(item_add.clone());
             }
         }
+        println!("Post Item name: {} Item Script: {}",cur_loc.item_name,cur_loc.item_script);
         all_items_to_add.append(&mut item_failed);
     }
     
@@ -353,6 +362,5 @@ fn add_items_of_type(data: &mut json::JsonValue,total_items: &mut Vec<String>){
     let mut data_temp = data.clone();
     for i in 0..data_temp.len(){
         total_items.push(data_temp.pop().to_string());
-        println!("{}:{}",total_items.len(),total_items[total_items.len()-1]);
     }
 }

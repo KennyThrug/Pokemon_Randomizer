@@ -165,7 +165,6 @@ fn read_all_trainers(filename: String,all_stats: &Vec<pokemon::PokemonStats>) ->
         else if cur_pokemon.species == pokemon::Pokemon::None{
             let cur_pokemon_name : Vec<&str> = i.split('@').collect();
             if cur_pokemon_name.len() > 1{
-                println!("Name: {} Other: {}",cur_pokemon_name[0],cur_pokemon_name[1]);
                 cur_pokemon.held_items = cur_pokemon_name[1].to_string();
             }
             cur_pokemon.species = pokemon::get_pokemon_from_name(cur_pokemon_name[0].trim().to_string(),all_stats)
@@ -190,11 +189,9 @@ pub fn get_pokemon(pokemon: TrainerPokemon,all_stats: &Vec<pokemon::PokemonStats
     //Final Randomization for sub species
     let mut pre_formatted_name = last_minute_pokemon_name_changes(pokemon.species,all_stats,settings);
     if pre_formatted_name == ""{
-        println!("Test");
         pre_formatted_name = pokemon::pokemon_to_formatted_name(pokemon.species,all_stats);
     }
     else{
-        println!("Test2");
         pre_formatted_name = pokemon::format_pokemon_name(pre_formatted_name.clone());
     }
     let mut formatted_name : String = if pokemon.held_items == ""{
@@ -247,7 +244,6 @@ pub fn get_random_trainer(trainer: Trainer, settings: &mut settings::Settings,al
     }
     if settings.allow_trainer_legendaries == settings::AllowLegendaries::AceLegend && has_legend{
         for i in 0..trainer_pkmn.len(){
-            println!("LL: {}",trainer_pkmn[i].species as i32);
             if get_pokemon_data(trainer_pkmn[i].species,all_stats).status == pokemon::LegendStatus::Legendary || 
             get_pokemon_data(trainer_pkmn[i].species,all_stats).status == pokemon::LegendStatus::Legendary{
                 //Switch Legend with Ace Pokemon

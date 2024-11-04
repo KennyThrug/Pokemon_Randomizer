@@ -1231,7 +1231,6 @@ pub fn format_pokemon_name(pkmn_name: String) -> String{
     return format!("SPECIES_{}",pkmn_name.to_uppercase());
 }
 pub fn get_pokemon_data(pokemon: Pokemon, all_stats: &Vec<PokemonStats>) -> PokemonStats{
-    println!("get pokemon : {}",pokemon as i32);
     all_stats[pokemon as usize].clone()
 }
 pub fn pokemon_to_formatted_name(pkmn: Pokemon,all_stats: &Vec<PokemonStats>) -> String{
