@@ -109,13 +109,7 @@ fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings
     let banned_items = get_banned_items(settings);
     let mut final_items: Vec<Item> = Vec::new();
     let mut added = false;
-    println!("before : {}",all_item_locations.len());
-    for mut cur_loc in all_item_locations{
-        println!("Pre Item name: {} Item Script: {}",cur_loc.item_name,cur_loc.item_script);
-        if cur_loc.item_script == "Oldale_Eventscript_Item".to_string(){
-            println!("Right here!~!!!");
-            println!("Oldale Item name: {} Item Script: {}",cur_loc.item_name,cur_loc.item_script);
-        }
+    for mut cur_loc in all_items{
         added = false;
         if is_banned(cur_loc.clone().item_name,banned_items.clone()) 
         || (!settings.items_from_trainers && cur_loc.location_type == Location_type::TRAINER)
@@ -125,7 +119,12 @@ fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings
         }
         let mut item_failed: Vec<String> = Vec::new();
         while !added{
-            let item_add = all_items_to_add.pop().expect("Failed to get next item");
+            let item_add = if all_items_to_add.len() == 0{
+                "ITEM_ORAN_BERRY".to_string()
+            }
+            else{
+                all_items_to_add.pop().expect("Failed to get next item")
+            };
             if logic::check_logic(settings,item_add.clone(),cur_loc.clone().location_area,cur_loc.clone().prerequisites){
                 hint_system::add_line_to_spoiler(format!("{} in {} randomized into {}",cur_loc.item_name,cur_loc.location_area,item_add),settings);
                 cur_loc.item_type = get_item_type(item_add.clone());
@@ -138,7 +137,6 @@ fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings
                 item_failed.push(item_add.clone());
             }
         }
-        println!("Post Item name: {} Item Script: {}",cur_loc.item_name,cur_loc.item_script);
         all_items_to_add.append(&mut item_failed);
     }
     

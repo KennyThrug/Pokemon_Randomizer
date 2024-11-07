@@ -2,7 +2,8 @@ use crate::src::gen3::item_randomization::{Item,Item_type,Location_type};
 use crate::src::settings;
 use crate::src::gen3::game_chooser;
 use crate::src::pokemon;
-0use glob::glob;
+use std::fs;
+use glob::glob;
 
 //Top level function to be called initially
 pub fn create_rando_scripts(settings: &mut settings::Settings,mut all_items: Vec<Item>,pokemon_data: &Vec<pokemon::PokemonStats>){
