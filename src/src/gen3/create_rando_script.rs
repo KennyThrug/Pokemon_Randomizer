@@ -2,8 +2,7 @@ use crate::src::gen3::item_randomization::{Item,Item_type,Location_type};
 use crate::src::settings;
 use crate::src::gen3::game_chooser;
 use crate::src::pokemon;
-use std::fs;
-use glob::glob;
+0use glob::glob;
 
 //Top level function to be called initially
 pub fn create_rando_scripts(settings: &mut settings::Settings,mut all_items: Vec<Item>,pokemon_data: &Vec<pokemon::PokemonStats>){
@@ -90,7 +89,7 @@ fn change_item_in_map_json(filename: String,all_items: &mut Vec<Item>){
     }
     // println!("{}",end_data.to_string());
     parsed_data["object_events"] = end_data;
-    println!("{}",parsed_data);
+    // println!("{}",parsed_data);
     fs::write(filename.clone(),parsed_data.to_string()).expect(format!("Writing to map.json {} failed",filename).as_str());
 }
 

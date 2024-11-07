@@ -4,6 +4,7 @@ use crate::src::gen3::wild_pokemon;
 use crate::src::pokemon;
 use crate::src::gen3::game_chooser;
 use crate::src::gen3::logic;
+use crate::src::hint_system;
 
 #[derive(Clone)]
 pub struct Item{
@@ -100,9 +101,7 @@ pub fn randomize_items(settings: &mut settings::Settings,pokemon_data: &Vec<poke
 
 //Primary function used to Randomize items. If you are looking to change randomization, probably look at this or look at logic
 fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> Vec<Item>{
-    println!("Got Here");
     if(settings.randomize_items == false){return all_item_locations;}//No point in this function if randomization is off
-    println!("Also got here");
     //Step one, get all the items we need to add to the pool
     let mut all_items_to_add = add_items_to_pool(settings);
     //Step two, randomize the items
@@ -128,12 +127,14 @@ fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings
         while !added{
             let item_add = all_items_to_add.pop().expect("Failed to get next item");
             if logic::check_logic(settings,item_add.clone(),cur_loc.clone().location_area,cur_loc.clone().prerequisites){
+                hint_system::add_line_to_spoiler(format!("{} in {} randomized into {}",cur_loc.item_name,cur_loc.location_area,item_add),settings);
                 cur_loc.item_type = get_item_type(item_add.clone());
                 cur_loc.item_name = get_item_final_changes(cur_loc.clone(),item_add,settings,pokemon_data);
                 final_items.push(cur_loc.clone());
                 added = true;
             }
             else{
+                println!("Failure");
                 item_failed.push(item_add.clone());
             }
         }
@@ -154,7 +155,7 @@ fn get_item_final_changes(item: Item,new_item: String, settings: &mut settings::
         return format!("{}",
             wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,level_of_pokemon));//Some pokemon
     }
-    return item.item_name;
+    return new_item;
 }
 
 fn get_item_type(item: String) -> Item_type{
@@ -286,7 +287,9 @@ fn randomize_vector(settings: &mut settings::Settings,items: &mut Vec<String>) -
 fn randomize_vector_item(settings: &mut settings::Settings,items: &mut Vec<Item>) -> Vec<Item>{
     let mut randomized_items: Vec<Item> = Vec::new();
     while(items.len() != 0){
+        println!("Item in first slot: {}",items[0].item_name);
         randomized_items.push(items.swap_remove(settings::get_next_seed(0,items.len() as i32,settings) as usize));
+        println!("Item just added: {}",randomized_items[randomized_items.len()-1].item_name);
     }
     return randomized_items;
 }

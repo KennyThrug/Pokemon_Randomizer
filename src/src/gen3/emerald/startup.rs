@@ -9,6 +9,7 @@ use crate::src::gen3::trainers;
 use crate::src::gen3::emerald::other;
 use crate::src::gen3::starter_randomization;
 use crate::src::gen3::create_rando_script;
+use crate::src::hint_system;
 use std::env;
 //File that contains the functions that will be called by the launcher
 
@@ -29,6 +30,7 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
 
     //Keep the Birch pokemon at the end so people can use it to make sure they have the same seed as a friend
     other::randomize_birch_pokemon(settings, &pkmn_data);
+    hint_system::create_spoiler_log(settings);
     build_rom(settings);
 }
 
