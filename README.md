@@ -35,12 +35,12 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Allow Only 1 Legendary per Team
 - [x] Rarity for Legendaries
 ### Gym Randomization
+- [ ] Gym Leader Keys
 - [ ] Allow Legendaries on Gym Leaders
-- [ ] Allow Only 1 Legendary per Gym Leader
-- [ ] Force Legendaries to be Ace Pokemon
 - [ ] Force Gym pokemon to share type
 - [ ] Randomize Gym Types
 - [ ] Get Random Pokemon as Gym Reward
+- [ ] Gimmick Stone Randomization as Gym Reward
 - [ ] Gym Location Randomization
 ### Item Randomization
 - [ ] Add Extra Rare Candies to Item Pool

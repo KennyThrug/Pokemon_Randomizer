@@ -31,6 +31,10 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
     //Keep the Birch pokemon at the end so people can use it to make sure they have the same seed as a friend
     other::randomize_birch_pokemon(settings, &pkmn_data);
     hint_system::create_spoiler_log(settings);
+    //If in Testing Mode, don't create the full rom
+    if settings.testing_mode{
+        return;
+    }
     build_rom(settings);
 }
 

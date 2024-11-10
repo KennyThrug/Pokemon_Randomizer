@@ -281,31 +281,31 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
         match settings::get_next_seed(0, 10 as i32, settings){
             0 => {
                 if !has_mega{
-                    has_mega = true;
+                    has_mega = settings.gym_leader_megas;
                     num_gimmick += 1;
                 }
             }
             1 => {
                 if !has_legend{
-                    has_legend = true;
+                    has_legend = settings.gym_leader_legends;
                     num_gimmick += 1;
                 }
             }
             2 => {
                 if !has_z_crystal{
-                    has_z_crystal = true;
+                    has_z_crystal = settings.gym_leader_z_crystal;
                     num_gimmick += 1;
                 }
             }
             3 => {
                 if !has_dynamax{
-                    has_dynamax = true;
+                    has_dynamax = settings.gym_leader_dynamax;
                     num_gimmick += 1;
                 }
             }
             4 => {
                 if !has_terra{
-                    has_mega = true;
+                    has_terra = true;
                     num_gimmick += 1;
                 }
             }

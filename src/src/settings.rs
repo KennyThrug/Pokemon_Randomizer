@@ -9,6 +9,7 @@ pub struct Settings{
     pub seed: String,
     pub seed_val: StdRng,
     pub game: Game,
+    pub testing_mode: bool,
     //Wild Pokemon Randomization
     pub randomize_wild_pokemon: bool,
     pub randomize_starter_pokemon: bool,
@@ -29,8 +30,13 @@ pub struct Settings{
     pub rival_consistent_team: bool,
     pub wally_keeps_starter: bool,
     //Gym Leader Randomization
-    pub allow_leader_legendaries: AllowLegendaries,
+    pub gym_leader_legends: bool,
+    pub gym_leader_megas: bool,
+    pub gym_leader_z_crystal: bool,
+    pub gym_leader_dynamax: bool,
+    pub gym_leader_terra: bool,
     pub gym_type: GymType,
+    pub get_gimmick_stone: bool,
     pub recieve_pokemon_reward_gym: bool,
     pub randomize_gym_locations: GymLocationRandomization,
     //Item Randomization
@@ -113,6 +119,7 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         seed: parsed_json["seed"].to_string(),
         seed_val: StdRng::from_seed(bytes),
         game: Game::Emerald,
+        testing_mode: parsed_json["testing_mode"].as_bool().unwrap(),
         //Wild Pokemon
         randomize_wild_pokemon: parsed_json["randomize_wild_pokemon"].as_bool().unwrap(),
         randomize_starter_pokemon: parsed_json["randomize_starter_pokemon"].as_bool().unwrap(),
@@ -133,7 +140,12 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         rival_consistent_team: parsed_json["rival_consistent_team"].as_bool().unwrap(),
         wally_keeps_starter: parsed_json["wally_keeps_starter"].as_bool().unwrap(),
         //Gym Leader Randomization
-        allow_leader_legendaries: convert_string_to_allow_legendaries(parsed_json["allow_leader_legendaries"].to_string()),
+        get_gimmick_stone: parsed_json["get_gimmick_stone"].as_bool().unwrap(),
+        gym_leader_legends: parsed_json["gym_leader_legends"].as_bool().unwrap(),
+        gym_leader_megas: parsed_json["gym_leader_megas"].as_bool().unwrap(),
+        gym_leader_z_crystal: parsed_json["gym_leader_z_crystal"].as_bool().unwrap(),
+        gym_leader_dynamax: parsed_json["gym_leader_dynamax"].as_bool().unwrap(),
+        gym_leader_terra: parsed_json["gym_leader_terra"].as_bool().unwrap(),
         gym_type: convert_string_to_gym_type(parsed_json["gym_type"].to_string()),
         recieve_pokemon_reward_gym: parsed_json["recieve_pokemon_reward_gym"].as_bool().unwrap(),
         randomize_gym_locations: convert_string_to_gym_location(parsed_json["randomize_gym_locations"].to_string()),

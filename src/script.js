@@ -62,6 +62,7 @@ function openTab(evt, tabName) {
   //--------------------------------------------All Below this Line is functionallity and Helpers for Generating Seeds -------------------------------------------------------
   function convertToJson(){
     var settings = {
+      testing_mode: document.getElementById("TestingMode").checked,
       //Seed
       seed: document.getElementById("Seed").value,
       //Wild Pokemon
@@ -84,8 +85,14 @@ function openTab(evt, tabName) {
       rival_consistent_team: document.getElementById("RivalKeepTeam").checked,
       wally_keeps_starter: document.getElementById("WallyRaltz").checked,
       //Gym Leader Randomization
-      allow_leader_legendaries: "OneLegend",
+      get_gimmick_stone: document.getElementById("GetGimmickStone").checked,
+      gym_leader_legends: document.getElementById("GymLeaderLegend").checked,
+      gym_leader_megas: document.getElementById("GymLeaderMega").checked,
+      gym_leader_z_crystal: document.getElementById("GymLeaderZCrystal").checked,
+      gym_leader_dynamax: document.getElementById("GymLeaderDynamax").checked,
+      gym_leader_terra: document.getElementById("GymLeaderTerra").checked,
       gym_type: "Random_Type",
+      get_gimmick_stone: true,
       recieve_pokemon_reward_gym: true,
       randomize_gym_locations: false,
       //Item Randomization

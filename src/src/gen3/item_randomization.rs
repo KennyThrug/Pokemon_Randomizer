@@ -292,7 +292,10 @@ fn randomize_vector_item(settings: &mut settings::Settings,items: &mut Vec<Item>
     return randomized_items;
 }
 
-
+fn handle_badges(settings: &mut settings::Settings,item: &mut Item) -> String{
+    let final_result: String = "".to_string();
+    return "".to_string();
+}
 
 fn add_items_to_pool(settings: &mut settings::Settings) -> Vec<String>{
     let data = fs::read_to_string(game_chooser::get_items(settings).as_str()).expect("unable to read file");
