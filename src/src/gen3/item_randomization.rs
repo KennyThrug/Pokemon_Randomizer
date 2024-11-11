@@ -2,7 +2,7 @@ use std::fs;
 use crate::src::settings;
 use crate::src::gen3::wild_pokemon;
 use crate::src::pokemon;
-use crate::src::gen3::game_chooser;
+use crate::src::game_chooser;
 use crate::src::gen3::logic;
 use crate::src::hint_system;
 

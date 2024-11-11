@@ -4,6 +4,7 @@ use Type::*;
 use num_enum::TryFromPrimitive;
 use std::convert::TryFrom;
 use crate::src::settings;
+use crate::src::game_chooser;
 use LegendStatus::*;
 use csv::{self, Reader};
 use try_catch::catch;
@@ -1254,8 +1255,8 @@ pub fn get_pokemon_from_name(pokemon_name: String,all_stats: &Vec<PokemonStats>)
     }
     return Pokemon::None;
 }
-pub fn read_all_pokemon() -> Vec<PokemonStats>{
-    let csv: String = fs::read_to_string("data/emerald/pokemon.csv").unwrap();
+pub fn read_all_pokemon(settings: &mut settings::Settings) -> Vec<PokemonStats>{
+    let csv: String = fs::read_to_string(game_chooser::get_pokemon_data_file(settings)).unwrap();
     let mut reader = csv::Reader::from_reader(csv.as_bytes());
     let mut all_stats: Vec<PokemonStats> = Vec::new();
     let mut cur_num = 0;

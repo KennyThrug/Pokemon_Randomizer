@@ -19,8 +19,8 @@ fn get_transition(settings: &mut settings::Settings) -> String{
 }
 pub fn randomize_static_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<PokemonStats>,rival: &MayBrendanTeam,wally: &WallyTeam){
     fs::write("decomp/pokeemerald-expansion/src/battle_setup.c", format!("{}{}{}",
-        fs::read_to_string("data/emerald/battle_setup.c").expect("Could not Read Battle setup"),
+        fs::read_to_string("data/gen3/emerald/battle_setup.c").expect("Could not Read Battle setup"),
         pokemon_to_formatted_name(scale_pokemon(wally.ralt_substitute,5,pokemon_data,settings).pokemon_id,pokemon_data),
-        fs::read_to_string("data/emerald/battle_setup2.c").expect("Could not Read Battle setup 2")
+        fs::read_to_string("data/gen3/emerald/battle_setup2.c").expect("Could not Read Battle setup 2")
         )).expect("Could not write to file battle_setup.c");
 }

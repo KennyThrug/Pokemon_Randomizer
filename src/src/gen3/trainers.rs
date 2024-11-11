@@ -4,8 +4,7 @@ use json::{self, JsonValue::Null};
 
 use crate::src::pokemon;
 use crate::src::gen3::starter_randomization;
-
-use super::emerald::{static_pokemon, special_trainers::{handle_special_trainer, self}};
+use crate::src::game_chooser;
 
 #[derive(Clone)]
 pub struct Trainer{
@@ -214,11 +213,11 @@ iv=pokemon.iv,moves=formatted_moves,extra_script=pokemon.extra_scripts);
 pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,trainer_parties_read_filename: String,trainer_parties_write_filename: String,starters: starter_randomization::Starter){
     let mut trainer_data = read_all_trainers(trainer_parties_read_filename,all_stats);
     let (rival_team,wally_team) = create_rival_teams(settings, all_stats);
-    static_pokemon::randomize_static_pokemon(settings, all_stats, &rival_team, &wally_team);
-    let gym_types = special_trainers::randomize_gym_types(13,settings);
+    game_chooser::randomize_static_pokemon(settings, all_stats, &rival_team, &wally_team);
+    let gym_types = randomize_gym_types(13,settings);
     for i in 0..trainer_data.len(){
-        if special_trainers::check_if_special_trainer(trainer_data[i].clone()){
-            trainer_data[i] = handle_special_trainer(trainer_data[i].clone(), settings, all_stats,&starters,&rival_team,&wally_team,gym_types.clone());
+        if game_chooser::check_if_special_trainer(settings,trainer_data[i].clone()){
+            trainer_data[i] = game_chooser::handle_special_trainer(trainer_data[i].clone(), settings, all_stats,&starters,&rival_team,&wally_team,gym_types.clone());
         }
         else{//Regular Trainers
             trainer_data[i] = get_random_trainer(trainer_data[i].clone(), settings, all_stats)
@@ -621,7 +620,7 @@ pub fn get_mon_specific_item(pokemon_species: pokemon::Pokemon,settings: &mut se
     }
     if pokemon_species == pokemon::Pokemon::Arceus{
         if settings::get_next_seed(0,6,settings) == 0{//1 out of 6 get a z crystal instead of a plate
-            return get_z_crystal(pokemon_species,special_trainers::get_random_type(settings));
+            return get_z_crystal(pokemon_species,get_random_type(settings));
         }
         return match settings::get_next_seed(0,17,settings){
             0 => "ITEM_FLAME_PLATE",
@@ -870,6 +869,40 @@ fn last_minute_pokemon_name_changes(species: pokemon::Pokemon,all_stats: &Vec<po
         return pokemon::get_pokemon_data(pokemon::get_pokemon_data(species,all_stats).evolve_from,all_stats).pokemon_name;
     }
     return pokemon::pokemon_alternate_forms(species,all_stats,settings);
+}
+
+pub fn get_random_type(settings: &mut settings::Settings) -> pokemon::Type{
+    let rand_val = settings::get_next_seed(0, 19 as i32, settings);
+    return match rand_val{
+        0 => pokemon::Type::Normal,
+        1 => pokemon::Type::Fire,
+        2 => pokemon::Type::Water,
+        4 => pokemon::Type::Electric,
+        5 => pokemon::Type::Grass,
+        6 => pokemon::Type::Ice,
+        7 => pokemon::Type::Fighting,
+        8 => pokemon::Type::Poison,
+        9 => pokemon::Type::Ground,
+        10 => pokemon::Type::Flying,
+        11 => pokemon::Type::Psychic,
+        12 => pokemon::Type::Bug,
+        13 => pokemon::Type::Rock,
+        14 => pokemon::Type::Ghost,
+        15 => pokemon::Type::Dragon,
+        16 => pokemon::Type::Dark,
+        17 => pokemon::Type::Steel,
+        18 => pokemon::Type::Fairy,
+        _ => pokemon::Type::Stellar
+    };
+}
+
+pub fn randomize_gym_types(num_badges: i16,settings: &mut settings::Settings) -> Vec<pokemon::Type>{
+    let mut all_badges : Vec<pokemon::Type> = Vec::new();
+    for i in 0..num_badges{
+        all_badges.push(get_random_type(settings));
+        println!("Badge {} is # {}",i,all_badges[i as usize] as i32);
+    }
+    return all_badges;
 }
 
 pub struct MayBrendanTeam{

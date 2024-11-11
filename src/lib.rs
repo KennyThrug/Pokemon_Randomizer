@@ -2,7 +2,7 @@ use neon::prelude::*;
 extern crate glob;
 use src::settings::read_json_for_settings;
 mod src;
-use crate::src::gen3::emerald::startup;
+use crate::src::game_chooser;
 
 #[neon::main]
 fn main(mut cx: ModuleContext) -> NeonResult<()> {
@@ -15,6 +15,6 @@ fn create_emerald_rom(mut cx: FunctionContext) -> JsResult<JsNumber>{
     let stringy = json_string.value(&mut cx);
     let mut settings = read_json_for_settings(stringy).unwrap();
 
-    startup::randomize_pokemon(&mut settings);
+    game_chooser::main_randomizer_script(&mut settings);
     Ok(cx.number(200))
 }

@@ -1,13 +1,14 @@
 use crate::src::pokemon::LegendStatus;
 use crate::src::settings;
 use crate::src::pokemon;
+use crate::src::game_chooser;
 use std::fs;
 use super::trainers;
 
 //If you want the starters, they are going to be in the Trainers file
 const NUMBER_OF_ROUTES: usize = 124;
 pub fn randomize_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>){
-    let data = fs::read_to_string("data/emerald/wild_encounters.json").expect("unable to read file");
+    let data = fs::read_to_string(game_chooser::get_wild_pokemon_data_file(settings)).expect("unable to read file");
     let mut parsed_data = json::parse(&data).unwrap();
     if settings.randomize_wild_pokemon{
         for i in 0..NUMBER_OF_ROUTES{
@@ -25,7 +26,7 @@ pub fn randomize_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &V
         }
     }
     //write to file
-    fs::write("decomp/pokeemerald-expansion/src/data/wild_encounters.json",
+    fs::write(game_chooser::get_wild_pokemon_file(settings),
     parsed_data.to_string()).expect("couldn't write to file");
     println!("Successfully wrote to file: src/data/wild_encounters.json");
 }

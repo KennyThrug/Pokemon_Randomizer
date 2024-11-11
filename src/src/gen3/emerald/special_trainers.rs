@@ -305,7 +305,7 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
             }
             4 => {
                 if !has_terra{
-                    has_terra = true;
+                    has_terra = settings.gym_leader_terra;
                     num_gimmick += 1;
                 }
             }
@@ -378,7 +378,7 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
             temp_mon.extra_scripts = format!("\nTera Type: {}",pokemon::type_to_string(pkmn_type));
         }
         else{
-            temp_mon.extra_scripts = format!("\nTerra Type: {}",pokemon::type_to_string(get_random_type(settings)));
+            temp_mon.extra_scripts = format!("\nTera Type: {}",pokemon::type_to_string(trainers::get_random_type(settings)));
         }
         new_party.push_front(temp_mon);
         cur_party_member -= 1;
@@ -437,40 +437,6 @@ fn get_gym_trainer_pokemon(trainer: Trainer, settings: &mut settings::Settings,a
     let mut new_trainer = trainer.clone();
     new_trainer.pokemon = trainer_pokemon;
     return new_trainer;
-}
-
-pub fn get_random_type(settings: &mut settings::Settings) -> pokemon::Type{
-    let rand_val = settings::get_next_seed(0, 19 as i32, settings);
-    return match rand_val{
-        0 => pokemon::Type::Normal,
-        1 => pokemon::Type::Fire,
-        2 => pokemon::Type::Water,
-        4 => pokemon::Type::Electric,
-        5 => pokemon::Type::Grass,
-        6 => pokemon::Type::Ice,
-        7 => pokemon::Type::Fighting,
-        8 => pokemon::Type::Poison,
-        9 => pokemon::Type::Ground,
-        10 => pokemon::Type::Flying,
-        11 => pokemon::Type::Psychic,
-        12 => pokemon::Type::Bug,
-        13 => pokemon::Type::Rock,
-        14 => pokemon::Type::Ghost,
-        15 => pokemon::Type::Dragon,
-        16 => pokemon::Type::Dark,
-        17 => pokemon::Type::Steel,
-        18 => pokemon::Type::Fairy,
-        _ => pokemon::Type::Stellar
-    };
-}
-
-pub fn randomize_gym_types(num_badges: i16,settings: &mut settings::Settings) -> Vec<pokemon::Type>{
-    let mut all_badges : Vec<pokemon::Type> = Vec::new();
-    for i in 0..num_badges{
-        all_badges.push(get_random_type(settings));
-        println!("Badge {} is # {}",i,all_badges[i as usize] as i32);
-    }
-    return all_badges;
 }
 
 fn get_random_starter(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> pokemon::Pokemon{

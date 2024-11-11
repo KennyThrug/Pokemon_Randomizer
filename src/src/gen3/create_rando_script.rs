@@ -1,6 +1,6 @@
 use crate::src::gen3::item_randomization::{Item,Item_type,Location_type};
 use crate::src::settings;
-use crate::src::gen3::game_chooser;
+use crate::src::game_chooser;
 use crate::src::pokemon;
 use std::fs;
 use glob::glob;
@@ -25,13 +25,13 @@ pub fn create_rando_scripts(settings: &mut settings::Settings,mut all_items: Vec
     }
     create_map_jsons(settings,all_item_balls);
     final_string.push_str(create_trainer_functions(settings,&all_trainers,pokemon_data).as_str());
-    fs::write("decomp/pokeemerald-expansion/data/scripts/randomizer_scripts.inc",final_string).expect("Cannot write to randomizer_scripts.inc");
+    fs::write(game_chooser::get_randomizer_script_filename(settings),final_string).expect("Cannot write to randomizer_scripts.inc");
 }
 
 //Goes through every map.json and change stuff
 fn create_map_jsons(settings: &mut settings::Settings, mut all_items: Vec<Item>) -> Vec<Item>{
     println!("Folders coming up");
-    for folder in glob("decomp/pokeemerald-expansion/data/maps/**/*.json").expect("Failed to read glob pattern") {
+    for folder in glob(game_chooser::get_map_json_files(settings).as_str()).expect("Failed to read glob pattern") {
         match folder {
             Ok(path) => {
                 change_item_in_map_json(path.display().to_string(),&mut all_items);
