@@ -1366,8 +1366,6 @@ fn string_to_legend_status(pkmn_stats: String) -> LegendStatus{
     }
 }
 
-
-
 pub fn pokemon_alternate_forms(species: Pokemon,all_stats: &Vec<PokemonStats>,settings: &mut settings::Settings) -> String{
     return match species{
         Pokemon::Pikachu => get_random_name_from_list_with_prefered(settings,vec![

@@ -55,8 +55,8 @@ pub fn do_starter_randomization(settings: &mut settings::Settings, pkmn_data: &V
     }
 }
 
-pub fn do_trainer_randomization(settings: &mut settings::Settings,pkmn_data: &Vec<pokemon::PokemonStats>,starters: starter_randomization::Starter){
-    match settings.game{
+pub fn do_trainer_randomization(settings: &mut settings::Settings,pkmn_data: &Vec<pokemon::PokemonStats>,starters: starter_randomization::Starter) -> Vec<pokemon::Type>{
+    return match settings.game{
         settings::Game::Emerald => trainers::shuffle_trainers(settings,&pkmn_data,"data/gen3/emerald/trainers.txt".to_string(),"decomp/pokeemerald-expansion/src/data/trainers.party".to_string(),starters)
     }
 }
@@ -86,48 +86,10 @@ pub fn check_if_special_trainer(settings: &mut settings::Settings,trainer: train
 }
 
 pub fn handle_special_trainer(trainer: trainers::Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,
-    starters: &starter_randomization::Starter,rival: &trainers::MayBrendanTeam,wally: &trainers::WallyTeam,gym_types: Vec<pokemon::Type>) -> trainers::Trainer{
+    starters: &starter_randomization::Starter,rival: &trainers::MayBrendanTeam,rival_2: &trainers::WallyTeam,gym_types: Vec<pokemon::Type>,elite_4_types: Vec<pokemon::Type>) -> trainers::Trainer{
     return match settings.game{
-        settings::Game::Emerald => emerald::special_trainers::handle_special_trainer(trainer,settings,all_stats,starters,rival,wally,gym_types)
+        settings::Game::Emerald => emerald::special_trainers::handle_special_trainer(trainer,settings,all_stats,starters,rival,rival_2,gym_types,elite_4_types)
     };
-}
-
-
-//-------------------------------------------------------------------------Strings and Filenames-------------------------------------------------
-pub fn get_pokemon_data_file(settings: &mut settings::Settings) -> String{
-    return match settings.game{
-        settings::Game::Emerald => "data/gen3/pokemon.csv".to_string()
-    };
-}
-
-pub fn get_wild_pokemon_data_file(settings: &mut settings::Settings) -> String{
-    return match settings.game{
-        settings::Game::Emerald => "data/gen3/emerald/wild_encounters.json".to_string()
-    }
-}
-
-pub fn get_wild_pokemon_file(settings: &mut settings::Settings) -> String{
-    return match settings.game{
-        settings::Game::Emerald => "decomp/pokeemerald-expansion/src/data/wild_encounters.json".to_string()
-    }
-}
-
-pub fn get_item_locations(settings: &mut settings::Settings) -> String{
-    return match settings.game{
-        settings::Game::Emerald => "data/gen3/emerald/item_locations.csv".to_string()
-    }
-}
-
-pub fn get_items(settings: &mut settings::Settings) -> String{
-    return match settings.game{
-        settings::Game::Emerald => "data/gen3/items.json".to_string()
-    }
-}
-
-pub fn randomizer_scripts(settings: &mut settings::Settings) -> String{
-    return match settings.game{
-        settings::Game::Emerald => "decomp/pokeemerald-expansion/data/scripts/randomizer_scripts.inc".to_string()
-    }
 }
 
 pub fn startup_stuff(settings: &mut settings::Settings) -> String{
@@ -136,7 +98,45 @@ pub fn startup_stuff(settings: &mut settings::Settings) -> String{
     }
 }
 
-pub fn build_rom(settings: &mut settings::Settings) -> String{
+
+//-------------------------------------------------------------------------Strings and Filenames-------------------------------------------------
+pub fn get_pokemon_data_file(settings: &settings::Settings) -> String{
+    return match settings.game{
+        settings::Game::Emerald => "data/gen3/pokemon.csv".to_string()
+    };
+}
+
+pub fn get_wild_pokemon_data_file(settings: &settings::Settings) -> String{
+    return match settings.game{
+        settings::Game::Emerald => "data/gen3/emerald/wild_encounters.json".to_string()
+    }
+}
+
+pub fn get_wild_pokemon_file(settings: &settings::Settings) -> String{
+    return match settings.game{
+        settings::Game::Emerald => "decomp/pokeemerald-expansion/src/data/wild_encounters.json".to_string()
+    }
+}
+
+pub fn get_item_locations(settings: &settings::Settings) -> String{
+    return match settings.game{
+        settings::Game::Emerald => "data/gen3/emerald/item_locations.csv".to_string()
+    }
+}
+
+pub fn get_items(settings: &settings::Settings) -> String{
+    return match settings.game{
+        settings::Game::Emerald => "data/gen3/items.json".to_string()
+    }
+}
+
+pub fn randomizer_scripts(settings: &settings::Settings) -> String{
+    return match settings.game{
+        settings::Game::Emerald => "decomp/pokeemerald-expansion/data/scripts/randomizer_scripts.inc".to_string()
+    }
+}
+
+pub fn build_rom(settings: &settings::Settings) -> String{
     return match settings.game{
         settings::Game::Emerald => "src/src/gen3/emerald/make_rom.sh".to_string()
     }
@@ -147,8 +147,30 @@ pub fn get_randomizer_script_filename(settings: &mut settings::Settings) -> Stri
     }
 }
 
-pub fn get_map_json_files(settings: &mut settings::Settings) -> String{
+pub fn get_map_json_files(settings: &settings::Settings) -> String{
     return match settings.game{
         settings::Game::Emerald => "decomp/pokeemerald-expansion/data/maps/**/*.json".to_string()
+    }
+}
+
+//------------------------------------------------------------------Just Numbers here-----------------------------------------------------------------
+
+//Generally should be 8, but Johto exists so we are going to make this a function for future proofing
+pub fn num_gym_leaders(settings: &settings::Settings) -> i16{
+    return match settings.game{
+        settings::Game::Emerald => 8
+    }
+}
+
+//Elite 4 types should also include Champion, generally this should be 5. Probably a reason to make it not 5, but I have no clue what that could be.
+pub fn num_elite_4(settings: &settings::Settings) -> i16{
+    return match settings.game{
+        settings::Game::Emerald => 5
+    }
+}
+
+pub fn get_gym_ace_level(settings: &settings::Settings,num_gym: i16) -> i16{
+    return match settings.game{
+        settings::Game::Emerald => vec![15,19,24,29,31,33,42,46][num_gym as usize]
     }
 }

@@ -21,10 +21,10 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
     let pkmn_data = read_all_pokemon(settings);
     wild_pokemon::randomize_wild_pokemon(settings,&pkmn_data);
     let starters = game_chooser::do_starter_randomization(settings, &pkmn_data);
-    game_chooser::do_trainer_randomization(settings,&pkmn_data,starters);
+    let gym_types = game_chooser::do_trainer_randomization(settings,&pkmn_data,starters);
     setup_evolution_fixes(settings);
 
-    let mut all_items : Vec<item_randomization::Item> = item_randomization::randomize_items(settings,&pkmn_data);
+    let mut all_items : Vec<item_randomization::Item> = item_randomization::randomize_items(settings,&pkmn_data,&gym_types);
 
     create_rando_script::create_rando_scripts(settings,all_items,&pkmn_data);
 

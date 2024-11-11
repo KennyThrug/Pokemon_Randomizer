@@ -101,7 +101,8 @@ fn get_item_script(item_type :Item_type) -> String{
         Item_type::EGG => "Randomizer_Eventscript_Give_Egg_From_Template".to_string(),
         Item_type::POKEMON => "Randomizer_Eventscript_Give_Pokemon".to_string(),
         Item_type::TRAP => "Randomizer_Eventscript_Do_Trap_From_Template".to_string(),
-        Item_type::BADGE => "common_rando_".to_string()
+        Item_type::BADGE => "common_rando_".to_string(),
+        Item_type::RAW_SCRIPT => "If this is being used, there is something wrong".to_string()
     };
 }
 
@@ -112,29 +113,36 @@ fn convert_item_to_function(cur_item: Item,settings: &mut settings::Settings,pok
         return "".to_string();
     }
     let mut final_string = format!("{}::\n",cur_item.item_script);
-
-    if cur_item.item_type == Item_type::NORMAL_ITEM {
-        final_string.push_str(format!("giveitem {}",cur_item.clone().item_name).as_str());
-    }
-    else if cur_item.item_type == Item_type::EGG {
-        final_string.push_str(format!("setvar VAR_TEMP_TRANSFERRED_SPECIES, {}\ncall Randomizer_Eventscript_Give_Egg",
-        cur_item.item_name).as_str());
-    }
-    else if cur_item.item_type == Item_type::POKEMON {
-        final_string.push_str(format!("setvar VAR_TEMP_TRANSFERRED_SPECIES, {}\ncall Randomizer_Eventscript_Give_Pokemon",
-        cur_item.item_name).as_str());
-    }
-    else if cur_item.item_type == Item_type::TRAP{
-        final_string.push_str(format!("setwildbattle {}, 40\ndowildbattle",
-        cur_item.item_name).as_str());
-    }
-    else if cur_item.item_type == Item_type::BADGE {
-        final_string.push_str(format!(
-            "message {}
-	waitmessage
-	call Common_EventScript_PlayGymBadgeFanfare
-	setflag {}
-	setvar VAR_RESULT, TRUE",convert_badge_to_message(cur_item.item_name.clone()),cur_item.item_name).as_str());
+    match cur_item.item_type{
+        Item_type::NORMAL_ITEM => {
+            final_string.push_str(format!("giveitem {}",cur_item.clone().item_name).as_str());
+        }
+        Item_type::EGG => {
+            final_string.push_str(format!("setvar VAR_TEMP_TRANSFERRED_SPECIES, {}\ncall Randomizer_Eventscript_Give_Egg",
+            cur_item.item_name).as_str());
+        }
+        Item_type::POKEMON => {
+            final_string.push_str(format!("setvar VAR_TEMP_TRANSFERRED_SPECIES, {}\ncall Randomizer_Eventscript_Give_Pokemon",
+            cur_item.item_name).as_str());
+        }
+        Item_type::TRAP => {
+            final_string.push_str(format!("setwildbattle {}, 40\ndowildbattle",
+            cur_item.item_name).as_str());
+        }
+        Item_type::BADGE => {
+            final_string.push_str(format!(
+                "message {}
+        waitmessage
+        call Common_EventScript_PlayGymBadgeFanfare
+        setflag {}
+        setvar VAR_RESULT, TRUE",convert_badge_to_message(cur_item.item_name.clone()),cur_item.item_name).as_str());
+        }
+        Item_type::TRAINER => {
+            final_string.push_str("");
+        }
+        Item_type::RAW_SCRIPT => {
+            final_string.push_str(cur_item.item_name.as_str());
+        }
     }
     //Add extra stuff that actually does the items
 

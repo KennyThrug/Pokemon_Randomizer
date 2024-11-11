@@ -91,8 +91,8 @@ function openTab(evt, tabName) {
       gym_leader_z_crystal: document.getElementById("GymLeaderZCrystal").checked,
       gym_leader_dynamax: document.getElementById("GymLeaderDynamax").checked,
       gym_leader_terra: document.getElementById("GymLeaderTerra").checked,
-      gym_type: "Random_Type",
-      get_gimmick_stone: true,
+      gym_type: get_gym_type(),
+      get_gimmick_stone: document.getElementById("GetGimmickStone").checked,
       recieve_pokemon_reward_gym: true,
       randomize_gym_locations: false,
       //Item Randomization
@@ -161,6 +161,15 @@ function openTab(evt, tabName) {
       return "SometimesLegends"
     }
     return "NoLegends"
+  }
+  function get_gym_type(){
+    if(document.getElementById("VanillaGyms").checked){
+      return "KeepType"
+    }
+    if(document.getElementById("RandomGyms").checked){
+      return "Random_Type"
+    }
+    return "CompletelyRandom"
   }
   function createRandomSeed(){
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

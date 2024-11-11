@@ -37,28 +37,29 @@ Launcher (and possibly runner) for a randomizer pokemon
 ### Gym Randomization
 - [ ] Gym Leader Keys
 - [ ] Allow Legendaries on Gym Leaders
-- [ ] Force Gym pokemon to share type
-- [ ] Randomize Gym Types
+- [x] Force Gym pokemon to share type
+- [x] Randomize Gym Types
 - [ ] Get Random Pokemon as Gym Reward
+- [ ] Get pokemon of same type as gym as reward?
 - [ ] Gimmick Stone Randomization as Gym Reward
 - [ ] Gym Location Randomization
 ### Item Randomization
-- [ ] Add Extra Rare Candies to Item Pool
-- [ ] Add Held Items
-- [ ] Get Items from Trainers
+- [x] Add Extra Rare Candies to Item Pool
+- [x] Add Held Items
+- [x] Get Items from Trainers
 - [ ] Get Important Items only from Trainers
-- [ ] Allow Poke-balls in Pool
-- [ ] Make Balls Reusable if unsuccessful
-- [ ] Limit Ball number in pool
-- [ ] Put Healing Items in Pool
-- [ ] Put Revives in Pool
-- [ ] Randomize Hidden (Itemfinder) Items
+- [x] Allow Poke-balls in Pool
+- [x] Make Balls always successful
+- [x] Limit Ball number in pool
+- [x] Put Healing Items in Pool
+- [x] Put Revives in Pool
+- [x] Randomize Hidden (Itemfinder) Items
 - [ ] Randomize Items from talking to NPCs
 - [ ] Randomize Key Items (Fishing Pole, Bike)
-- [ ] Randomize Mega Stones
-- [ ] Randomize Z crystals
+- [x] Randomize Mega Stones
+- [x] Randomize Z crystals
 - [ ] Randomize Running Shoes
-- [ ] Randomize TMs
+- [x] Randomize TMs
 - [ ] Gym Leader Keys
 - [ ] Randomize Gym Badges (in Normal pool)
 - [ ] Randomize Berries
@@ -75,13 +76,15 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Randomize Professor Birch's example pokemon
 - [ ] Randomize Battle Transitions for Legendaries
 - [ ] NPC to turn Pokemon to egg
-- [ ] Follower Pokemon
+- [x] Follower Pokemon
 - [ ] Enforce level cap
 - [ ] Silly extras and Troll items (such as a gender change or reversing the name of the lead pokemon, teleporting you somewhere, etc.)
 
 
 
 # Technical Information
+## Known Bugs
+Gives non-randomized items for randomized gyms if "Give Gimmick Stones" is Checked
 
 ## Files that are edited by the randomizer
 src/data/trainers.party

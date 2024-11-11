@@ -131,7 +131,7 @@ pub fn check_if_special_trainer(trainer: Trainer) -> bool{
 //Pick Treeko -> Rival gets Torchic
 //Pick Mudkip -> Rival gets Treeko
 pub fn handle_special_trainer(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,
-    starters: &starter_randomization::Starter,rival: &trainers::MayBrendanTeam,wally: &trainers::WallyTeam,gym_types: Vec<pokemon::Type>) -> Trainer{
+    starters: &starter_randomization::Starter,rival: &trainers::MayBrendanTeam,wally: &trainers::WallyTeam,gym_types: Vec<pokemon::Type>,elite_4_types: Vec<pokemon::Type>) -> Trainer{
         println!("Name: {}",trainer.trainer_name);
         match trainer.trainer_name.as_str(){
             //Rustboro City Gym
@@ -207,11 +207,11 @@ pub fn handle_special_trainer(trainer: Trainer, settings: &mut settings::Setting
             "BRIDGET" => {return handle_gym_trainer(trainer,settings,all_stats,gym_types[7],pokemon::Type::Water)}
             "JUAN" => {return handle_gym_leader(trainer,settings,all_stats,gym_types[7],pokemon::Type::Water,7);}
             //Pokemon League
-            "SIDNEY" => {return handle_gym_leader(trainer,settings,all_stats,gym_types[8],pokemon::Type::Dark,8);}
-            "GLACIA" => {return handle_gym_leader(trainer,settings,all_stats,gym_types[9],pokemon::Type::Ice,9);}
-            "PHOEBE" => {return handle_gym_leader(trainer,settings,all_stats,gym_types[10],pokemon::Type::Ghost,10);}
-            "DRAKE" => {return handle_gym_leader(trainer,settings,all_stats,gym_types[11],pokemon::Type::Dragon,11);}
-            "WALLACE" => {return handle_gym_leader(trainer,settings,all_stats,gym_types[12],pokemon::Type::Water,12);}
+            "SIDNEY" => {return handle_gym_leader(trainer,settings,all_stats,elite_4_types[0],pokemon::Type::Dark,8);}
+            "GLACIA" => {return handle_gym_leader(trainer,settings,all_stats,elite_4_types[1],pokemon::Type::Ice,9);}
+            "PHOEBE" => {return handle_gym_leader(trainer,settings,all_stats,elite_4_types[2],pokemon::Type::Ghost,10);}
+            "DRAKE" => {return handle_gym_leader(trainer,settings,all_stats,elite_4_types[3],pokemon::Type::Dragon,11);}
+            "WALLACE" => {return handle_gym_leader(trainer,settings,all_stats,elite_4_types[4],pokemon::Type::Water,12);}
             //Wally's
             "WALLY" =>{
                 if trainer.trainer_full_name == "=== TRAINER_WALLY_MAUVILLE ==="{

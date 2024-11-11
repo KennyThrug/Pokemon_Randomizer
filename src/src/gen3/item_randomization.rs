@@ -34,7 +34,8 @@ pub enum Item_type{
     EGG,
     POKEMON,
     TRAP,
-    BADGE
+    BADGE,
+    RAW_SCRIPT //For use when you just want to use the "Item Name" as the full script, inserted into code raw
 }
 fn parse_location_type(raw_string: String) -> Location_type{
     match raw_string.as_str(){
@@ -92,22 +93,31 @@ fn get_all_items(settings: &mut settings::Settings) -> Vec<Item>{
 
 //Entry point, called by an outside file (i.e. emerald/startup.rs)
 //Doesn't actually do the randomization of the files, but calls functions that do (randomize)
-pub fn randomize_items(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> Vec<Item>{
+pub fn randomize_items(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>, gym_types: &Vec<pokemon::Type>) -> Vec<Item>{
     let mut all_items = get_all_items(settings);
     //Note: this "randomize" function passes ownership of all_items
-    all_items = randomize(all_items,settings,pokemon_data);
+    all_items = randomize(all_items,settings,pokemon_data,gym_types);
     return all_items;
 }
 
 //Primary function used to Randomize items. If you are looking to change randomization, probably look at this or look at logic
-fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> Vec<Item>{
-    if(settings.randomize_items == false){return all_item_locations;}//No point in this function if randomization is off
+fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>, gym_types: &Vec<pokemon::Type>) -> Vec<Item>{
+    let mut final_items: Vec<Item> = Vec::new();
+    //This happens before because if the gym leader functions don't exist, the rom won't compile
     //Step one, get all the items we need to add to the pool
     let mut all_items_to_add = add_items_to_pool(settings);
+    for i in 0..gym_types.len(){
+        final_items.push(handle_gym_rewards(settings,i as i16,gym_types[i],pokemon_data,&mut all_items_to_add));
+    }
+    //No point in the rest of this function if randomization is off
+    if(settings.randomize_items == false){
+        all_item_locations.append(&mut final_items);
+        return all_item_locations;
+    }
+
     //Step two, randomize the items
     let mut all_items = randomize_vector_item(settings,&mut all_item_locations.clone());
     let banned_items = get_banned_items(settings);
-    let mut final_items: Vec<Item> = Vec::new();
     let mut added = false;
     for mut cur_loc in all_items{
         added = false;
@@ -292,11 +302,6 @@ fn randomize_vector_item(settings: &mut settings::Settings,items: &mut Vec<Item>
     return randomized_items;
 }
 
-fn handle_badges(settings: &mut settings::Settings,item: &mut Item) -> String{
-    let final_result: String = "".to_string();
-    return "".to_string();
-}
-
 fn add_items_to_pool(settings: &mut settings::Settings) -> Vec<String>{
     let data = fs::read_to_string(game_chooser::get_items(settings).as_str()).expect("unable to read file");
     let mut parsed_data = json::parse(&data).unwrap();
@@ -359,6 +364,68 @@ fn add_items_to_pool(settings: &mut settings::Settings) -> Vec<String>{
     //Make sure that the key items are at the END and not the begining
     new_suffled.append(&mut total_items);
     return new_suffled;
+}
+
+//This function will make the rewards you get from gyms, as they can do multiple things. To be clear, the "all_items_to_add" parameter is the...
+//...array of items that are added to the locations (obtained with add_items_to_pool), not the locations themselves
+fn handle_gym_rewards(settings: &mut settings::Settings,gym_number: i16,gym_type: pokemon::Type, pokemon_data: &Vec<pokemon::PokemonStats>,all_items_to_add: &mut Vec<String>) -> Item{
+    let mut all_gym_rewards: Item = Item{
+        item_name: "".to_string(),
+        trainer_name: "".to_string(),
+        item_script: format!("gym_number_{}",gym_number),
+        post_item_script: "".to_string(),
+        location_type: Location_type::GYM_LEADER,
+        location_area: "".to_string(),
+        item_type: Item_type::RAW_SCRIPT,
+        item_hidden: false,
+        prerequisites: Vec::new()
+    };
+    if settings.get_gimmick_stone{
+        let z_crys = match gym_type{
+            pokemon::Type::Normal => "ITEM_NORMALIUM_Z".to_string(),
+            pokemon::Type::Fire => "ITEM_FIRIUM_Z".to_string(),
+            pokemon::Type::Water => "ITEM_WATERIUM_Z".to_string(),
+            pokemon::Type::Electric => "ITEM_ELECTRIUM_Z".to_string(),
+            pokemon::Type::Grass => "ITEM_GRASSIUM_Z".to_string(),
+            pokemon::Type::Ice => "ITEM_ICIUM_Z".to_string(),
+            pokemon::Type::Fighting => "ITEM_FIGHTINIUM_Z".to_string(),
+            pokemon::Type::Poison => "ITEM_POISONIUM_Z".to_string(),
+            pokemon::Type::Ground => "ITEM_GROUNDIUM_Z".to_string(),
+            pokemon::Type::Flying => "ITEM_FLYINIUM_Z".to_string(),
+            pokemon::Type::Psychic => "ITEM_PSYCHIUM_Z".to_string(),
+            pokemon::Type::Bug => "ITEM_BUGINIUM_Z".to_string(),
+            pokemon::Type::Rock => "ITEM_ROCKIUM_Z".to_string(),
+            pokemon::Type::Ghost => "ITEM_GHOSTIUM_Z".to_string(),
+            pokemon::Type::Dragon => "ITEM_DRAGONIUM_Z".to_string(),
+            pokemon::Type::Dark => "ITEM_DARKINIUM_Z".to_string(),
+            pokemon::Type::Steel => "ITEM_STEELIUM_Z".to_string(),
+            pokemon::Type::Fairy => "ITEM_FAIRIUM_Z".to_string(),
+            _ => "ITEM_NORMALIUM_Z".to_string(),
+        };
+        remove_from_array(all_items_to_add,z_crys.clone());
+        all_gym_rewards.item_name.push_str(format!("    giveitem {}\n",z_crys).as_str());
+    }
+    if settings.recieve_pokemon_reward_gym{
+        let mut temp_mon = wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,game_chooser::get_gym_ace_level(settings,gym_number));
+        while (pokemon::get_pokemon_data(pokemon::get_pokemon_from_name(temp_mon.clone(),pokemon_data),pokemon_data).type1 != gym_type && pokemon::get_pokemon_data(pokemon::get_pokemon_from_name(temp_mon.clone(),pokemon_data),pokemon_data).type2 != gym_type){
+            temp_mon = wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,game_chooser::get_gym_ace_level(settings,gym_number));
+        }
+        all_gym_rewards.item_name.push_str(format!("giveitem ITEM_POKEBALL
+        givemon {}, {}
+        goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Randomizer_Recieve_Pokemon_Party
+        goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, Randomizer_Recieve_Pokemon_PC
+        goto Common_EventScript_NoMoreRoomForPokemon\n"
+        ,temp_mon,game_chooser::get_gym_ace_level(settings,gym_number)).as_str());
+    };
+    return all_gym_rewards;
+}
+fn remove_from_array(all_items_to_add: &mut Vec<String>, item: String){
+    for i in 0..all_items_to_add.len(){
+        if all_items_to_add[i] == item{
+            all_items_to_add.remove(i);
+            return;
+        }
+    }
 }
 
 //Helper function for add_items_to_pool, adds items to the array so I don't have a ton of duplicate code
