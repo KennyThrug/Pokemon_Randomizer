@@ -59,6 +59,14 @@ function openTab(evt, tabName) {
     }
   }
 
+  function updateGymTab(evt){
+    if(document.getElementById("GetPokemonGym").checked){
+      document.getElementById("GymPokemonTypeDiv").style.display = "block"
+    }
+    else{
+      document.getElementById("GymPokemonTypeDiv").style.display = "none"
+    }
+  }
   //--------------------------------------------All Below this Line is functionallity and Helpers for Generating Seeds -------------------------------------------------------
   function convertToJson(){
     var settings = {
@@ -93,7 +101,8 @@ function openTab(evt, tabName) {
       gym_leader_terra: document.getElementById("GymLeaderTerra").checked,
       gym_type: get_gym_type(),
       get_gimmick_stone: document.getElementById("GetGimmickStone").checked,
-      recieve_pokemon_reward_gym: true,
+      recieve_pokemon_reward_gym: document.getElementById("GetPokemonGym").checked,
+      gym_pokemon_same_type_as_gym: document.getElementById("GymPokemonSameType").checked,
       randomize_gym_locations: false,
       //Item Randomization
       randomize_items: document.getElementById("RandomizeItems").checked,

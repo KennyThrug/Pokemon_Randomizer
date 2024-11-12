@@ -174,3 +174,15 @@ pub fn get_gym_ace_level(settings: &settings::Settings,num_gym: i16) -> i16{
         settings::Game::Emerald => vec![15,19,24,29,31,33,42,46][num_gym as usize]
     }
 }
+
+pub fn get_gym_types(settings: &settings::Settings) -> Vec<pokemon::Type>{
+    return match settings.game{
+        settings::Game::Emerald => vec![pokemon::Type::Rock,pokemon::Type::Fighting,pokemon::Type::Electric,pokemon::Type::Fire,pokemon::Type::Normal,pokemon::Type::Flying,pokemon::Type::Psychic,pokemon::Type::Water]
+    }
+}
+
+pub fn get_elite_four_types(settings: &settings::Settings) -> Vec<pokemon::Type>{
+    return match settings.game{
+        settings::Game::Emerald => vec![pokemon::Type::Dark,pokemon::Type::Ghost,pokemon::Type::Ice,pokemon::Type::Dragon,pokemon::Type::Water]
+    }
+}

@@ -5,6 +5,7 @@ use crate::src::pokemon;
 use crate::src::game_chooser;
 use crate::src::gen3::logic;
 use crate::src::hint_system;
+use crate::src::gen3::trainers;
 
 #[derive(Clone)]
 pub struct Item{
@@ -380,8 +381,15 @@ fn handle_gym_rewards(settings: &mut settings::Settings,gym_number: i16,gym_type
         item_hidden: false,
         prerequisites: Vec::new()
     };
+    let final_gym_type = if settings.gym_type == settings::GymType::CompletelyRandom{
+        trainers::get_random_type(settings)
+    }
+    else{
+        gym_type
+    };
+
     if settings.get_gimmick_stone{
-        let z_crys = match gym_type{
+        let z_crys = match final_gym_type{
             pokemon::Type::Normal => "ITEM_NORMALIUM_Z".to_string(),
             pokemon::Type::Fire => "ITEM_FIRIUM_Z".to_string(),
             pokemon::Type::Water => "ITEM_WATERIUM_Z".to_string(),
@@ -400,17 +408,17 @@ fn handle_gym_rewards(settings: &mut settings::Settings,gym_number: i16,gym_type
             pokemon::Type::Dark => "ITEM_DARKINIUM_Z".to_string(),
             pokemon::Type::Steel => "ITEM_STEELIUM_Z".to_string(),
             pokemon::Type::Fairy => "ITEM_FAIRIUM_Z".to_string(),
-            _ => "ITEM_NORMALIUM_Z".to_string(),
+            _ => "ITEM_DYNAMAX_CANDY,".to_string(),
         };
         remove_from_array(all_items_to_add,z_crys.clone());
         all_gym_rewards.item_name.push_str(format!("    giveitem {}\n",z_crys).as_str());
     }
     if settings.recieve_pokemon_reward_gym{
         let mut temp_mon = wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,game_chooser::get_gym_ace_level(settings,gym_number));
-        while (pokemon::get_pokemon_data(pokemon::get_pokemon_from_name(temp_mon.clone(),pokemon_data),pokemon_data).type1 != gym_type && pokemon::get_pokemon_data(pokemon::get_pokemon_from_name(temp_mon.clone(),pokemon_data),pokemon_data).type2 != gym_type){
+        while settings.gym_pokemon_same_type_as_gym && (pokemon::get_pokemon_data(pokemon::get_pokemon_from_name(temp_mon.clone(),pokemon_data),pokemon_data).type1 != final_gym_type && pokemon::get_pokemon_data(pokemon::get_pokemon_from_name(temp_mon.clone(),pokemon_data),pokemon_data).type2 != final_gym_type){
             temp_mon = wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,game_chooser::get_gym_ace_level(settings,gym_number));
         }
-        all_gym_rewards.item_name.push_str(format!("giveitem ITEM_POKEBALL
+        all_gym_rewards.item_name.push_str(format!("giveitem ITEM_POKE_BALL
         givemon {}, {}
         goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Randomizer_Recieve_Pokemon_Party
         goto_if_eq VAR_RESULT, MON_GIVEN_TO_PC, Randomizer_Recieve_Pokemon_PC

@@ -65,7 +65,7 @@ pub fn get_random_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &
 }
 
 //Gets a pokemon thats guarenteed to be a legendary
-pub fn get_legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>,level: i32,other_legends: &mut Vec<pokemon::Pokemon>) -> pokemon::PokemonStats{
+pub fn get_legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>,level: i32,other_legends: &Vec<pokemon::Pokemon>) -> pokemon::PokemonStats{
     let rand_val = settings::get_next_seed(0, pokemon_data.len() as i32, settings);
     let pokemon = pokemon_data[rand_val as usize].clone();
     if settings.force_legendaries_to_legendaries == settings::LegendRarity::AlwaysLegendary && !(pokemon.status == LegendStatus::LegendMega || pokemon.status == LegendStatus::Legendary){
@@ -85,7 +85,6 @@ pub fn get_legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Ve
             return get_legendary_pokemon(settings, pokemon_data, level, other_legends);
         }
     }
-    other_legends.push(pokemon.pokemon_id);
     return trainers::scale_pokemon(pokemon.pokemon_id, level, pokemon_data, settings);
 }
 

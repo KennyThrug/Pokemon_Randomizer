@@ -38,6 +38,7 @@ pub struct Settings{
     pub gym_type: GymType,
     pub get_gimmick_stone: bool,
     pub recieve_pokemon_reward_gym: bool,
+    pub gym_pokemon_same_type_as_gym: bool,
     pub randomize_gym_locations: GymLocationRandomization,
     //Item Randomization
     pub randomize_items: bool,
@@ -148,6 +149,7 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         gym_leader_terra: parsed_json["gym_leader_terra"].as_bool().unwrap(),
         gym_type: convert_string_to_gym_type(parsed_json["gym_type"].to_string()),
         recieve_pokemon_reward_gym: parsed_json["recieve_pokemon_reward_gym"].as_bool().unwrap(),
+        gym_pokemon_same_type_as_gym: parsed_json["gym_pokemon_same_type_as_gym"].as_bool().unwrap(),
         randomize_gym_locations: convert_string_to_gym_location(parsed_json["randomize_gym_locations"].to_string()),
         //Item Randomization
         randomize_items: parsed_json["randomize_items"].as_bool().unwrap(),

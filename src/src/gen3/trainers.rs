@@ -214,8 +214,18 @@ pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemo
     let mut trainer_data = read_all_trainers(trainer_parties_read_filename,all_stats);
     let (rival_team,wally_team) = create_rival_teams(settings, all_stats);
     game_chooser::randomize_static_pokemon(settings, all_stats, &rival_team, &wally_team);
-    let gym_types = randomize_gym_types(game_chooser::num_gym_leaders(settings),settings);
-    let elite_4_types = randomize_gym_types(game_chooser::num_elite_4(settings),settings);
+    let gym_types = if settings.gym_type == settings::GymType::RandomType{
+        randomize_gym_types(game_chooser::num_gym_leaders(settings),settings)
+    }
+    else{
+        game_chooser::get_gym_types(settings)
+    };
+    let elite_4_types = if settings.gym_type == settings::GymType::RandomType{
+        randomize_gym_types(game_chooser::num_elite_4(settings),settings)
+    }
+    else{
+        game_chooser::get_elite_four_types(settings)
+    };
     for i in 0..trainer_data.len(){
         if game_chooser::check_if_special_trainer(settings,trainer_data[i].clone()){
             trainer_data[i] = game_chooser::handle_special_trainer(trainer_data[i].clone(), settings, all_stats,&starters,&rival_team,&wally_team,gym_types.clone(),elite_4_types.clone());

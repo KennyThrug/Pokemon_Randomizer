@@ -183,6 +183,18 @@
         <input type="checkbox" id="GetGimmickStone">
         <span class="slider round"></span>
       </label>
+      <h4>Gym Leaders give a random pokemon</h4>
+      <label class="switch">
+        <input type="checkbox" id="GetPokemonGym" onclick="updateGymTab()">
+        <span class="slider round"></span>
+      </label>
+      <div style="display: none", id="GymPokemonTypeDiv">
+      <h4>Gym Leaders give pokemon of same type as Gym</h4>
+      <label class="switch">
+        <input type="checkbox" id="GymPokemonSameType">
+        <span class="slider round"></span>
+      </label>
+    </div>
       <h4>Gym Leaders can use Megas</h4>
       <label class="switch">
         <input type="checkbox" id="GymLeaderMega">
@@ -219,7 +231,7 @@
       <div id="ItemsAppear" style="display: none">
         <div>
           <h4>Number of Extra Rare Candies in Pool</h4>
-          <input type="number" id="NumberRareCandies" , value="200">
+          <input type="number" id="NumberRareCandies" , value="99">
           <h4>Add Healing Items into the pool</h4>
           <label class="switch">
             <input type="checkbox" id="HealingItems">
@@ -246,7 +258,7 @@
             <span class="slider round"></span>
           </label>
           <h4>Number of Pokeballs in Pool</h4>
-          <input type="number" id="NumberPokeballs" , value="20">
+          <input type="number" id="NumberPokeballs" , value="60">
           <h4>Randomize HM's</h4>
           <label class="switch" onclick="updateItemTab()">
             <input type="checkbox" id="RandomizeHMs">
