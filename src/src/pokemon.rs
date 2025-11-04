@@ -1376,14 +1376,14 @@ pub fn pokemon_alternate_forms(species: Pokemon,all_stats: &Vec<PokemonStats>,se
             "PIKACHU_POP_STAR".to_string(),
             "PIKACHU_PH_D".to_string(),
             "PIKACHU_LIBRE".to_string(),
-            "PIKACHU_ORIGINAL_CAP".to_string(),
-            "PIKACHU_HOENN_CAP".to_string(),
-            "PIKACHU_SINNOH_CAP".to_string(),
-            "PIKACHU_UNOVA_CAP".to_string(),
-            "PIKACHU_KALOS_CAP".to_string(),
-            "PIKACHU_ALOLA_CAP".to_string(),
-            "PIKACHU_PARTNER_CAP".to_string(),
-            "PIKACHU_WORLD_CAP".to_string()],0),
+            "PIKACHU_ORIGINAL".to_string(),
+            "PIKACHU_HOENN".to_string(),
+            "PIKACHU_SINNOH".to_string(),
+            "PIKACHU_UNOVA".to_string(),
+            "PIKACHU_KALOS".to_string(),
+            "PIKACHU_ALOLA".to_string(),
+            "PIKACHU_PARTNER".to_string(),
+            "PIKACHU_WORLD".to_string()],0),
         Pokemon::Unown => get_random_name_from_list(settings,vec![
             "UNOWN".to_string(),
             "UNOWN_B".to_string(),
@@ -1421,27 +1421,27 @@ pub fn pokemon_alternate_forms(species: Pokemon,all_stats: &Vec<PokemonStats>,se
             "DEOXYS_SPEED".to_string()
         ]),
         Pokemon::Burmy => get_random_name_from_list(settings,vec![
-            "BURMY_PLANT_CLOAK".to_string(),
-            "BURMY_SANDY_CLOAK".to_string(),
-            "BURMY_TRASH_CLOAK".to_string()
+            "BURMY_PLANT".to_string(),
+            "BURMY_SANDY".to_string(),
+            "BURMY_TRASH".to_string()
         ]),
         Pokemon::Wormadam => get_random_name_from_list(settings,vec![
-            "WORMADAM_PLANT_CLOAK".to_string(),
-            "WORMADAM_SANDY_CLOAK".to_string(),
-            "WORMADAM_TRASH_CLOAK".to_string()
+            "WORMADAM_PLANT".to_string(),
+            "WORMADAM_SANDY".to_string(),
+            "WORMADAM_TRASH".to_string()
         ]),
         Pokemon::Mothim => get_random_name_from_list(settings,vec![
-            "MOTHIM_PLANT_CLOAK".to_string(),
-            "MOTHIM_SANDY_CLOAK".to_string(),
-            "MOTHIM_TRASH_CLOAK".to_string()
+            "MOTHIM_PLANT".to_string(),
+            "MOTHIM_SANDY".to_string(),
+            "MOTHIM_TRASH".to_string()
         ]),
         Pokemon::Shellos => get_random_name_from_list(settings,vec![
-            "SHELLOS_EAST_SEA".to_string(),
-            "SHELLOS_WEST_SEA".to_string()
+            "SHELLOS_EAST".to_string(),
+            "SHELLOS_WEST".to_string()
         ]),
         Pokemon::Gastrodon => get_random_name_from_list(settings,vec![
-            "GASTRODON_EAST_SEA".to_string(),
-            "GASTRODON_WEST_SEA".to_string()
+            "GASTRODON_EAST".to_string(),
+            "GASTRODON_WEST".to_string()
         ]),
         Pokemon::Shaymin => get_random_name_from_list(settings,vec![
             "SHAYMIN_SKY".to_string(),
@@ -1535,38 +1535,38 @@ pub fn pokemon_alternate_forms(species: Pokemon,all_stats: &Vec<PokemonStats>,se
             "SCATTERBUG_POKE_BALL".to_string()
         ]),
         Pokemon::Flabebe => get_random_name_from_list(settings,vec![
-            "FLABEBE_RED_FLOWER".to_string(),
-            "FLABEBE_YELLOW_FLOWER".to_string(),
-            "FLABEBE_ORANGE_FLOWER".to_string(),
-            "FLABEBE_BLUE_FLOWER".to_string(),
-            "FLABEBE_WHITE_FLOWER".to_string()
+            "FLABEBE_RED".to_string(),
+            "FLABEBE_YELLOW".to_string(),
+            "FLABEBE_ORANGE".to_string(),
+            "FLABEBE_BLUE".to_string(),
+            "FLABEBE_WHITE".to_string()
         ]),
         Pokemon::Floette => get_random_name_from_list(settings,vec![
-            "FLOETTE_RED_FLOWER".to_string(),
-            "FLOETTE_YELLOW_FLOWER".to_string(),
-            "FLOETTE_ORANGE_FLOWER".to_string(),
-            "FLOETTE_BLUE_FLOWER".to_string(),
-            "FLOETTE_WHITE_FLOWER".to_string(),
-            "FLOETTE_ETERNAL_FLOWER".to_string()
+            "FLOETTE_RED".to_string(),
+            "FLOETTE_YELLOW".to_string(),
+            "FLOETTE_ORANGE".to_string(),
+            "FLOETTE_BLUE".to_string(),
+            "FLOETTE_WHITE".to_string(),
+            "FLOETTE_ETERNAL".to_string()
         ]),
         Pokemon::Florges => get_random_name_from_list(settings,vec![
-            "FLORGES_RED_FLOWER".to_string(),
-            "FLORGES_YELLOW_FLOWER".to_string(),
-            "FLORGES_ORANGE_FLOWER".to_string(),
-            "FLORGES_BLUE_FLOWER".to_string(),
-            "FLORGES_WHITE_FLOWER".to_string()
+            "FLORGES_RED".to_string(),
+            "FLORGES_YELLOW".to_string(),
+            "FLORGES_ORANGE".to_string(),
+            "FLORGES_BLUE".to_string(),
+            "FLORGES_WHITE".to_string()
         ]),
         Pokemon::Furfrou => get_random_name_from_list(settings,vec![
             "FURFROU_NATURAL".to_string(),
-            "FURFROU_HEART_TRIM".to_string(),
-            "FURFROU_STAR_TRIM".to_string(),
-            "FURFROU_DIAMOND_TRIM".to_string(),
-            "FURFROU_DEBUTANTE_TRIM".to_string(),
-            "FURFROU_MATRON_TRIM".to_string(),
-            "FURFROU_DANDY_TRIM".to_string(),
-            "FURFROU_LA_REINE_TRIM".to_string(),
-            "FURFROU_KABUKI_TRIM".to_string(),
-            "FURFROU_PHARAOH_TRIM".to_string()
+            "FURFROU_HEART".to_string(),
+            "FURFROU_STAR_T".to_string(),
+            "FURFROU_DIAMOND".to_string(),
+            "FURFROU_DEBUTANTE".to_string(),
+            "FURFROU_MATRON".to_string(),
+            "FURFROU_DANDY".to_string(),
+            "FURFROU_LA_REINE".to_string(),
+            "FURFROU_KABUKI".to_string(),
+            "FURFROU_PHARAOH".to_string()
         ]),
         Pokemon::Pumpkaboo => get_random_name_from_list(settings,vec![
             "PUMPKABOO_SMALL".to_string(),
@@ -1647,8 +1647,8 @@ pub fn pokemon_alternate_forms(species: Pokemon,all_stats: &Vec<PokemonStats>,se
             "URSALUNA_BLOODMOON".to_string()
         ],0),
         Pokemon::Maushold => get_random_name_from_list(settings,vec![
-            "MAUSHOLD_FAMILY_OF_THREE".to_string(),
-            "MAUSHOLD_FAMILY_OF_FOUR".to_string()
+            "MAUSHOLD_THREE".to_string(),
+            "MAUSHOLD_FOUR".to_string()
         ]),
         Pokemon::Squawkabilly => get_random_name_from_list(settings,vec![
             "SQUAWKABILLY_GREEN_PLUMAGE".to_string(),

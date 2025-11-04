@@ -7,6 +7,8 @@ use glob::glob;
 
 //Top level function to be called initially
 pub fn create_rando_scripts(settings: &mut settings::Settings,mut all_items: Vec<Item>,pokemon_data: &Vec<pokemon::PokemonStats>){
+    println!("Hello");
+    return;
     let mut final_string = game_chooser::startup_stuff(settings);
     let mut all_item_balls : Vec<Item> = Vec::new();
     let mut all_trainers : Vec<Item> = Vec::new();
@@ -23,7 +25,7 @@ pub fn create_rando_scripts(settings: &mut settings::Settings,mut all_items: Vec
             }
         }
     }
-    create_map_jsons(settings,all_item_balls);
+    // create_map_jsons(settings,all_item_balls);
     final_string.push_str(create_trainer_functions(settings,&all_trainers,pokemon_data).as_str());
     fs::write(game_chooser::get_randomizer_script_filename(settings),final_string).expect("Cannot write to randomizer_scripts.inc");
 }

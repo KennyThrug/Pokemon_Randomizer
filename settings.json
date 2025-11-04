@@ -1,0 +1,60 @@
+{
+    "testing_mode": false,
+
+    "seed": "TestSeedB",
+
+    "randomize_wild_pokemon": true,
+    "randomize_starter_pokemon": true,
+    "allow_starter_legendary": "OneLegend",
+    "scale_starter": true,
+    "allow_pokemon_future_generation": true,
+    "scale_wild_pokemon": true,
+    "allow_legends_in_wild_pool": "SometimesLegends",
+    "allow_megas_in_wild_pool": "SometimesLegends",
+    "force_legendaries_to_legendaries": "AlwaysLegendary",
+
+    "randomize_trainer_pokemon": true,
+    "trainers_scale": true,
+    "allow_trainer_legendaries": "OneLegend",
+    "trainer_legendaries_rare": true,
+
+    "rival_keeps_starter": true,
+    "rival_consistent_team": true,
+    "wally_keeps_starter": true,
+
+    "get_gimmick_stone": true,
+    "gym_leader_legends": true,
+    "gym_leader_megas": true,
+    "gym_leader_z_crystal": true,
+    "gym_leader_dynamax": true,
+    "gym_leader_terra": true,
+    "gym_type": "Random_Type",
+    "recieve_pokemon_reward_gym": true,
+    "gym_pokemon_same_type_as_gym": true,
+    "randomize_gym_locations": false,
+
+    "randomize_items": true,
+    "add_rare_candy": 80,
+    "items_from_trainers": true,
+    "randomize_gym_badges": true,
+    "add_pokeballs": 40,
+    "add_revives": true,
+    "make_pokeballs_masterballs": true,
+    "randomize_hms": true,
+    "numberhms": 1,
+    "randomize_key_items": true,
+
+    "allow_healing_items": true,
+    "randomize_hidden_items": false,
+    "gym_leader_keys": true,
+
+    "randomize_stores": true,
+    "allow_pokeballs_from_store": false,
+    "allow_healing_from_store": false,
+    "allow_status_healing_from_store": true,
+
+    "game": "emerald",
+    "allow_hm_use": true,
+    "rare_candy_modification": true,
+    "follower_pokemon": true
+  }

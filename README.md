@@ -2,7 +2,6 @@
 Launcher (and possibly runner) for a randomizer pokemon
 
 ## Features:
-
 - [x] Launcher to set settings
 - [x] Automatic Compilation of Roms
 - [x] Up to Generation 8 pokemon
@@ -14,7 +13,7 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Allow Pokemon from future generations
 - [x] Wild pokemon Scale with Routes
 - [x] Allow Legendaries to be Randomized
-- [ ] Force Legendary pokemon to randomize into other Legendaries
+- [x] Force Legendary pokemon to randomize into other Legendaries
 - [x] Allow Mega Pokemon in Pool
 ### Region Randomization
 - [ ] Multiple Regions in a game
@@ -36,18 +35,18 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Rarity for Legendaries
 ### Gym Randomization
 - [ ] Gym Leader Keys
-- [ ] Allow Legendaries on Gym Leaders
+- [x] Allow Legendaries on Gym Leaders
 - [x] Force Gym pokemon to share type
 - [x] Randomize Gym Types
-- [ ] Get Random Pokemon as Gym Reward
-- [ ] Get pokemon of same type as gym as reward?
-- [ ] Gimmick Stone Randomization as Gym Reward
+- [x] Get Random Pokemon as Gym Reward
+- [x] Get pokemon of same type as gym as reward?
+- [x] Gimmick Stone Randomization as Gym Reward
 - [ ] Gym Location Randomization
 ### Item Randomization
 - [x] Add Extra Rare Candies to Item Pool
 - [x] Add Held Items
 - [x] Get Items from Trainers
-- [ ] Get Important Items only from Trainers
+- [x] Get Important Items only from Trainers
 - [x] Allow Poke-balls in Pool
 - [x] Make Balls always successful
 - [x] Limit Ball number in pool
@@ -55,7 +54,7 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Put Revives in Pool
 - [x] Randomize Hidden (Itemfinder) Items
 - [ ] Randomize Items from talking to NPCs
-- [ ] Randomize Key Items (Fishing Pole, Bike)
+- [x] Randomize Key Items (Fishing Pole, Bike)
 - [x] Randomize Mega Stones
 - [x] Randomize Z crystals
 - [ ] Randomize Running Shoes
@@ -69,7 +68,7 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [ ] Random sprite for PC (Male, Female, Ruby/Sapphire, FRLG)
 - [ ] 
 ### Other Settings
-- [x] Allow HM's to be used without pokemon
+- [ ] Allow HM's to be used without pokemon
 - [ ] Change [Evolution](evolution.md) Requirements for weird pokemon
 - [ ] Allow [Forms](forms.md) to appear for many pokemon
 - [ ] Level Caps on Gyms
@@ -90,3 +89,12 @@ Gives non-randomized items for randomized gyms if "Give Gimmick Stones" is Check
 src/data/trainers.party
 src/data/wild_encounters
 src/main_menu.c
+
+# 2025 update:
+Broken files:
+src/main_menu.c
+src/battle_setup.c
+src/data/trainers.party
+
+data/map_events.o
+src/maps/*

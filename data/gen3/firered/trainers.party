@@ -1278,7 +1278,7 @@ Music: Male
 Double Battle: No
 AI: Check Bad Move
 
-Nidoran M
+Nidoran_M
 Level: 21
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -1342,7 +1342,7 @@ Music: Male
 Double Battle: No
 AI: Check Bad Move
 
-Nidoran M
+Nidoran_M
 Level: 18
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -1667,7 +1667,7 @@ Rattata
 Level: 10
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Nidoran F
+Nidoran_F
 Level: 10
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -1744,11 +1744,11 @@ Music: Female
 Double Battle: No
 AI: Check Bad Move
 
-Nidoran M
+Nidoran_M
 Level: 16
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Nidoran F
+Nidoran_F
 Level: 16
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -1782,11 +1782,11 @@ Music: Female
 Double Battle: No
 AI: Check Bad Move
 
-Nidoran M
+Nidoran_M
 Level: 15
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Nidoran F
+Nidoran_F
 Level: 15
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -1824,7 +1824,7 @@ Pidgey
 Level: 18
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Nidoran F
+Nidoran_F
 Level: 18
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -1854,7 +1854,7 @@ Music: Female
 Double Battle: No
 AI: Check Bad Move
 
-Nidoran F
+Nidoran_F
 Level: 23
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -1900,7 +1900,7 @@ Rattata
 Level: 19
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Nidoran M
+Nidoran_M
 Level: 19
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -2296,11 +2296,11 @@ Music: Girl
 Double Battle: No
 AI: Check Bad Move
 
-Nidoran M
+Nidoran_M
 Level: 15
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Nidoran F
+Nidoran_F
 Level: 15
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -4895,7 +4895,7 @@ Slowpoke
 Level: 31
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 
-Mr Mime
+Mr_Mime
 Level: 31
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 
@@ -4912,7 +4912,7 @@ Music: Intense
 Double Battle: No
 AI: Check Bad Move
 
-Mr Mime
+Mr_Mime
 Level: 34
 IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
 
@@ -5005,7 +5005,7 @@ Kadabra
 Level: 29
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Mr Mime
+Mr_Mime
 Level: 29
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -5085,7 +5085,7 @@ Music: Hiker
 Double Battle: No
 AI: Check Bad Move
 
-Mr Mime
+Mr_Mime
 Level: 48
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Psychic
@@ -5126,7 +5126,7 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Self Destruct
 - Sonic Boom
 
-Mr Mime
+Mr_Mime
 Level: 48
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Psychic
@@ -8608,7 +8608,7 @@ IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Future Sight
 - Calm Mind
 
-Mr Mime
+Mr_Mime
 Level: 37
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 - Barrier
@@ -8658,11 +8658,11 @@ Music: Rich
 Double Battle: No
 AI: Check Bad Move
 
-Nidoran M
+Nidoran_M
 Level: 19
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Nidoran F
+Nidoran_F
 Level: 19
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -9919,7 +9919,7 @@ Music: Male
 Double Battle: No
 AI: Check Bad Move
 
-Nidoran M
+Nidoran_M
 Level: 29
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -10080,11 +10080,11 @@ Music: Girl
 Double Battle: Yes
 AI: Check Bad Move
 
-Nidoran M
+Nidoran_M
 Level: 24
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
-Nidoran F
+Nidoran_F
 Level: 24
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
 
@@ -10315,7 +10315,7 @@ Pidgey
 Level: 20
 IVs: 2 HP / 2 Atk / 2 Def / 2 SpA / 2 SpD / 2 Spe
 
-Nidoran F
+Nidoran_F
 Level: 20
 IVs: 2 HP / 2 Atk / 2 Def / 2 SpA / 2 SpD / 2 Spe
 
@@ -12753,11 +12753,11 @@ Music: Girl
 Double Battle: No
 AI: Check Bad Move
 
-Nidoran M
+Nidoran_M
 Level: 21
 IVs: 2 HP / 2 Atk / 2 Def / 2 SpA / 2 SpD / 2 Spe
 
-Nidoran F
+Nidoran_F
 Level: 21
 IVs: 2 HP / 2 Atk / 2 Def / 2 SpA / 2 SpD / 2 Spe
 
@@ -13220,7 +13220,7 @@ Raticate
 Level: 22
 IVs: 4 HP / 4 Atk / 4 Def / 4 SpA / 4 SpD / 4 Spe
 
-Nidoran M
+Nidoran_M
 Level: 23
 IVs: 4 HP / 4 Atk / 4 Def / 4 SpA / 4 SpD / 4 Spe
 

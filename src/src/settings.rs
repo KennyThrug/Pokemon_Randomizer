@@ -109,17 +109,19 @@ pub enum GymLocationRandomization{
 #[derive(PartialEq)]
 #[derive(Clone, Copy)]
 pub enum Game{
-    Emerald
+    Emerald,
+    FrLg
 }
 
 pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
+    println!("in func: {}",json_string);
     let parsed_json = json::parse(&json_string).unwrap();
     println!("{}",parsed_json["seed"]);
     let bytes: [u8;32] = convert_string_to_seed(parsed_json["seed"].to_string()); //HERE
     Ok(Settings{
         seed: parsed_json["seed"].to_string(),
         seed_val: StdRng::from_seed(bytes),
-        game: Game::Emerald,
+        game: get_game(parsed_json["game"].to_string()),
         testing_mode: parsed_json["testing_mode"].as_bool().unwrap(),
         //Wild Pokemon
         randomize_wild_pokemon: parsed_json["randomize_wild_pokemon"].as_bool().unwrap(),
@@ -179,6 +181,14 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         show_spoiler: true,
         spoiler: "".to_string()
     })
+}
+fn get_game(string: String) -> Game{
+    return match string.as_str() {
+        "Emerald" => Game::Emerald,
+        "FireRed" => Game::FrLg,
+        "LeafGreen" => Game::FrLg,
+        _ => Game::Emerald
+    }
 }
 fn convert_string_to_wild_legends(string: String) -> WildLegends{
     match string.as_str(){

@@ -252,11 +252,6 @@
             <input type="checkbox" id="RandomizeGymBadges">
             <span class="slider round"></span>
           </label>
-          <h4>All Pokeballs act as Master Balls</h4>
-          <label class="switch">
-            <input type="checkbox" id="PokeballsMasterBall">
-            <span class="slider round"></span>
-          </label>
           <h4>Number of Pokeballs in Pool</h4>
           <input type="number" id="NumberPokeballs" , value="60">
           <h4>Randomize HM's</h4>
@@ -306,9 +301,27 @@
     </div>
     <!--Other-->
     <div id="Other" class="tabcontent">
+      <h4>What Game will be played?</h4>
+      <div>
+        <input type="radio" id="Game_Emerald" name="Game" value="Emerald" checked>
+        <label for="Game_Emerald">Emerald</label>
+      </div>
+      <div>
+        <input type="radio" id="Game_FireRed" name="Game" value="Fire Red">
+        <label for="Game_FireRed">Fire Red</label>
+      </div>
+      <div>
+        <input type="radio" id="Game_LeafGreen" name="Game" value="Leaf Green">
+        <label for="Game_LeafGreen">Leaf Green</label>
+      </div>
       <h4>HM use without Badge</h4>
       <label class="switch">
         <input type="checkbox" id="HMWithoutBadge">
+        <span class="slider round"></span>
+      </label>
+      <h4>All Pokeballs act as Master Balls</h4>
+      <label class="switch">
+        <input type="checkbox" id="PokeballsMasterBall">
         <span class="slider round"></span>
       </label>
       <h4>Rare Candy Modification</h4>

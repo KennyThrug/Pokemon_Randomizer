@@ -1,3 +1,4 @@
+const fs = require('fs');
 function openTab(evt, tabName) {
     // Declare all variables
     var i, tabcontent, tablinks;
@@ -127,13 +128,20 @@ function openTab(evt, tabName) {
       //Evolution Settings
 
       //Other Settings
+      game: get_game(),
       allow_hm_use: document.getElementById("HMWithoutBadge").checked,
       rare_candy_modification: document.getElementById("rare_candy_modification").checked,
       follower_pokemon: document.getElementById("follower_pokemon").checked
     }
     //document.getElementById("H").innerText = settings.randomize_wild_pokemon;
     var settingsJson = JSON.stringify(settings);
-    rust.getFile().emerald_rom(settingsJson);
+
+    // var filename = Path.join(__dirname, "/settings.json")
+    print("test")
+    fs.writeFile("settings.json",settingsJson,"utf-8")
+    print(settingsJson)
+    //uncomment this to auto run function in lib.rs
+    // rust.getFile().emerald_rom(settingsJson);
   }
   function get_trainer_legends(){
     if(document.getElementById("TrainerAllowLegends").checked){
@@ -179,6 +187,17 @@ function openTab(evt, tabName) {
       return "Random_Type"
     }
     return "CompletelyRandom"
+  }
+  function get_game(){
+    if(document.getElementById("Game_Emerald").checked){
+      return "Emerald"
+    }
+    if(document.getElementById("Game_FireRed").checked){
+      return "FireRed"
+    }
+    if(document.getElementById("Game_LeafGreeen").checked){
+      return "LeafGreen"
+    }
   }
   function createRandomSeed(){
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

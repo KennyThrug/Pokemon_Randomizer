@@ -1,4 +1,4 @@
-use crate::src::gen3::trainers::{scale_pokemon, WallyTeam, MayBrendanTeam};
+use crate::src::gen3::trainers::scale_pokemon;
 use crate::src::pokemon;
 use crate::src::settings;
 use crate::src::gen3::wild_pokemon;
@@ -18,10 +18,10 @@ const TRANSITION: [&str;17] = ["B_TRANSITION_KYOGRE","B_TRANSITION_GROUDON","B_T
 fn get_transition(settings: &mut settings::Settings) -> String{
     TRANSITION[settings::get_next_seed(0, TRANSITION.len() as i32 -1, settings) as usize].to_string()
 }
-pub fn randomize_static_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>,rival: &MayBrendanTeam,wally: &WallyTeam){
+pub fn randomize_static_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>,rival: &Vec<Vec<pokemon::Pokemon>>){
     fs::write("decomp/pokeemerald-expansion/src/battle_setup.c", format!("{}{}{}",
         fs::read_to_string("data/gen3/emerald/battle_setup.c").expect("Could not Read Battle setup"),
-        pokemon::pokemon_to_formatted_name(scale_pokemon(wally.ralt_substitute,5,pokemon_data,settings).pokemon_id,pokemon_data),
+        pokemon::pokemon_to_formatted_name(scale_pokemon(rival[1][4],5,pokemon_data,settings).pokemon_id,pokemon_data),
         fs::read_to_string("data/gen3/emerald/battle_setup2.c").expect("Could not Read Battle setup 2")
         )).expect("Could not write to file battle_setup.c");
 

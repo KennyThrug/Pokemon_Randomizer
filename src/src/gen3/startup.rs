@@ -28,7 +28,7 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
 
     create_rando_script::create_rando_scripts(settings,all_items,&pkmn_data);
 
-    //Keep the Birch pokemon at the end so people can use it to make sure they have the same seed as a friend
+    //Keep the professor pokemon at the end so people can use it to make sure they have the same seed as a friend
     game_chooser::randomize_professor_pokemon(settings, &pkmn_data);
     hint_system::create_spoiler_log(settings);
     //If in Testing Mode, don't create the full rom
@@ -43,7 +43,7 @@ pub fn build_rom(settings : &mut settings::Settings){
     let path = env::current_dir().unwrap();
     Command::new("sh")
     .arg("-C")
-    .arg(format!("{}/src/src/gen3/emerald/make_rom.sh",path.display()))
+    .arg(format!("{}/{}",path.display(),make_rom_path))
     .arg(settings.seed.clone())
     .spawn()
     .expect("sh command failed to start");

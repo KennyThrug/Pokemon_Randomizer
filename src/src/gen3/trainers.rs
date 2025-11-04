@@ -212,8 +212,8 @@ iv=pokemon.iv,moves=formatted_moves,extra_script=pokemon.extra_scripts);
 
 pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,trainer_parties_read_filename: String,trainer_parties_write_filename: String,starters: starter_randomization::Starter) -> Vec<pokemon::Type>{
     let mut trainer_data = read_all_trainers(trainer_parties_read_filename,all_stats);
-    let (rival_team,wally_team) = create_rival_teams(settings, all_stats);
-    game_chooser::randomize_static_pokemon(settings, all_stats, &rival_team, &wally_team);
+    let rivals = game_chooser::get_rivals(settings, all_stats);
+    game_chooser::randomize_static_pokemon(settings, all_stats, &rivals);
     let gym_types = if settings.gym_type == settings::GymType::RandomType{
         randomize_gym_types(game_chooser::num_gym_leaders(settings),settings)
     }
@@ -228,7 +228,7 @@ pub fn shuffle_trainers(settings: &mut settings::Settings,all_stats: &Vec<pokemo
     };
     for i in 0..trainer_data.len(){
         if game_chooser::check_if_special_trainer(settings,trainer_data[i].clone()){
-            trainer_data[i] = game_chooser::handle_special_trainer(trainer_data[i].clone(), settings, all_stats,&starters,&rival_team,&wally_team,gym_types.clone(),elite_4_types.clone());
+            trainer_data[i] = game_chooser::handle_special_trainer(trainer_data[i].clone(), settings, all_stats,&starters,rivals.clone(),gym_types.clone(),elite_4_types.clone());
         }
         else{//Regular Trainers
             trainer_data[i] = get_random_trainer(trainer_data[i].clone(), settings, all_stats)
@@ -495,116 +495,6 @@ pub fn create_held_item(settings: &mut settings::Settings,pokemon: pokemon::Poke
         _ => "".to_string()
     };
     old_item
-}
-
-fn create_rival_teams(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> (MayBrendanTeam,WallyTeam){
-    let mut fake_rival = Trainer{
-        trainer_full_name: "TRAINER_RIVAL".to_string(),
-        trainer_name: "rival".to_string(),
-        class: "".to_string(),
-        pic: "".to_string(),
-        gender: "".to_string(),
-        music: "".to_string(),
-        items: "".to_string(),
-        double_battle: "".to_string(),
-        ai: "".to_string(),
-        portrait: "".to_string(),
-        pokemon: vec![
-            TrainerPokemon{
-                iv: 150,
-                level: 31,
-                extra_scripts: "".to_string(),
-                species: pokemon::Pokemon::Tropius,
-                moves: Vec::new(),
-                held_items: "".to_string()
-            },
-            TrainerPokemon{
-                iv: 150,
-                level: 32,
-                extra_scripts: "".to_string(),
-                species: pokemon::Pokemon::Ludicolo,
-                moves: Vec::new(),
-                held_items: "".to_string()
-            },
-            TrainerPokemon{
-                iv: 150,
-                level: 32,
-                extra_scripts: "".to_string(),
-                species: pokemon::Pokemon::Slugma,
-                moves: Vec::new(),
-                held_items: "".to_string()
-            }
-        ]
-    };
-    fake_rival = get_random_trainer(fake_rival,settings,pokemon_data);
-    let may_team = MayBrendanTeam{
-        pokemon2: fake_rival.pokemon[0].species,
-        pokemon3: fake_rival.pokemon[1].species,
-        pokemon4: fake_rival.pokemon[2].species,
-    };
-    let mut fake_wally = Trainer{
-        trainer_full_name: "TRAINER_WALLY".to_string(),
-        trainer_name: "wally".to_string(),
-        class: "".to_string(),
-        pic: "".to_string(),
-        gender: "".to_string(),
-        music: "".to_string(),
-        items: "".to_string(),
-        double_battle: "".to_string(),
-        ai: "".to_string(),
-        portrait: "".to_string(),
-        pokemon: vec![
-            TrainerPokemon{
-                iv: 150,
-                level: 44,
-                extra_scripts: "".to_string(),
-                species: pokemon::Pokemon::Altaria,
-                moves: Vec::new(),
-                held_items: "".to_string()
-            },
-            TrainerPokemon{
-                    iv: 150,
-                    level: 43,
-                    extra_scripts: "".to_string(),
-                    species: pokemon::Pokemon::Delcatty,
-                    moves: Vec::new(),
-                    held_items: "".to_string()
-                },
-            TrainerPokemon{
-                iv: 150,
-                level: 44,
-                extra_scripts: "".to_string(),
-                species: pokemon::Pokemon::Roselia,
-                moves: Vec::new(),
-                held_items: "".to_string()
-            },
-            TrainerPokemon{
-                iv: 150,
-                level: 41,
-                extra_scripts: "".to_string(),
-                species: pokemon::Pokemon::Magneton,
-                moves: Vec::new(),
-                held_items: "".to_string()
-            },
-            TrainerPokemon{
-                iv: 150,
-                level: 45,
-                extra_scripts: "".to_string(),
-                species: pokemon::Pokemon::Gardevoir,
-                moves: Vec::new(),
-                held_items: "".to_string()
-            }
-        ]
-    };
-    fake_wally = get_random_trainer(fake_wally, settings, pokemon_data);
-    let wally_team = WallyTeam{
-        ralt_substitute: fake_wally.pokemon[4].species,
-        pokemon2: fake_wally.pokemon[0].species,
-        pokemon3: fake_wally.pokemon[1].species,
-        pokemon4: fake_wally.pokemon[2].species,
-        pokemon5: fake_wally.pokemon[3].species
-    };
-    (may_team,wally_team)
 }
 
 pub fn get_mon_specific_item(pokemon_species: pokemon::Pokemon,settings: &mut settings::Settings) -> String{
@@ -915,17 +805,4 @@ pub fn randomize_gym_types(num_badges: i16,settings: &mut settings::Settings) ->
         println!("Badge {} is # {}",i,all_badges[i as usize] as i32);
     }
     return all_badges;
-}
-
-pub struct MayBrendanTeam{
-    pub pokemon2: pokemon::Pokemon,
-    pub pokemon3: pokemon::Pokemon,
-    pub pokemon4: pokemon::Pokemon,
-}
-pub struct WallyTeam{
-    pub ralt_substitute: pokemon::Pokemon,
-    pub pokemon2: pokemon::Pokemon,
-    pub pokemon3: pokemon::Pokemon,
-    pub pokemon4: pokemon::Pokemon,
-    pub pokemon5: pokemon::Pokemon,
 }

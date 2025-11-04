@@ -87,8 +87,3 @@ pub fn get_legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Ve
     }
     return trainers::scale_pokemon(pokemon.pokemon_id, level, pokemon_data, settings);
 }
-
-fn random_cosmetic_forms(pkmn: pokemon::Pokemon, settings: &mut settings::Settings,) -> pokemon::Pokemon{
-    //TODO make this check for pokemon such as pikachu, alcreme, and other cosmetic pokemon and randomize it.
-    return pkmn;
-}
