@@ -26,7 +26,7 @@ pub fn randomize_pokemon(settings : &mut settings::Settings){
 
     let mut all_items : Vec<item_randomization::Item> = item_randomization::randomize_items(settings,&pkmn_data,&gym_types);
 
-    create_rando_script::create_rando_scripts(settings,all_items,&pkmn_data);
+    create_rando_script::create_rando_scripts(settings,all_items);
 
     //Keep the professor pokemon at the end so people can use it to make sure they have the same seed as a friend
     game_chooser::randomize_professor_pokemon(settings, &pkmn_data);

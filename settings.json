@@ -56,5 +56,6 @@
     "game": "emerald",
     "allow_hm_use": true,
     "rare_candy_modification": true,
+    "enforce_level_cap" : true,
     "follower_pokemon": true
   }

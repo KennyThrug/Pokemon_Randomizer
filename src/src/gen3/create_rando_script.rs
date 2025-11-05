@@ -1,21 +1,19 @@
 use crate::src::gen3::item_randomization::{Item,Item_type,Location_type};
 use crate::src::settings;
 use crate::src::game_chooser;
-use crate::src::pokemon;
 use std::fs;
 use glob::glob;
 
 //Top level function to be called initially
-pub fn create_rando_scripts(settings: &mut settings::Settings,mut all_items: Vec<Item>,pokemon_data: &Vec<pokemon::PokemonStats>){
+pub fn create_rando_scripts(settings: &mut settings::Settings,all_items: Vec<Item>){
     println!("Hello");
-    return;
     let mut final_string = game_chooser::startup_stuff(settings);
     let mut all_item_balls : Vec<Item> = Vec::new();
     let mut all_trainers : Vec<Item> = Vec::new();
     for cur_item in all_items{
         match cur_item.location_type{
             Location_type::NPC | Location_type::LEGENDARY_POKEMON | Location_type::GYM_LEADER => {
-                final_string.push_str(convert_item_to_function(cur_item.clone(),settings,pokemon_data).as_str());
+                final_string.push_str(convert_item_to_function(cur_item.clone()).as_str());
             }
             Location_type::ITEM_BALL | Location_type::HIDDEN_ITEM => {
                 all_item_balls.push(cur_item.clone());
@@ -25,8 +23,8 @@ pub fn create_rando_scripts(settings: &mut settings::Settings,mut all_items: Vec
             }
         }
     }
-    // create_map_jsons(settings,all_item_balls);
-    final_string.push_str(create_trainer_functions(settings,&all_trainers,pokemon_data).as_str());
+    create_map_jsons(settings,all_item_balls);
+    final_string.push_str(create_trainer_functions(settings,&all_trainers).as_str());
     fs::write(game_chooser::get_randomizer_script_filename(settings),final_string).expect("Cannot write to randomizer_scripts.inc");
 }
 
@@ -109,7 +107,7 @@ fn get_item_script(item_type :Item_type) -> String{
 }
 
 //Formats the item to a correctly functioning file to then be compiled, adds trainer functions to the end to be added later
-fn convert_item_to_function(cur_item: Item,settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>) -> String{
+fn convert_item_to_function(cur_item: Item) -> String{
     //Fail safe if there is no script
     if cur_item.item_script == ""{
         return "".to_string();
@@ -166,13 +164,13 @@ fn convert_badge_to_message(badge_name: String) -> String{
     }.to_string();
 }
 
-fn create_trainer_functions(settings: &mut settings::Settings,all_trainers: &Vec<Item>,pokemon_data: &Vec<pokemon::PokemonStats>) -> String{
+fn create_trainer_functions(settings: &mut settings::Settings,all_trainers: &Vec<Item>) -> String{
     if !settings.items_from_trainers {return "trainer_items::\nreturn".to_string()}
     let mut all_functions: String = "\n".to_string();
     let mut trainer_item_func : String = "trainer_items::\n switch VAR_TRAINER_BATTLE_OPPONENT_A".to_string();
     for cur_trainer in all_trainers{
         trainer_item_func.push_str(format!("\n      case {}, {}",cur_trainer.trainer_name,cur_trainer.item_script).as_str());
-        all_functions.push_str(convert_item_to_function(cur_trainer.clone(),settings,pokemon_data).as_str());
+        all_functions.push_str(convert_item_to_function(cur_trainer.clone()).as_str());
     }
     trainer_item_func.push_str(extra_rival_stuff().as_str());
     trainer_item_func.push_str("\n  return");

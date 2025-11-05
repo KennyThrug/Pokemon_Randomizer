@@ -75,19 +75,19 @@ fn legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemo
     BirthIsland_Exterior_EventScript_Deoxys::
         waitse
         setfieldeffectargument 0, LOCALID_BIRTH_ISLAND_EXTERIOR_ROCK
-        setfieldeffectargument 1, MAP_NUM(BIRTH_ISLAND_EXTERIOR)
-        setfieldeffectargument 2, MAP_GROUP(BIRTH_ISLAND_EXTERIOR)
+        setfieldeffectargument 1, MAP_NUM(MAP_BIRTH_ISLAND_EXTERIOR)
+        setfieldeffectargument 2, MAP_GROUP(MAP_BIRTH_ISLAND_EXTERIOR)
         dofieldeffect FLDEFF_DESTROY_DEOXYS_ROCK
         playbgm MUS_RG_ENCOUNTER_DEOXYS, FALSE
         waitfieldeffect FLDEFF_DESTROY_DEOXYS_ROCK
-        addobject LOCALID_DEOXYS
-        applymovement LOCALID_DEOXYS, BirthIsland_Exterior_Movement_DeoxysApproach
+        addobject LOCALID_BIRTH_ISLAND_DEOXYS
+        applymovement LOCALID_BIRTH_ISLAND_DEOXYS, BirthIsland_Exterior_Movement_DeoxysApproach
         waitmovement 0
         waitse
         playmoncry {Deoxys}, CRY_MODE_ENCOUNTER
         delay 40
         waitmoncry
-        setvar VAR_LAST_TALKED, LOCALID_DEOXYS
+        setvar VAR_LAST_TALKED, LOCALID_BIRTH_ISLAND_DEOXYS
         seteventmon {Deoxys}, 30
         setflag FLAG_SYS_CTRL_OBJ_DELETE
         special BattleSetup_StartLegendaryBattle
@@ -176,13 +176,13 @@ fn legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemo
         lockall
         applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_FaceUp
         waitmovement 0
-        applymovement LOCALID_KYOGRE, MarineCave_End_Movement_KyogreApproach
+        applymovement LOCALID_MARINE_CAVE_KYOGRE, MarineCave_End_Movement_KyogreApproach
         waitmovement 0
         waitse
         playmoncry {Kyogre}, CRY_MODE_ENCOUNTER
         delay 40
         waitmoncry
-        setvar VAR_LAST_TALKED, LOCALID_KYOGRE
+        setvar VAR_LAST_TALKED, LOCALID_MARINE_CAVE_KYOGRE
         setwildbattle {Kyogre}, 70
         setflag FLAG_SYS_CTRL_OBJ_DELETE
         special BattleSetup_StartLegendaryBattle
@@ -205,7 +205,7 @@ fn legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemo
         setvar VAR_0x8004, 3  @ num loops
         setvar VAR_0x8005, 35 @ delay
         special LoopWingFlapSE
-        applymovement LOCALID_HO_OH, NavelRock_Top_Movement_HoOhAppear
+        applymovement LOCALID_NAVEL_ROCK_HO_OH, NavelRock_Top_Movement_HoOhAppear
         applymovement OBJ_EVENT_ID_CAMERA, NavelRock_Top_Movement_CameraPanUp
         waitmovement 0
         delay 50
@@ -220,7 +220,7 @@ fn legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemo
         setvar VAR_0x8005, 35 @ delay
         special LoopWingFlapSE
         applymovement OBJ_EVENT_ID_CAMERA, NavelRock_Top_Movement_CameraPanDown
-        applymovement LOCALID_HO_OH, NavelRock_Top_Movement_HoOhApproach
+        applymovement LOCALID_NAVEL_ROCK_HO_OH, NavelRock_Top_Movement_HoOhApproach
         waitmovement 0
         special RemoveCameraObject
         seteventmon {Hooh}, 70
@@ -228,7 +228,7 @@ fn legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemo
         special BattleSetup_StartLegendaryBattle
         waitstate
         clearflag FLAG_SYS_CTRL_OBJ_DELETE
-        setvar VAR_LAST_TALKED, LOCALID_HO_OH
+        setvar VAR_LAST_TALKED, LOCALID_NAVEL_ROCK_HO_OH
         specialvar VAR_RESULT, GetBattleOutcome
         goto_if_eq VAR_RESULT, B_OUTCOME_WON, NavelRock_Top_EventScript_DefeatedHoOh
         goto_if_eq VAR_RESULT, B_OUTCOME_RAN, NavelRock_Top_EventScript_RanFromHoOh
@@ -260,13 +260,13 @@ TerraCave_End_EventScript_Groudon::
 	lockall
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_FaceUp
 	waitmovement 0
-	applymovement LOCALID_GROUDON, TerraCave_End_Movement_GroudonApproach
+	applymovement LOCALID_TERRA_CAVE_GROUDON, TerraCave_End_Movement_GroudonApproach
 	waitmovement 0
 	waitse
 	playmoncry {Groudon}, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
-	setvar VAR_LAST_TALKED, LOCALID_GROUDON
+	setvar VAR_LAST_TALKED, LOCALID_TERRA_CAVE_GROUDON
 	setwildbattle {Groudon}, 70
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLegendaryBattle

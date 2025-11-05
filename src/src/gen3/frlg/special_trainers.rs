@@ -370,9 +370,9 @@ fn handle_gym_trainer(trainer: Trainer, settings: &mut settings::Settings,all_st
     }
 }
 
-fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,pkmn_type: pokemon::Type,standard_type: pokemon::Type,numGym: i16) -> Trainer{
+fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,pkmn_type: pokemon::Type,standard_type: pokemon::Type,num_gym: i16) -> Trainer{
     if !settings.randomize_trainer_pokemon {return trainer;}
-    if numGym <= 1{
+    if num_gym <= 1{
         return handle_gym_trainer(trainer,settings,all_stats,pkmn_type,standard_type);
     }
     let mut num_gimmick = 0;
@@ -381,10 +381,10 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
     let mut has_z_crystal = false;
     let mut has_dynamax = false;
     let mut has_terra = false;
-    for i in 0..numGym{
+    for _i in 0..num_gym{
         //Escape condition (too many gimmicks)
-        if numGym <= 7 && num_gimmick >= 1{break;}
-        if numGym <= 11 && num_gimmick >= 2{break;}
+        if num_gym <= 7 && num_gimmick >= 1{break;}
+        if num_gym <= 11 && num_gimmick >= 2{break;}
         if num_gimmick >= 3{break;}
         //Pick a random number and test it against a gimmick (purposfully have more options than gimmicks so it will fail 50% of time)
         match settings::get_next_seed(0, 10 as i32, settings){
@@ -466,11 +466,11 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
 
     if has_dynamax{
         let mut temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
-        while (pokemon::get_pokemon_data(temp_mon.species,all_stats).type1 != pkmn_type && pokemon::get_pokemon_data(temp_mon.species,all_stats).type2 != pkmn_type){
+        while pokemon::get_pokemon_data(temp_mon.species,all_stats).type1 != pkmn_type && pokemon::get_pokemon_data(temp_mon.species,all_stats).type2 != pkmn_type {
             println!("Dynamax Loop");
             temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
         }
-        temp_mon.extra_scripts = format!("\nDynamax Level: {}\nGigantamax: Yes",numGym - 2);
+        temp_mon.extra_scripts = format!("\nDynamax Level: {}\nGigantamax: Yes",num_gym - 2);
         new_party.push_front(temp_mon);
         cur_party_member -= 1;
     }
@@ -494,7 +494,7 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
     }
     if has_z_crystal{
         let mut temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
-        while (pokemon::get_pokemon_data(temp_mon.species,all_stats).type1 != pkmn_type && pokemon::get_pokemon_data(temp_mon.species,all_stats).type2 != pkmn_type){
+        while pokemon::get_pokemon_data(temp_mon.species,all_stats).type1 != pkmn_type && pokemon::get_pokemon_data(temp_mon.species,all_stats).type2 != pkmn_type {
             println!("Z crystal Loop");
             temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
         }
@@ -505,7 +505,7 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
 
     while new_party.len() < trainer.pokemon.len(){
         let mut temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
-        while (pokemon::get_pokemon_data(temp_mon.species,all_stats).type1 != pkmn_type && pokemon::get_pokemon_data(temp_mon.species,all_stats).type2 != pkmn_type){
+        while pokemon::get_pokemon_data(temp_mon.species,all_stats).type1 != pkmn_type && pokemon::get_pokemon_data(temp_mon.species,all_stats).type2 != pkmn_type {
             println!("Adding Loop");
             temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
             temp_mon.held_items = trainers::create_held_item(settings,temp_mon.species,temp_mon.level,temp_mon.held_items,true,all_stats);

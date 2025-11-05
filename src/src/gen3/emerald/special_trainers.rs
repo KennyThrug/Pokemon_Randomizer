@@ -383,9 +383,9 @@ fn handle_gym_trainer(trainer: Trainer, settings: &mut settings::Settings,all_st
     }
 }
 
-fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,pkmn_type: pokemon::Type,standard_type: pokemon::Type,numGym: i16) -> Trainer{
+fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>,pkmn_type: pokemon::Type,standard_type: pokemon::Type,num_gym: i16) -> Trainer{
     if !settings.randomize_trainer_pokemon {return trainer;}
-    if numGym <= 1{
+    if num_gym <= 1{
         return handle_gym_trainer(trainer,settings,all_stats,pkmn_type,standard_type);
     }
     let mut num_gimmick = 0;
@@ -394,10 +394,10 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
     let mut has_z_crystal = false;
     let mut has_dynamax = false;
     let mut has_terra = false;
-    for i in 0..numGym{
+    for _ in 0..num_gym{
         //Escape condition (too many gimmicks)
-        if numGym <= 7 && num_gimmick >= 1{break;}
-        if numGym <= 11 && num_gimmick >= 2{break;}
+        if num_gym <= 7 && num_gimmick >= 1{break;}
+        if num_gym <= 11 && num_gimmick >= 2{break;}
         if num_gimmick >= 3{break;}
         //Pick a random number and test it against a gimmick (purposfully have more options than gimmicks so it will fail 50% of time)
         match settings::get_next_seed(0, 10 as i32, settings){
@@ -487,7 +487,7 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
             temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
             dynamax_count += 1;
         }
-        temp_mon.extra_scripts = format!("\nDynamax Level: {}\nGigantamax: Yes",numGym - 2);
+        temp_mon.extra_scripts = format!("\nDynamax Level: {}\nGigantamax: Yes",num_gym - 2);
         new_party.push_front(temp_mon);
         cur_party_member -= 1;
     }
@@ -571,7 +571,7 @@ fn get_gym_trainer_pokemon(trainer: Trainer, settings: &mut settings::Settings,a
 }
 
 fn get_random_starter(settings: &mut settings::Settings,all_stats: &Vec<pokemon::PokemonStats>) -> pokemon::Pokemon{
-    let mut fake_starter_trainer = Trainer{
+    let fake_starter_trainer = Trainer{
         trainer_full_name: "r".to_string(),
         trainer_name: "r".to_string(),
         class: "".to_string(),
