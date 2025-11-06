@@ -163,6 +163,63 @@
         <input type="checkbox" id="GymLeaderKeys">
         <span class="slider round"></span>
       </label>
+
+      <h4>Gym Leader Types</h4>
+      <div>
+        <input type="radio" id="VanillaGyms" name="GymType" value="Vanilla" checked>
+        <label for="VanillaGyms">Same Type as vanilla game</label>
+      </div>
+      <div>
+        <input type="radio" id="RandomGyms" name="GymType" value="Random">
+        <label for="RandomGyms">Random Type</label>
+      </div>
+      <div>
+        <input type="radio" id="NoTypeGyms" name="GymType" value="NoType">
+        <label for="NoTypeGyms">No type on any gym</label>
+      </div>
+
+      <h4>Gym Leaders give Gimmick Stones (Z Crystals, Mega stones)</h4>
+      <label class="switch">
+        <input type="checkbox" id="GetGimmickStone">
+        <span class="slider round"></span>
+      </label>
+      <h4>Gym Leaders give a random pokemon</h4>
+      <label class="switch">
+        <input type="checkbox" id="GetPokemonGym" onclick="updateGymTab()">
+        <span class="slider round"></span>
+      </label>
+      <div style="display: none", id="GymPokemonTypeDiv">
+      <h4>Gym Leaders give pokemon of same type as Gym</h4>
+      <label class="switch">
+        <input type="checkbox" id="GymPokemonSameType">
+        <span class="slider round"></span>
+      </label>
+    </div>
+      <h4>Gym Leaders can use Megas</h4>
+      <label class="switch">
+        <input type="checkbox" id="GymLeaderMega">
+        <span class="slider round"></span>
+      </label>
+      <h4>Gym Leaders can use Legends</h4>
+      <label class="switch">
+        <input type="checkbox" id="GymLeaderLegend">
+        <span class="slider round"></span>
+      </label>
+      <h4>Gym Leaders can use Z Crystals</h4>
+      <label class="switch">
+        <input type="checkbox" id="GymLeaderZCrystal">
+        <span class="slider round"></span>
+      </label>
+      <h4>Gym Leaders can use Dynamax</h4>
+      <label class="switch">
+        <input type="checkbox" id="GymLeaderDynamax">
+        <span class="slider round"></span>
+      </label>
+      <h4>Gym Leaders can use Terrastalization</h4>
+      <label class="switch">
+        <input type="checkbox" id="GymLeaderTerra">
+        <span class="slider round"></span>
+      </label>
     </div>
     <!--Items-->
     <div id="Items" class="tabcontent">
@@ -174,7 +231,7 @@
       <div id="ItemsAppear" style="display: none">
         <div>
           <h4>Number of Extra Rare Candies in Pool</h4>
-          <input type="number" id="NumberRareCandies" , value="200">
+          <input type="number" id="NumberRareCandies" , value="99">
           <h4>Add Healing Items into the pool</h4>
           <label class="switch">
             <input type="checkbox" id="HealingItems">
@@ -195,13 +252,8 @@
             <input type="checkbox" id="RandomizeGymBadges">
             <span class="slider round"></span>
           </label>
-          <h4>All Pokeballs act as Master Balls</h4>
-          <label class="switch">
-            <input type="checkbox" id="PokeballsMasterBall">
-            <span class="slider round"></span>
-          </label>
           <h4>Number of Pokeballs in Pool</h4>
-          <input type="number" id="NumberPokeballs" , value="20">
+          <input type="number" id="NumberPokeballs" , value="60">
           <h4>Randomize HM's</h4>
           <label class="switch" onclick="updateItemTab()">
             <input type="checkbox" id="RandomizeHMs">
@@ -249,14 +301,42 @@
     </div>
     <!--Other-->
     <div id="Other" class="tabcontent">
+      <h4>What Game will be played?</h4>
+      <div>
+        <input type="radio" id="Game_Emerald" name="Game" value="Emerald" checked>
+        <label for="Game_Emerald">Emerald</label>
+      </div>
+      <div>
+        <input type="radio" id="Game_FireRed" name="Game" value="Fire Red">
+        <label for="Game_FireRed">Fire Red</label>
+      </div>
+      <div>
+        <input type="radio" id="Game_LeafGreen" name="Game" value="Leaf Green">
+        <label for="Game_LeafGreen">Leaf Green</label>
+      </div>
       <h4>HM use without Badge</h4>
       <label class="switch">
         <input type="checkbox" id="HMWithoutBadge">
         <span class="slider round"></span>
       </label>
+      <h4>All Pokeballs act as Master Balls</h4>
+      <label class="switch">
+        <input type="checkbox" id="PokeballsMasterBall">
+        <span class="slider round"></span>
+      </label>
       <h4>Rare Candy Modification</h4>
       <label class="switch">
         <input type="checkbox" id="rare_candy_modification">
+        <span class="slider round"></span>
+      </label>
+      <h4>Follower Pokemon</h4>
+      <label class="switch">
+        <input type="checkbox" id="follower_pokemon">
+        <span class="slider round"></span>
+      </label>
+      <h4>Testing Mode</h4>
+      <label class="switch">
+        <input type="checkbox" id="TestingMode">
         <span class="slider round"></span>
       </label>
     </div>

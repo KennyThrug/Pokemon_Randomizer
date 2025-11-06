@@ -2,11 +2,10 @@
 Launcher (and possibly runner) for a randomizer pokemon
 
 ## Features:
-
 - [ ] Launcher to set settings
 - [x] Automatic Compilation of Roms
-- [ ] Up to Generation 8 pokemon
-- [ ] Physical Special Split Implemented
+- [x] Up to Generation 9 pokemon
+- [x] Physical Special Split Implemented
 
 ## Settings:
 ### Pokemon Randomization
@@ -14,7 +13,7 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Allow Pokemon from future generations
 - [x] Wild pokemon Scale with Routes
 - [x] Allow Legendaries to be Randomized
-- [ ] Force Legendary pokemon to randomize into other Legendaries
+- [x] Force Legendary pokemon to randomize into other Legendaries
 - [x] Allow Mega Pokemon in Pool
 ### Region Randomization
 - [ ] Multiple Regions in a game
@@ -35,25 +34,26 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Allow Only 1 Legendary per Team
 - [x] Rarity for Legendaries
 ### Gym Randomization
-- [ ] Allow Legendaries on Gym Leaders
-- [ ] Allow Only 1 Legendary per Gym Leader
-- [ ] Force Legendaries to be Ace Pokemon
-- [ ] Force Gym pokemon to share type
-- [ ] Randomize Gym Types
+- [ ] Gym Leader Keys
+- [x] Allow Legendaries on Gym Leaders
+- [x] Force Gym pokemon to share type
+- [x] Randomize Gym Types
 - [x] Get Random Pokemon as Gym Reward
+- [x] Get pokemon of same type as gym as reward?
+- [x] Gimmick Stone Randomization as Gym Reward
 - [ ] Gym Location Randomization
 ### Item Randomization
 - [x] Add Extra Rare Candies to Item Pool
 - [x] Add Held Items
 - [x] Get Items from Trainers
-- [ ] Get Important Items only from Trainers
+- [x] Get Important Items only from Trainers
 - [x] Allow Poke-balls in Pool
-- [ ] Make Balls Reusable if unsuccessful
+- [x] Make Balls always successful
 - [x] Limit Ball number in pool
 - [x] Put Healing Items in Pool
 - [x] Put Revives in Pool
-- [ ] Randomize Hidden (Itemfinder) Items
-- [x] Randomize Items from talking to NPCs
+- [x] Randomize Hidden (Itemfinder) Items
+- [ ] Randomize Items from talking to NPCs
 - [x] Randomize Key Items (Fishing Pole, Bike)
 - [x] Randomize Mega Stones
 - [x] Randomize Z crystals
@@ -75,5 +75,26 @@ Launcher (and possibly runner) for a randomizer pokemon
 - [x] Randomize Professor Birch's example pokemon
 - [ ] Randomize Battle Transitions for Legendaries
 - [ ] NPC to turn Pokemon to egg
+- [x] Follower Pokemon
 - [ ] Enforce level cap
 - [ ] Silly extras and Troll items (such as a gender change or reversing the name of the lead pokemon, teleporting you somewhere, etc.)
+
+
+
+# Technical Information
+## Known Bugs
+Gives non-randomized items for randomized gyms if "Give Gimmick Stones" is Checked
+
+## Files that are edited by the randomizer
+src/data/trainers.party
+src/data/wild_encounters
+src/main_menu.c
+
+# 2025 update:
+Broken files:
+src/main_menu.c
+src/battle_setup.c
+src/data/trainers.party
+
+data/map_events.o
+src/maps/*

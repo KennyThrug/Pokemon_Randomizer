@@ -1,10 +1,12 @@
 use crate::src::settings;
 
 pub fn get_startup_stuff(settings: &mut settings::Settings) -> String{
-    let mut final_string : String = "Startup_Stuff::\n".to_string();
+    let mut final_string : String = "Eventscript_Startup_Flags::\n".to_string();
     final_string.push_str(get_ball_code(settings).as_str());
     final_string.push_str(get_hm_code(settings).as_str());
     final_string.push_str(get_rare_candy_code(settings).as_str());
+    final_string.push_str(get_follower_pokemon(settings).as_str());
+    final_string.push_str(&get_level_cap(settings).as_str());
     final_string.push_str("return\n");
     return final_string
 }
@@ -35,5 +37,25 @@ fn get_rare_candy_code(settings: &mut settings::Settings) -> String{
     }
     else{
         "clearflag FLAG_RARE_CANDY_MOD\n".to_string()
+    }
+}
+
+fn get_follower_pokemon(settings: &mut settings::Settings) -> String{
+    return if settings.follower_pokemon{
+        "setflag OW_FOLLOWERS_ENABLED\n".to_string()
+    }
+    else{
+        "clearflag OW_FOLLOWERS_ENABLED\n".to_string()
+    }
+}
+
+fn get_level_cap(settings: &mut settings::Settings) -> String{
+    return if settings.enforce_level_cap{
+        "setflag B_RARE_CANDY_CAP\n
+        setflag B_LEVEL_CAP_EXP_UP\n".to_string()
+    }
+    else{
+        "clearflag B_RARE_CANDY_CAP\n
+        clearflag B_LEVEL_CAP_EXP_UP\n".to_string()
     }
 }

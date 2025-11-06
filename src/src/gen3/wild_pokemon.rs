@@ -1,13 +1,14 @@
 use crate::src::pokemon::LegendStatus;
 use crate::src::settings;
 use crate::src::pokemon;
+use crate::src::game_chooser;
 use std::fs;
 use super::trainers;
 
 //If you want the starters, they are going to be in the Trainers file
 const NUMBER_OF_ROUTES: usize = 124;
 pub fn randomize_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>){
-    let data = fs::read_to_string("data/emerald/wild_encounters.json").expect("unable to read file");
+    let data = fs::read_to_string(game_chooser::get_wild_pokemon_data_file(settings)).expect("unable to read file");
     let mut parsed_data = json::parse(&data).unwrap();
     if settings.randomize_wild_pokemon{
         for i in 0..NUMBER_OF_ROUTES{
@@ -25,7 +26,7 @@ pub fn randomize_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &V
         }
     }
     //write to file
-    fs::write("decomp/pokeemerald-expansion/src/data/wild_encounters.json",
+    fs::write(game_chooser::get_wild_pokemon_file(settings),
     parsed_data.to_string()).expect("couldn't write to file");
     println!("Successfully wrote to file: src/data/wild_encounters.json");
 }
@@ -64,7 +65,7 @@ pub fn get_random_wild_pokemon(settings: &mut settings::Settings,pokemon_data: &
 }
 
 //Gets a pokemon thats guarenteed to be a legendary
-pub fn get_legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>,level: i32,other_legends: &mut Vec<pokemon::Pokemon>) -> pokemon::PokemonStats{
+pub fn get_legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>,level: i32,other_legends: &Vec<pokemon::Pokemon>) -> pokemon::PokemonStats{
     let rand_val = settings::get_next_seed(0, pokemon_data.len() as i32, settings);
     let pokemon = pokemon_data[rand_val as usize].clone();
     if settings.force_legendaries_to_legendaries == settings::LegendRarity::AlwaysLegendary && !(pokemon.status == LegendStatus::LegendMega || pokemon.status == LegendStatus::Legendary){
@@ -84,6 +85,5 @@ pub fn get_legendary_pokemon(settings: &mut settings::Settings,pokemon_data: &Ve
             return get_legendary_pokemon(settings, pokemon_data, level, other_legends);
         }
     }
-    other_legends.push(pokemon.pokemon_id);
     return trainers::scale_pokemon(pokemon.pokemon_id, level, pokemon_data, settings);
 }

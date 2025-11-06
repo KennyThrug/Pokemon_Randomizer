@@ -9,6 +9,7 @@ pub struct Settings{
     pub seed: String,
     pub seed_val: StdRng,
     pub game: Game,
+    pub testing_mode: bool,
     //Wild Pokemon Randomization
     pub randomize_wild_pokemon: bool,
     pub randomize_starter_pokemon: bool,
@@ -29,9 +30,15 @@ pub struct Settings{
     pub rival_consistent_team: bool,
     pub wally_keeps_starter: bool,
     //Gym Leader Randomization
-    pub allow_leader_legendaries: AllowLegendaries,
+    pub gym_leader_legends: bool,
+    pub gym_leader_megas: bool,
+    pub gym_leader_z_crystal: bool,
+    pub gym_leader_dynamax: bool,
+    pub gym_leader_terra: bool,
     pub gym_type: GymType,
+    pub get_gimmick_stone: bool,
     pub recieve_pokemon_reward_gym: bool,
+    pub gym_pokemon_same_type_as_gym: bool,
     pub randomize_gym_locations: GymLocationRandomization,
     //Item Randomization
     pub randomize_items: bool,
@@ -56,7 +63,12 @@ pub struct Settings{
     
     //Other Settings
     pub allow_hm_use: bool,
-    pub rare_candy_modification: bool
+    pub enforce_level_cap: bool,
+    pub rare_candy_modification: bool,
+    pub follower_pokemon: bool,
+    //Hint System
+    pub show_spoiler: bool,
+    pub spoiler: String
 }
 
 #[derive(PartialEq,Clone)]
@@ -82,6 +94,7 @@ pub enum WildLegends{
     AllowLegends //Allows Legends in same pool as regular pokemon
 }
 #[derive(Clone)]
+#[derive(PartialEq)]
 pub enum GymType{
     CompletelyRandom,
     KeepType,
@@ -97,17 +110,20 @@ pub enum GymLocationRandomization{
 #[derive(PartialEq)]
 #[derive(Clone, Copy)]
 pub enum Game{
-    Emerald
+    Emerald,
+    FrLg
 }
 
 pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
+    println!("in func: {}",json_string);
     let parsed_json = json::parse(&json_string).unwrap();
     println!("{}",parsed_json["seed"]);
     let bytes: [u8;32] = convert_string_to_seed(parsed_json["seed"].to_string()); //HERE
     Ok(Settings{
         seed: parsed_json["seed"].to_string(),
         seed_val: StdRng::from_seed(bytes),
-        game: Game::Emerald,
+        game: get_game(parsed_json["game"].to_string()),
+        testing_mode: parsed_json["testing_mode"].as_bool().unwrap(),
         //Wild Pokemon
         randomize_wild_pokemon: parsed_json["randomize_wild_pokemon"].as_bool().unwrap(),
         randomize_starter_pokemon: parsed_json["randomize_starter_pokemon"].as_bool().unwrap(),
@@ -128,9 +144,15 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         rival_consistent_team: parsed_json["rival_consistent_team"].as_bool().unwrap(),
         wally_keeps_starter: parsed_json["wally_keeps_starter"].as_bool().unwrap(),
         //Gym Leader Randomization
-        allow_leader_legendaries: convert_string_to_allow_legendaries(parsed_json["allow_leader_legendaries"].to_string()),
+        get_gimmick_stone: parsed_json["get_gimmick_stone"].as_bool().unwrap(),
+        gym_leader_legends: parsed_json["gym_leader_legends"].as_bool().unwrap(),
+        gym_leader_megas: parsed_json["gym_leader_megas"].as_bool().unwrap(),
+        gym_leader_z_crystal: parsed_json["gym_leader_z_crystal"].as_bool().unwrap(),
+        gym_leader_dynamax: parsed_json["gym_leader_dynamax"].as_bool().unwrap(),
+        gym_leader_terra: parsed_json["gym_leader_terra"].as_bool().unwrap(),
         gym_type: convert_string_to_gym_type(parsed_json["gym_type"].to_string()),
         recieve_pokemon_reward_gym: parsed_json["recieve_pokemon_reward_gym"].as_bool().unwrap(),
+        gym_pokemon_same_type_as_gym: parsed_json["gym_pokemon_same_type_as_gym"].as_bool().unwrap(),
         randomize_gym_locations: convert_string_to_gym_location(parsed_json["randomize_gym_locations"].to_string()),
         //Item Randomization
         randomize_items: parsed_json["randomize_items"].as_bool().unwrap(),
@@ -154,8 +176,21 @@ pub fn read_json_for_settings(json_string: String) -> Result<Settings,Error>{
         //Evolution Settings
         //Other Settings
         allow_hm_use: parsed_json["allow_hm_use"].as_bool().unwrap(),
-        rare_candy_modification: parsed_json["rare_candy_modification"].as_bool().unwrap()
+        enforce_level_cap: parsed_json["enforce_level_cap"].as_bool().unwrap(),
+        rare_candy_modification: parsed_json["rare_candy_modification"].as_bool().unwrap(),
+        follower_pokemon: parsed_json["follower_pokemon"].as_bool().unwrap(),
+        //Hint System
+        show_spoiler: true,
+        spoiler: "".to_string()
     })
+}
+fn get_game(string: String) -> Game{
+    return match string.as_str() {
+        "Emerald" => Game::Emerald,
+        "FireRed" => Game::FrLg,
+        "LeafGreen" => Game::FrLg,
+        _ => Game::Emerald
+    }
 }
 fn convert_string_to_wild_legends(string: String) -> WildLegends{
     match string.as_str(){

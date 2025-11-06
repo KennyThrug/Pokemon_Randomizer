@@ -1,3 +1,4 @@
+const fs = require('fs');
 function openTab(evt, tabName) {
     // Declare all variables
     var i, tabcontent, tablinks;
@@ -59,9 +60,18 @@ function openTab(evt, tabName) {
     }
   }
 
+  function updateGymTab(evt){
+    if(document.getElementById("GetPokemonGym").checked){
+      document.getElementById("GymPokemonTypeDiv").style.display = "block"
+    }
+    else{
+      document.getElementById("GymPokemonTypeDiv").style.display = "none"
+    }
+  }
   //--------------------------------------------All Below this Line is functionallity and Helpers for Generating Seeds -------------------------------------------------------
   function convertToJson(){
     var settings = {
+      testing_mode: document.getElementById("TestingMode").checked,
       //Seed
       seed: document.getElementById("Seed").value,
       //Wild Pokemon
@@ -84,9 +94,16 @@ function openTab(evt, tabName) {
       rival_consistent_team: document.getElementById("RivalKeepTeam").checked,
       wally_keeps_starter: document.getElementById("WallyRaltz").checked,
       //Gym Leader Randomization
-      allow_leader_legendaries: "OneLegend",
-      gym_type: "RandomType",
-      recieve_pokemon_reward_gym: true,
+      get_gimmick_stone: document.getElementById("GetGimmickStone").checked,
+      gym_leader_legends: document.getElementById("GymLeaderLegend").checked,
+      gym_leader_megas: document.getElementById("GymLeaderMega").checked,
+      gym_leader_z_crystal: document.getElementById("GymLeaderZCrystal").checked,
+      gym_leader_dynamax: document.getElementById("GymLeaderDynamax").checked,
+      gym_leader_terra: document.getElementById("GymLeaderTerra").checked,
+      gym_type: get_gym_type(),
+      get_gimmick_stone: document.getElementById("GetGimmickStone").checked,
+      recieve_pokemon_reward_gym: document.getElementById("GetPokemonGym").checked,
+      gym_pokemon_same_type_as_gym: document.getElementById("GymPokemonSameType").checked,
       randomize_gym_locations: false,
       //Item Randomization
       randomize_items: document.getElementById("RandomizeItems").checked,
@@ -111,12 +128,20 @@ function openTab(evt, tabName) {
       //Evolution Settings
 
       //Other Settings
+      game: get_game(),
       allow_hm_use: document.getElementById("HMWithoutBadge").checked,
-      rare_candy_modification: document.getElementById("rare_candy_modification").checked
+      rare_candy_modification: document.getElementById("rare_candy_modification").checked,
+      follower_pokemon: document.getElementById("follower_pokemon").checked
     }
     //document.getElementById("H").innerText = settings.randomize_wild_pokemon;
     var settingsJson = JSON.stringify(settings);
-    rust.getFile().emerald_rom(settingsJson);
+
+    // var filename = Path.join(__dirname, "/settings.json")
+    print("test")
+    fs.writeFile("settings.json",settingsJson,"utf-8")
+    print(settingsJson)
+    //uncomment this to auto run function in lib.rs
+    // rust.getFile().emerald_rom(settingsJson);
   }
   function get_trainer_legends(){
     if(document.getElementById("TrainerAllowLegends").checked){
@@ -153,6 +178,26 @@ function openTab(evt, tabName) {
       return "SometimesLegends"
     }
     return "NoLegends"
+  }
+  function get_gym_type(){
+    if(document.getElementById("VanillaGyms").checked){
+      return "KeepType"
+    }
+    if(document.getElementById("RandomGyms").checked){
+      return "Random_Type"
+    }
+    return "CompletelyRandom"
+  }
+  function get_game(){
+    if(document.getElementById("Game_Emerald").checked){
+      return "Emerald"
+    }
+    if(document.getElementById("Game_FireRed").checked){
+      return "FireRed"
+    }
+    if(document.getElementById("Game_LeafGreeen").checked){
+      return "LeafGreen"
+    }
   }
   function createRandomSeed(){
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
