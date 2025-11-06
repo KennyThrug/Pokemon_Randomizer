@@ -6,14 +6,13 @@ use glob::glob;
 
 //Top level function to be called initially
 pub fn create_rando_scripts(settings: &mut settings::Settings,all_items: Vec<Item>){
-    println!("Hello");
     let mut final_string = game_chooser::startup_stuff(settings);
     let mut all_item_balls : Vec<Item> = Vec::new();
     let mut all_trainers : Vec<Item> = Vec::new();
     for cur_item in all_items{
         match cur_item.location_type{
             Location_type::NPC | Location_type::LEGENDARY_POKEMON | Location_type::GYM_LEADER => {
-                final_string.push_str(convert_item_to_function(cur_item.clone()).as_str());
+                final_string.push_str(convert_item_to_function(cur_item.clone(),None).as_str());
             }
             Location_type::ITEM_BALL | Location_type::HIDDEN_ITEM => {
                 all_item_balls.push(cur_item.clone());
@@ -107,7 +106,7 @@ fn get_item_script(item_type :Item_type) -> String{
 }
 
 //Formats the item to a correctly functioning file to then be compiled, adds trainer functions to the end to be added later
-fn convert_item_to_function(cur_item: Item) -> String{
+fn convert_item_to_function(cur_item: Item,trainer_name: Option<String>) -> String{
     //Fail safe if there is no script
     if cur_item.item_script == ""{
         return "".to_string();
@@ -145,7 +144,10 @@ fn convert_item_to_function(cur_item: Item) -> String{
         }
     }
     //Add extra stuff that actually does the items
-
+    match trainer_name{
+        Some(x) => final_string.push_str(gym_leader_additions(x).as_str()),
+        None => println!("Not a Trainer"),
+    };
     final_string.push_str("\nreturn\n\n");
     final_string
 }
@@ -170,10 +172,24 @@ fn create_trainer_functions(settings: &mut settings::Settings,all_trainers: &Vec
     let mut trainer_item_func : String = "trainer_items::\n switch VAR_TRAINER_BATTLE_OPPONENT_A".to_string();
     for cur_trainer in all_trainers{
         trainer_item_func.push_str(format!("\n      case {}, {}",cur_trainer.trainer_name,cur_trainer.item_script).as_str());
-        all_functions.push_str(convert_item_to_function(cur_trainer.clone()).as_str());
+        all_functions.push_str(convert_item_to_function(cur_trainer.clone(),Some(cur_trainer.trainer_name.clone())).as_str());
     }
     trainer_item_func.push_str(extra_rival_stuff().as_str());
     trainer_item_func.push_str("\n  return");
     all_functions.push_str(trainer_item_func.as_str());
     return all_functions;
+}
+
+fn gym_leader_additions(trainer_name: String) -> String{
+    return match trainer_name.as_str(){
+        "TRAINER_ROXANNE_1" => "\n call gym_number_0",
+        "TRAINER_BRAWLY_1" => "\n call gym_number_1",
+        "TRAINER_WATTSON_1" => "\n call gym_number_2",
+        "TRAINER_FLANNERY_1" => "\n call gym_number_3",
+        "TRAINER_NORMAN_1" => "\n call gym_number_4",
+        "TRAINER_WINONA_1" => "\n call gym_number_5",
+        "TRAINER_TATE_AND_LIZA_1" => "\n call gym_number_6",
+        "TRAINER_JUAN_1" => "\n call gym_number_7",
+        _ => ""
+    }.to_string();
 }

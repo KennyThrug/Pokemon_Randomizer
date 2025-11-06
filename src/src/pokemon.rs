@@ -1651,10 +1651,10 @@ pub fn pokemon_alternate_forms(species: Pokemon,all_stats: &Vec<PokemonStats>,se
             "MAUSHOLD_FOUR".to_string()
         ]),
         Pokemon::Squawkabilly => get_random_name_from_list(settings,vec![
-            "SQUAWKABILLY_GREEN_PLUMAGE".to_string(),
-            "SQUAWKABILLY_BLUE_PLUMAGE".to_string(),
-            "SQUAWKABILLY_YELLOW_PLUMAGE".to_string(),
-            "SQUAWKABILLY_WHITE_PLUMAGE".to_string()
+            "SQUAWKABILLY_GREEN".to_string(),
+            "SQUAWKABILLY_BLUE".to_string(),
+            "SQUAWKABILLY_YELLOW".to_string(),
+            "SQUAWKABILLY_WHITE".to_string()
         ]),
         Pokemon::Tatsugiri => get_random_name_from_list(settings,vec![
             "TATSUGIRI_CURLY".to_string(),

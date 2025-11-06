@@ -95,8 +95,10 @@ fn get_all_items(settings: &mut settings::Settings) -> Vec<Item>{
 //Entry point, called by an outside file (i.e. emerald/startup.rs)
 //Doesn't actually do the randomization of the files, but calls functions that do (randomize)
 pub fn randomize_items(settings: &mut settings::Settings,pokemon_data: &Vec<pokemon::PokemonStats>, gym_types: &Vec<pokemon::Type>) -> Vec<Item>{
+    println!("hello 1");
     let mut all_items = get_all_items(settings);
     //Note: this "randomize" function passes ownership of all_items
+    println!("hello 2");
     all_items = randomize(all_items,settings,pokemon_data,gym_types);
     return all_items;
 }
@@ -107,11 +109,14 @@ fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings
     //This happens before because if the gym leader functions don't exist, the rom won't compile
     //Step one, get all the items we need to add to the pool
     let mut all_items_to_add = add_items_to_pool(settings);
+    println!("st");
     for i in 0..gym_types.len(){
+        println!("run {i}");
         final_items.push(handle_gym_rewards(settings,i as i16,gym_types[i],pokemon_data,&mut all_items_to_add));
     }
+    println!("hello st");
     //No point in the rest of this function if randomization is off
-    if(settings.randomize_items == false){
+    if settings.randomize_items == false {
         all_item_locations.append(&mut final_items);
         return all_item_locations;
     }
@@ -150,7 +155,6 @@ fn randomize(mut all_item_locations: Vec<Item>,settings: &mut settings::Settings
         }
         all_items_to_add.append(&mut item_failed);
     }
-    
     return final_items;
 }
 
@@ -288,6 +292,7 @@ fn randomize_vector(settings: &mut settings::Settings,items: &mut Vec<String>) -
     let mut randomized_items: Vec<String> = Vec::new();
     while(items.len() != 0){
         randomized_items.push(items.swap_remove(settings::get_next_seed(0,items.len() as i32,settings) as usize));
+        println!("test");
         println!("{}",randomized_items[randomized_items.len()-1]);
     }
     return randomized_items;
@@ -415,9 +420,12 @@ fn handle_gym_rewards(settings: &mut settings::Settings,gym_number: i16,gym_type
     }
     if settings.recieve_pokemon_reward_gym{
         let mut temp_mon = wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,game_chooser::get_gym_ace_level(settings,gym_number));
+        println!("enter while");
         while settings.gym_pokemon_same_type_as_gym && (pokemon::get_pokemon_data(pokemon::get_pokemon_from_name(temp_mon.clone(),pokemon_data),pokemon_data).type1 != final_gym_type && pokemon::get_pokemon_data(pokemon::get_pokemon_from_name(temp_mon.clone(),pokemon_data),pokemon_data).type2 != final_gym_type){
+            println!("mon: {}, level {}, ",temp_mon.clone(),final_gym_type == pokemon::Type::Stellar);
             temp_mon = wild_pokemon::get_random_wild_pokemon(settings,pokemon_data,game_chooser::get_gym_ace_level(settings,gym_number));
         }
+        println!("exit while");
         all_gym_rewards.item_name.push_str(format!("giveitem ITEM_POKE_BALL
         givemon {}, {}
         goto_if_eq VAR_RESULT, MON_GIVEN_TO_PARTY, Randomizer_Recieve_Pokemon_Party

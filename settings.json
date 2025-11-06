@@ -1,7 +1,7 @@
 {
     "testing_mode": false,
 
-    "seed": "TestSeedB",
+    "seed": "Test_Seed",
 
     "randomize_wild_pokemon": true,
     "randomize_starter_pokemon": true,

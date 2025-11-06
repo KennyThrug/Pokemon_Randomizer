@@ -494,10 +494,13 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
     if has_terra{
         let mut temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
         let mut counter_failed = 5;
-        while (pokemon::get_pokemon_data(temp_mon.species,all_stats).type1 != pkmn_type && pokemon::get_pokemon_data(temp_mon.species,all_stats).type2 != pkmn_type) || counter_failed > 0{
-            println!("Terra Loop");
+        let mut terra_count = 0;
+        println!("hel");
+        while terra_count < 100 && (pokemon::get_pokemon_data(temp_mon.species,all_stats).type1 != pkmn_type && pokemon::get_pokemon_data(temp_mon.species,all_stats).type2 != pkmn_type || counter_failed > 0){
+            println!("Terra Loop {} : {}",counter_failed,terra_count);
             temp_mon = trainers::get_random_pokemon_for_trainer(trainer.clone().trainer_name, &trainer.pokemon[cur_party_member],all_stats,settings,false);
             counter_failed -= 1;
+            terra_count += 1;
         }
         if counter_failed == 0{
             //Same type as gym
@@ -506,6 +509,7 @@ fn handle_gym_leader(trainer: Trainer, settings: &mut settings::Settings,all_sta
         else{
             temp_mon.extra_scripts = format!("\nTera Type: {}",pokemon::type_to_string(trainers::get_random_type(settings)));
         }
+        println!("lo");
         new_party.push_front(temp_mon);
         cur_party_member -= 1;
     }

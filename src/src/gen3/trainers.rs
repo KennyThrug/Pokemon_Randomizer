@@ -774,7 +774,7 @@ fn last_minute_pokemon_name_changes(species: pokemon::Pokemon,all_stats: &Vec<po
 }
 
 pub fn get_random_type(settings: &mut settings::Settings) -> pokemon::Type{
-    let rand_val = settings::get_next_seed(0, 19 as i32, settings);
+    let rand_val = settings::get_next_seed(0, 18 as i32, settings);
     return match rand_val{
         0 => pokemon::Type::Normal,
         1 => pokemon::Type::Fire,
@@ -793,8 +793,7 @@ pub fn get_random_type(settings: &mut settings::Settings) -> pokemon::Type{
         15 => pokemon::Type::Dragon,
         16 => pokemon::Type::Dark,
         17 => pokemon::Type::Steel,
-        18 => pokemon::Type::Fairy,
-        _ => pokemon::Type::Stellar
+        _ => pokemon::Type::Fairy,
     };
 }
 
